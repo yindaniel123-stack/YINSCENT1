@@ -3,273 +3,306 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>YINSCENT — Fragrances &amp; Rituals</title>
+    <title>YINSCENT — Scented Tealight Candles</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <!-- Country gate (AdP-style first screen) -->
-    <div class="gate" id="gate" aria-hidden="false">
-      <div class="gate__inner">
-        <a href="#" class="gate__logo">YINSCENT</a>
-        <h1 class="gate__title">Select your shipping region</h1>
-        <p class="gate__note">
-          Changing region may update prices, currency, and delivery options.
-        </p>
-        <ul class="gate__regions" role="list">
-          <li>
-            <button type="button" class="is-selected" data-region="uk">
-              United Kingdom / en
-            </button>
-          </li>
-          <li><button type="button" data-region="eu">European Union / en</button></li>
-          <li><button type="button" data-region="us">United States / en</button></li>
-          <li><button type="button" data-region="asia">Asia Pacific / en</button></li>
+  <header class="header">
+    <button
+      type="button"
+      class="header__menu"
+      id="menuOpen"
+      aria-label="Open menu"
+    >
+      <span></span><span></span><span></span>
+    </button>
+
+    <a href="#" class="header__logo" aria-label="YINSCENT home">
+      <img src="assets/logo.png" alt="YINSCENT" width="120" height="140" />
+    </a>
+
+    <div class="header__tools">
+      <button type="button" class="header__icon" aria-label="Search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="6" />
+          <path d="M20 20l-4.5-4.5" stroke-linecap="round" />
+        </svg>
+      </button>
+      <button type="button" class="header__icon" aria-label="Account">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="9" r="3.5" />
+          <path d="M5 20c1.5-4 12.5-4 14 0" stroke-linecap="round" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="header__icon header__cart-btn"
+        id="cartOpen"
+        aria-label="Open cart, 0 items"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 8h12l-1 14H7L6 8z" stroke-linejoin="round" />
+          <path d="M9 8V6a3 3 0 016 0v2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="header__cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+
+    <nav class="header__nav" aria-label="Primary">
+      <a href="#tealights">Tealights</a>
+      <a href="#top-sellers">Bestsellers</a>
+      <a href="#scents">Our story</a>
+      <a href="#promos">Offers</a>
+    </nav>
+  </header>
+
+  <!-- Mobile / full menu drawer -->
+  <div class="overlay" id="menuOverlay" aria-hidden="true">
+    <aside class="drawer drawer--menu" id="menuDrawer" aria-label="Site menu">
+      <div class="drawer__head">
+        <a href="#" class="drawer__logo">
+          <img src="assets/logo.png" alt="YINSCENT" width="80" height="94" />
+        </a>
+        <button type="button" class="drawer__close" id="menuClose" aria-label="Close menu">
+          ×
+        </button>
+      </div>
+      <nav class="drawer__nav">
+        <a href="#tealights">Tealights</a>
+        <a href="#top-sellers">Bestsellers</a>
+        <a href="#scents">Our story</a>
+        <a href="#promos">Offers</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="drawer__sub">
+        <h3>Products</h3>
+        <ul>
+          <li><a href="#tealights">Scented tealight candles</a></li>
         </ul>
-        <button type="button" class="gate__continue" id="gateContinue">
-          Enter boutique
+      </div>
+    </aside>
+  </div>
+
+  <!-- Cart drawer -->
+  <div class="overlay" id="cartOverlay" aria-hidden="true">
+    <aside class="drawer drawer--cart" id="cartDrawer" aria-label="Shopping cart">
+      <div class="drawer__head">
+        <h2>Cart (<span id="cartDrawerCount">0</span>)</h2>
+        <button type="button" class="drawer__close" id="cartClose" aria-label="Close cart">
+          ×
         </button>
       </div>
-    </div>
+      <div class="cart-empty" id="cartEmpty">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 8h12l-1 14H7L6 8z" stroke-linejoin="round" />
+          <path d="M9 8V6a3 3 0 016 0v2" stroke-linecap="round" />
+        </svg>
+        <p>Your cart is empty</p>
+        <a href="#top-sellers" class="btn btn--gold" id="cartContinue">Continue shopping</a>
+      </div>
+      <ul class="cart-list" id="cartList" hidden></ul>
+    </aside>
+  </div>
 
-    <div class="site-wrap" id="siteWrap" inert>
-      <!-- Top promo strip -->
-      <div class="announcement">
-        <p>
-          Complimentary discovery set on orders over £180 · Engraving available on
-          selected bottles
+  <main>
+    <!-- Hero poster -->
+    <section class="hero hero--poster" id="new" aria-label="YINSCENT collection poster">
+      <a href="#tealights" class="hero-poster">
+        <img
+          src="assets/poster.png"
+          alt="YINSCENT — 12 scented tealight candles. Cozy, fruity, refreshing."
+          width="1600"
+          height="900"
+          fetchpriority="high"
+        />
+      </a>
+      <div class="hero-intro">
+        <p class="hero__badge">Collection</p>
+        <h1>Scented Tealight Candles</h1>
+        <p class="hero__tagline">
+          Fill your space with 12 enchanting aromas — premium wax, long-lasting burn.
         </p>
+        <a href="#tealights" class="btn btn--gold">Shop all scents</a>
       </div>
+    </section>
 
-      <header class="header">
-        <button
-          type="button"
-          class="header__icon header__menu-btn"
-          aria-label="Open menu"
-          id="menuOpen"
-        >
-          <span></span><span></span><span></span>
-        </button>
-        <nav class="header__nav header__nav--left" aria-label="Primary">
-          <a href="#fragrances">Fragrances</a>
-          <a href="#collections">Collections</a>
-          <a href="#gifts">Gifts</a>
-        </nav>
-        <a href="#" class="header__logo">YINSCENT</a>
-        <nav class="header__nav header__nav--right" aria-label="Secondary">
-          <a href="#discover">Discover</a>
-          <a href="#services">Services</a>
-        </nav>
-        <div class="header__tools">
-          <button type="button" class="header__icon" aria-label="Search">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="11" cy="11" r="6" />
-              <path d="M20 20l-4.5-4.5" stroke-linecap="round" />
-            </svg>
-          </button>
-          <button type="button" class="header__icon" aria-label="Account">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="9" r="3.5" />
-              <path d="M5 20c1.5-4 12.5-4 14 0" stroke-linecap="round" />
-            </svg>
-          </button>
-          <button type="button" class="header__icon" aria-label="Shopping bag, empty">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 8h12l-1 14H7L6 8z" stroke-linejoin="round" />
-              <path d="M9 8V6a3 3 0 016 0v2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
-        </div>
-      </header>
+    <!-- Scent quick links -->
+    <section class="category-strip" aria-label="Shop by scent">
+      <div class="category-strip__track" id="categoryTrack"></div>
+    </section>
 
-      <div class="drawer" id="drawer" aria-hidden="true">
-        <div class="drawer__panel">
-          <button type="button" class="drawer__close" id="menuClose" aria-label="Close menu">
-            ×
-          </button>
-          <nav class="drawer__nav">
-            <a href="#fragrances">Fragrances</a>
-            <a href="#collections">Collections</a>
-            <a href="#gifts">Gifts</a>
-            <a href="#discover">Discover</a>
-            <a href="#services">Services</a>
-          </nav>
+    <!-- Top sellers -->
+    <section class="section" id="top-sellers">
+      <div class="section__head">
+        <h2>Top sellers</h2>
+        <a href="#tealights" class="link-more">View all</a>
+      </div>
+      <div class="product-track" id="productTrack"></div>
+    </section>
+
+    <!-- Scented Tealight Candles -->
+    <section class="section section--category" id="tealights">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow">Shop the range</p>
+        <h2>All scents</h2>
+        <p class="category-intro__lede">
+          Choose from our full range of signature aromas — premium wax, long-lasting burn.
+        </p>
+        <ul class="category-features" aria-label="Product features">
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> Signature aromas</li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> Long-lasting burn</li>
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> Premium quality wax</li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Perfect for any space</li>
+        </ul>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+    <!-- Editorial quote -->
+    <section class="editorial" id="scents">
+      <div class="editorial__visual">
+        <div class="editorial__img" style="background-image: url('assets/products/lavender.png')"></div>
+      </div>
+      <div class="editorial__copy">
+        <blockquote>
+          <p>
+            A home transforms when the air tells stories — with
+            <strong>scented tealight candles</strong> that fill every corner with warmth.
+          </p>
+        </blockquote>
+        <p>
+          Small daily rituals that stir memory and calm:
+          <strong>apple, lavender, cinnamon, rose</strong> and twelve more signature scents.
+        </p>
+        <p>
+          Premium quality wax, a long-lasting burn, and aromas crafted to make any space feel like home.
+        </p>
+        <p class="editorial__closing">Because living beautifully is also breathing beautifully.</p>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter" id="promos">
+      <div class="newsletter__inner">
+        <p class="newsletter__eyebrow">Inspiration every week</p>
+        <h2>Newsletter</h2>
+        <p class="newsletter__lede">
+          Subscribe and receive 20% off your first order.<br />
+          Scents that surprise you each week — new arrivals, home ideas, and launches
+          before anyone else, straight to your inbox.
+        </p>
+        <form class="newsletter__form" id="newsletterForm">
+          <label class="visually-hidden" for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Your email" required />
+          <button type="submit" class="btn btn--gold">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Inspiration grid -->
+    <section class="section section--inspire" id="products">
+      <div class="section__head section__head--center">
+        <h2>Inspiration</h2>
+        <p class="section__sub">Details that transform spaces</p>
+      </div>
+      <div class="inspire-grid">
+        <a href="#tealights" class="inspire-card inspire-card--wide">
+          <img class="inspire-card__img" src="assets/products/apple.png" alt="Apple tealights" loading="lazy" />
+          <span>Apple</span>
+        </a>
+        <a href="#tealights" class="inspire-card">
+          <img class="inspire-card__img" src="assets/products/cherry.png" alt="Cherry tealights" loading="lazy" />
+          <span>Cherry</span>
+        </a>
+        <a href="#tealights" class="inspire-card">
+          <img class="inspire-card__img" src="assets/products/lavender.png" alt="Lavender tealights" loading="lazy" />
+          <span>Lavender</span>
+        </a>
+        <a href="#tealights" class="inspire-card inspire-card--wide">
+          <img class="inspire-card__img" src="assets/products/ocean.png" alt="Ocean tealights" loading="lazy" />
+          <span>Ocean</span>
+        </a>
+        <a href="#tealights" class="inspire-card">
+          <img class="inspire-card__img" src="assets/products/vanilla.png" alt="Vanilla tealights" loading="lazy" />
+          <span>Vanilla</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Press -->
+    <section class="press" id="blog">
+      <div class="section__head section__head--center">
+        <h2>As featured in</h2>
+        <p class="section__sub">What the press says about us</p>
+        <a href="#" class="link-more">View more</a>
+      </div>
+      <div class="press__marquee" aria-hidden="true">
+        <div class="press__track">
+          <span>VOGUE</span>
+          <span>ELLE</span>
+          <span>Harper's Bazaar</span>
+          <span>The Times</span>
+          <span>House &amp; Garden</span>
+          <span>VOGUE</span>
+          <span>ELLE</span>
+          <span>Harper's Bazaar</span>
+          <span>The Times</span>
+          <span>House &amp; Garden</span>
         </div>
       </div>
+    </section>
+  </main>
 
-      <main>
-        <section class="hero">
-          <div class="hero__media" role="img" aria-label="Abstract light and mist"></div>
-          <div class="hero__content">
-            <p class="hero__eyebrow">The quiet luxury of scent</p>
-            <h2 class="hero__title">Stillness, distilled</h2>
-            <p class="hero__lede">
-              Explore the signature collection — crafted as a balance of contrast and
-              clarity, for skin and space.
-            </p>
-            <a href="#collections" class="btn btn--primary">Shop the collection</a>
-          </div>
-        </section>
-
-        <section class="section section--tight" id="collections">
-          <div class="section__head">
-            <h2 class="section__title">Nocturne</h2>
-            <p class="section__subtitle">The full range</p>
-            <a href="#fragrances" class="link-arrow">View all</a>
-          </div>
-          <div class="product-scroll" aria-label="Featured products">
-            <article class="product-card">
-              <div class="product-card__img"></div>
-              <span class="product-card__badge">New</span>
-              <h3 class="product-card__name">Yin · Eau de Parfum</h3>
-              <p class="product-card__type">50 ml</p>
-              <p class="product-card__price">£245</p>
-              <button type="button" class="btn btn--ghost">Add to bag</button>
-            </article>
-            <article class="product-card">
-              <div class="product-card__img product-card__img--alt"></div>
-              <span class="product-card__badge">New</span>
-              <h3 class="product-card__name">Scent · Eau de Parfum</h3>
-              <p class="product-card__type">50 ml</p>
-              <p class="product-card__price">£245</p>
-              <button type="button" class="btn btn--ghost">Add to bag</button>
-            </article>
-            <article class="product-card">
-              <div class="product-card__img product-card__img--alt2"></div>
-              <h3 class="product-card__name">Veil · Hair Mist</h3>
-              <p class="product-card__type">30 ml</p>
-              <p class="product-card__price">£68</p>
-              <button type="button" class="btn btn--ghost">Add to bag</button>
-            </article>
-            <article class="product-card">
-              <div class="product-card__img product-card__img--alt3"></div>
-              <span class="product-card__badge">Bestseller</span>
-              <h3 class="product-card__name">Lumen · Candle</h3>
-              <p class="product-card__type">220 g</p>
-              <p class="product-card__price">From £72</p>
-              <button type="button" class="btn btn--ghost">Add to bag</button>
-            </article>
-          </div>
-        </section>
-
-        <section class="split" id="fragrances">
-          <div class="split__col split__col--visual">
-            <div class="split__figure"></div>
-          </div>
-          <div class="split__col split__col--text">
-            <h2 class="split__title">At first light</h2>
-            <p>
-              Citrus and white tea lift over a base of soft woods — a fragrance
-              designed to feel like morning air through linen.
-            </p>
-            <a href="#" class="link-arrow">Explore the notes</a>
-          </div>
-        </section>
-
-        <section class="tiles">
-          <a href="#" class="tile">
-            <div class="tile__media tile__media--a"></div>
-            <div class="tile__caption">
-              <h3>Body &amp; bath</h3>
-              <span>From £48</span>
-            </div>
-          </a>
-          <a href="#" class="tile">
-            <div class="tile__media tile__media--b"></div>
-            <div class="tile__caption">
-              <h3>Home</h3>
-              <span>Candles &amp; diffusers</span>
-            </div>
-          </a>
-          <a href="#" class="tile">
-            <div class="tile__media tile__media--c"></div>
-            <div class="tile__caption">
-              <h3>Gifting</h3>
-              <span>Engraving &amp; wrapping</span>
-            </div>
-          </a>
-        </section>
-
-        <section class="section section--services" id="services">
-          <div class="section__head section__head--center">
-            <h2 class="section__title">Services</h2>
-          </div>
-          <div class="services-grid">
-            <article class="service">
-              <h3>Fragrance finder</h3>
-              <p>Answer a few questions — we suggest a scent that fits your ritual.</p>
-              <a href="#" class="link-arrow">Begin</a>
-            </article>
-            <article class="service">
-              <h3>Complimentary trials</h3>
-              <p>Two samples with every order. Discover before you commit.</p>
-              <a href="#" class="link-arrow">How it works</a>
-            </article>
-            <article class="service">
-              <h3>Engraving</h3>
-              <p>Personalise select bottles with initials or a short message.</p>
-              <a href="#" class="link-arrow">Learn more</a>
-            </article>
-          </div>
-        </section>
-
-        <section class="section section--tight" id="discover">
-          <div class="section__head section__head--center">
-            <h2 class="section__title">Journal</h2>
-            <p class="section__subtitle">Stories from the atelier</p>
-          </div>
-          <div class="journal">
-            <article class="journal__item">
-              <div class="journal__img"></div>
-              <h3>How we blend</h3>
-              <p>Materials, method, and the pursuit of balance.</p>
-            </article>
-            <article class="journal__item">
-              <div class="journal__img journal__img--b"></div>
-              <h3>Layering ritual</h3>
-              <p>Pairing mist, skin, and space for longer wear.</p>
-            </article>
-          </div>
-        </section>
-      </main>
-
-      <footer class="footer" id="gifts">
-        <div class="footer__grid">
-          <div class="footer__brand">
-            <span class="footer__logo">YINSCENT</span>
-            <p>Fragrances and objects for quiet moments.</p>
-          </div>
-          <div class="footer__col">
-            <h4>Client care</h4>
-            <a href="#">Contact</a>
-            <a href="#">Delivery &amp; returns</a>
-            <a href="#">FAQ</a>
-          </div>
-          <div class="footer__col">
-            <h4>House</h4>
-            <a href="#">Our story</a>
-            <a href="#">Sustainability</a>
-            <a href="#">Careers</a>
-          </div>
-          <div class="footer__col">
-            <h4>Legal</h4>
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Cookies</a>
-          </div>
-        </div>
-        <div class="footer__base">
-          <p>© <span id="year"></span> YINSCENT. All rights reserved.</p>
-          <p class="footer__credit">Layout inspired by luxury fragrance boutiques.</p>
-        </div>
-      </footer>
+  <footer class="footer" id="contact">
+    <div class="footer__top">
+      <a href="#" class="footer__logo">
+        <img src="assets/logo.png" alt="YINSCENT" width="100" height="118" />
+      </a>
     </div>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h4>Your account</h4>
+        <a href="#">My account</a>
+        <a href="#">Orders</a>
+        <a href="#">Account details</a>
+        <a href="#">Cart</a>
+      </div>
+      <div class="footer__col">
+        <h4>Legal</h4>
+        <a href="#">Terms &amp; conditions</a>
+        <a href="#">Returns</a>
+        <a href="#">Privacy policy</a>
+        <a href="#">Cookie policy</a>
+      </div>
+      <div class="footer__col">
+        <h4>More</h4>
+        <a href="#">Contact</a>
+        <a href="#">About us</a>
+        <a href="#" id="pro">Professional access</a>
+        <a href="#">FAQs</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer__col">
+        <h4>Discover</h4>
+        <a href="#">Work with us</a>
+        <a href="#">Promo codes</a>
+        <a href="#">Student discount</a>
+      </div>
+    </div>
+    <div class="footer__social">
+      <a href="#" aria-label="Instagram">Instagram</a>
+      <a href="#" aria-label="Facebook">Facebook</a>
+      <a href="#" aria-label="Pinterest">Pinterest</a>
+    </div>
+    <p class="footer__copy">© <span id="year"></span> YINSCENT. All rights reserved.</p>
+  </footer>
 
-    <script src="js/main.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/main.js"></script>
   </body>
 </html>

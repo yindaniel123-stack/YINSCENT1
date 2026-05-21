@@ -675,10 +675,10 @@ button {
 
 .product__img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1;
   object-fit: contain;
   object-position: center;
-  background: #f5f2ed;
+  background: var(--bg);
 }
 
 .product__img--1 {

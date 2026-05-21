@@ -4,14 +4,13 @@
 
   var products = window.YINSCENT_PRODUCTS || [];
   var categoryLabel = window.YINSCENT_CATEGORY || "Scented tealight candles";
-  var packLabel = window.YINSCENT_PACK_LABEL || "9-pack tea lights";
 
   function productImage(slug) {
     return "assets/products/" + slug + ".png";
   }
 
   function productFullName(p) {
-    return p.name + " Scented Tea Light Candles (9-pack)";
+    return p.cartName || "Scented Tealight Candles — " + p.name;
   }
 
   function renderProductCard(p, grid) {
@@ -23,10 +22,10 @@
 
     article.innerHTML =
       '<a href="#tealights" class="product__img-wrap">' +
-      '<img class="product__img" src="' + productImage(p.slug) + '" alt="YINSCENT ' + p.name + ' scented tea light candles, 9-pack" loading="lazy" />' +
+      '<img class="product__img" src="' + productImage(p.slug) + '" alt="YINSCENT ' + p.name + ' scented tealight candles" loading="lazy" />' +
       '<button type="button" class="product__wish" aria-label="Add to wishlist">♡</button>' +
       "</a>" +
-      '<p class="product__cat">' + categoryLabel + " · " + packLabel + "</p>" +
+      '<p class="product__cat">' + categoryLabel + "</p>" +
       '<h3 class="product__name"><a href="#tealights">' + p.name + "</a></h3>" +
       (grid ? '<p class="product__desc">' + p.desc + "</p>" : "") +
       '<p class="product__price">£' + p.price + "</p>" +
