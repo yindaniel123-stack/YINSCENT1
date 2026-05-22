@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YINSCENT — Product</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="page-product">
+    <header class="header">
+      <button
+        type="button"
+        class="header__menu"
+        id="menuOpen"
+        aria-label="Open menu"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <a href="index.html" class="header__logo" aria-label="YINSCENT home">
+        <img src="assets/logo.png" alt="YINSCENT" width="200" height="154" />
+      </a>
+
+      <div class="header__tools">
+        <button type="button" class="header__icon" aria-label="Search">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="6" />
+            <path d="M20 20l-4.5-4.5" stroke-linecap="round" />
+          </svg>
+        </button>
+        <button type="button" class="header__icon" aria-label="Account">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="9" r="3.5" />
+            <path d="M5 20c1.5-4 12.5-4 14 0" stroke-linecap="round" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="header__icon header__cart-btn"
+          id="cartOpen"
+          aria-label="Open cart, 0 items"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 8h12l-1 14H7L6 8z" stroke-linejoin="round" />
+            <path d="M9 8V6a3 3 0 016 0v2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span class="header__cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+
+      <nav class="header__nav" aria-label="Primary">
+        <a href="index.html#tealights">Tealights</a>
+        <a href="index.html#scented-candles">Candles</a>
+        <a href="index.html#top-sellers">Bestsellers</a>
+        <a href="index.html#scents">Our story</a>
+        <a href="index.html#promos">Offers</a>
+      </nav>
+    </header>
+
+    <div class="overlay" id="menuOverlay" aria-hidden="true">
+      <aside class="drawer drawer--menu" id="menuDrawer" aria-label="Site menu">
+        <div class="drawer__head">
+          <a href="index.html" class="drawer__logo">
+            <img src="assets/logo.png" alt="YINSCENT" width="160" height="123" />
+          </a>
+          <button type="button" class="drawer__close" id="menuClose" aria-label="Close menu">×</button>
+        </div>
+        <nav class="drawer__nav">
+          <a href="index.html#tealights">Tealights</a>
+          <a href="index.html#scented-candles">Candles</a>
+          <a href="index.html#top-sellers">Bestsellers</a>
+          <a href="index.html#scents">Our story</a>
+          <a href="index.html#promos">Offers</a>
+          <a href="index.html#contact">Contact</a>
+        </nav>
+        <div class="drawer__sub">
+          <h3>Products</h3>
+          <ul>
+            <li><a href="index.html#tealights">Scented tealight candles</a></li>
+            <li><a href="index.html#scented-candles">Scented candles</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <div class="overlay" id="cartOverlay" aria-hidden="true">
+      <aside class="drawer drawer--cart" id="cartDrawer" aria-label="Shopping cart">
+        <div class="drawer__head">
+          <h2>Cart (<span id="cartDrawerCount">0</span>)</h2>
+          <button type="button" class="drawer__close" id="cartClose" aria-label="Close cart">×</button>
+        </div>
+        <div class="cart-empty" id="cartEmpty">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 8h12l-1 14H7L6 8z" stroke-linejoin="round" />
+            <path d="M9 8V6a3 3 0 016 0v2" stroke-linecap="round" />
+          </svg>
+          <p>Your cart is empty</p>
+          <a href="index.html#top-sellers" class="btn btn--gold" id="cartContinue">Continue shopping</a>
+        </div>
+        <ul class="cart-list" id="cartList" hidden></ul>
+      </aside>
+    </div>
+
+    <main class="pdp" id="productDetail" aria-live="polite">
+      <p class="pdp-loading">Loading product…</p>
+    </main>
+
+    <footer class="footer" id="contact">
+      <div class="footer__top">
+        <a href="index.html" class="footer__logo">
+          <img src="assets/logo.png" alt="YINSCENT" width="180" height="139" />
+        </a>
+      </div>
+      <div class="footer__grid">
+        <div class="footer__col">
+          <h4>Your account</h4>
+          <a href="#">My account</a>
+          <a href="#">Orders</a>
+          <a href="#">Account details</a>
+          <a href="#">Cart</a>
+        </div>
+        <div class="footer__col">
+          <h4>Legal</h4>
+          <a href="#">Terms &amp; conditions</a>
+          <a href="#">Returns</a>
+          <a href="#">Privacy policy</a>
+          <a href="#">Cookie policy</a>
+        </div>
+        <div class="footer__col">
+          <h4>More</h4>
+          <a href="#">Contact</a>
+          <a href="#">About us</a>
+          <a href="#" id="pro">Professional access</a>
+          <a href="#">FAQs</a>
+          <a href="#">Blog</a>
+        </div>
+        <div class="footer__col">
+          <h4>Discover</h4>
+          <a href="#">Work with us</a>
+          <a href="#">Promo codes</a>
+          <a href="#">Student discount</a>
+        </div>
+      </div>
+      <div class="footer__social">
+        <a href="#" aria-label="Instagram">Instagram</a>
+        <a href="#" aria-label="Facebook">Facebook</a>
+        <a href="#" aria-label="Pinterest">Pinterest</a>
+      </div>
+      <p class="footer__copy">© <span id="year"></span> YINSCENT. All rights reserved.</p>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/product.js"></script>
+  </body>
+</html>
