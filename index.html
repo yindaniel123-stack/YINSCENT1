@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>YINSCENT — Scented Tealight Candles</title>
+    <title>YINSCENT — Scented Candles &amp; Tealights</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -24,7 +24,7 @@
     </button>
 
     <a href="#" class="header__logo" aria-label="YINSCENT home">
-      <img src="assets/logo.png" alt="YINSCENT" width="120" height="140" />
+      <img src="assets/logo.png" alt="YINSCENT" width="200" height="154" />
     </a>
 
     <div class="header__tools">
@@ -56,6 +56,7 @@
 
     <nav class="header__nav" aria-label="Primary">
       <a href="#tealights">Tealights</a>
+      <a href="#scented-candles">Candles</a>
       <a href="#top-sellers">Bestsellers</a>
       <a href="#scents">Our story</a>
       <a href="#promos">Offers</a>
@@ -67,7 +68,7 @@
     <aside class="drawer drawer--menu" id="menuDrawer" aria-label="Site menu">
       <div class="drawer__head">
         <a href="#" class="drawer__logo">
-          <img src="assets/logo.png" alt="YINSCENT" width="80" height="94" />
+          <img src="assets/logo.png" alt="YINSCENT" width="160" height="123" />
         </a>
         <button type="button" class="drawer__close" id="menuClose" aria-label="Close menu">
           ×
@@ -75,6 +76,7 @@
       </div>
       <nav class="drawer__nav">
         <a href="#tealights">Tealights</a>
+        <a href="#scented-candles">Candles</a>
         <a href="#top-sellers">Bestsellers</a>
         <a href="#scents">Our story</a>
         <a href="#promos">Offers</a>
@@ -84,6 +86,7 @@
         <h3>Products</h3>
         <ul>
           <li><a href="#tealights">Scented tealight candles</a></li>
+          <li><a href="#scented-candles">Scented candles</a></li>
         </ul>
       </div>
     </aside>
@@ -115,11 +118,12 @@
     <section class="hero hero--poster" id="new" aria-label="YINSCENT collection poster">
       <a href="#tealights" class="hero-poster">
         <img
-          src="assets/poster.png"
+          src="assets/poster.jpg"
           alt="YINSCENT — 12 scented tealight candles. Cozy, fruity, refreshing."
-          width="1600"
-          height="900"
+          width="2048"
+          height="1364"
           fetchpriority="high"
+          decoding="async"
         />
       </a>
       <div class="hero-intro">
@@ -163,6 +167,25 @@
       </div>
       <div class="product-grid" id="productGrid"></div>
     </section>
+
+    <!-- Scented Candles -->
+    <section class="section section--category" id="scented-candles">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow">New collection</p>
+        <h2>Scented candles</h2>
+        <p class="category-intro__lede">
+          Glass jar candles in signature YINSCENT scents — fresh, soft, and made to linger up to 45 hours.
+        </p>
+        <ul class="category-features" aria-label="Product features">
+          <li><span class="category-features__icon" aria-hidden="true">☁</span> Fresh cotton</li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> Up to 45 hours</li>
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> 260g premium wax</li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Perfect for any space</li>
+        </ul>
+      </div>
+      <div class="product-grid product-grid--candles" id="candleGrid"></div>
+    </section>
+
     <!-- Editorial quote -->
     <section class="editorial" id="scents">
       <div class="editorial__visual">
@@ -261,7 +284,7 @@
   <footer class="footer" id="contact">
     <div class="footer__top">
       <a href="#" class="footer__logo">
-        <img src="assets/logo.png" alt="YINSCENT" width="100" height="118" />
+        <img src="assets/logo.png" alt="YINSCENT" width="180" height="139" />
       </a>
     </div>
     <div class="footer__grid">
