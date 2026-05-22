@@ -26,12 +26,14 @@
     return cat ? cat.anchor : "#tealights";
   }
 
+  var base = window.YINSCENT_BASE || "/";
+
   function productImage(slug) {
-    return "assets/products/" + slug + ".png";
+    return base + "assets/products/" + slug + ".png";
   }
 
   function productUrl(p) {
-    return "product.html?id=" + encodeURIComponent(p.id);
+    return base + "index.html?id=" + encodeURIComponent(p.id);
   }
 
   function productThumb(p) {
@@ -118,7 +120,9 @@
     });
   }
 
-  renderCatalog();
+  if (!new URLSearchParams(window.location.search).get("id")) {
+    renderCatalog();
+  }
 
   /* Menu drawer */
   var menuOverlay = document.getElementById("menuOverlay");

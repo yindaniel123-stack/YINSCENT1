@@ -1,6 +1,14 @@
 (function () {
+  var id = new URLSearchParams(window.location.search).get("id");
+  if (!id) return;
+
   var root = document.getElementById("productDetail");
+  var shopMain = document.getElementById("shopMain");
   if (!root) return;
+
+  if (shopMain) shopMain.hidden = true;
+  root.hidden = false;
+  document.body.classList.add("page-product");
 
   var products = window.YINSCENT_PRODUCTS || [];
   var categories = window.YINSCENT_CATEGORIES || [];
@@ -9,10 +17,11 @@
     categoryById[c.id] = c;
   });
 
-  var id = new URLSearchParams(window.location.search).get("id");
   var product = products.find(function (p) {
     return p.id === id;
   });
+
+  var base = window.YINSCENT_BASE || "/";
 
   function productCategory(p) {
     return p.category || "tealights";
@@ -25,12 +34,12 @@
 
   function categoryBackHref(p) {
     var cat = categoryById[productCategory(p)];
-    if (cat) return "index.html" + cat.anchor;
-    return "index.html#tealights";
+    if (cat) return base + "index.html" + cat.anchor;
+    return base + "index.html#tealights";
   }
 
   function productImage(slug) {
-    return "assets/products/" + slug + ".png";
+    return base + "assets/products/" + slug + ".png";
   }
 
   function productImages(p) {
@@ -59,7 +68,7 @@
       '<div class="pdp-not-found">' +
       "<h1>Product not found</h1>" +
       '<p>We could not find that item. Browse our collection on the homepage.</p>' +
-      '<a href="index.html" class="btn btn--gold">Back to shop</a>' +
+      '<a href="' + base + 'index.html" class="btn btn--gold">Back to shop</a>' +
       "</div>";
     document.title = "YINSCENT — Product not found";
   }
@@ -103,7 +112,7 @@
         i +
         '" aria-label="View image ' +
         (i + 1) +
-        ' of ' +
+        " of " +
         imgs.length +
         '">' +
         '<img src="' +
@@ -116,62 +125,31 @@
 
   root.innerHTML =
     '<nav class="pdp-breadcrumb" aria-label="Breadcrumb">' +
-    '<a href="index.html">Home</a>' +
+    '<a href="' + base + 'index.html">Home</a>' +
     '<span aria-hidden="true">/</span>' +
-    '<a href="' +
-    categoryBackHref(product) +
-    '">' +
-    categoryLabel(product) +
-    "</a>" +
+    '<a href="' + categoryBackHref(product) + '">' + categoryLabel(product) + "</a>" +
     '<span aria-hidden="true">/</span>' +
-    "<span>" +
-    product.name +
-    "</span>" +
+    "<span>" + product.name + "</span>" +
     "</nav>" +
-    '<div class="pdp-layout' +
-    (hasGallery ? " pdp-layout--gallery" : "") +
-    '">' +
+    '<div class="pdp-layout' + (hasGallery ? " pdp-layout--gallery" : "") + '">' +
     '<div class="pdp-gallery">' +
     '<figure class="pdp-gallery__main">' +
-    '<img id="pdpMainImage" src="' +
-    productImage(imgs[0]) +
-    '" alt="' +
-    productAlt(product, 0) +
-    '" />' +
+    '<img id="pdpMainImage" src="' + productImage(imgs[0]) + '" alt="' + productAlt(product, 0) + '" />' +
     "</figure>" +
     (hasGallery
-      ? '<div class="pdp-gallery__thumbs" role="tablist" aria-label="Product images">' +
-        thumbsHtml +
-        "</div>"
+      ? '<div class="pdp-gallery__thumbs" role="tablist" aria-label="Product images">' + thumbsHtml + "</div>"
       : "") +
     "</div>" +
-    '<article class="pdp-info product" data-id="' +
-    product.id +
-    '" data-name="' +
-    productFullName(product) +
-    '" data-price="' +
-    product.price +
-    '">' +
-    '<p class="product__cat">' +
-    categoryLabel(product) +
-    "</p>" +
-    '<h1 class="pdp-info__title">' +
-    product.name +
-    "</h1>" +
+    '<article class="pdp-info product" data-id="' + product.id + '" data-name="' + productFullName(product) + '" data-price="' + product.price + '">' +
+    '<p class="product__cat">' + categoryLabel(product) + "</p>" +
+    '<h1 class="pdp-info__title">' + product.name + "</h1>" +
     (product.tagline ? '<p class="pdp-info__tagline">' + product.tagline + "</p>" : "") +
-    '<p class="pdp-info__desc">' +
-    product.desc +
-    "</p>" +
+    '<p class="pdp-info__desc">' + product.desc + "</p>" +
     featuresHtml +
-    '<p class="pdp-info__price product__price">£' +
-    product.price +
-    "</p>" +
+    '<p class="pdp-info__price product__price">£' + product.price + "</p>" +
     '<button type="button" class="btn btn--cart add-to-cart pdp-info__cart">Add to cart</button>' +
-    '<a href="' +
-    categoryBackHref(product) +
-    '" class="pdp-info__back">← Continue shopping</a>' +
-    "</article>" +
-    "</div>";
+    '<a href="' + categoryBackHref(product) + '" class="pdp-info__back">← Continue shopping</a>' +
+    "</article></div>";
 
   document.title = "YINSCENT — " + product.name;
 
