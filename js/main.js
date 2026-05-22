@@ -3,30 +3,75 @@
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
   var products = window.YINSCENT_PRODUCTS || [];
-  var categoryLabel = window.YINSCENT_CATEGORY || "Scented tealight candles";
+  var categories = window.YINSCENT_CATEGORIES || [
+    { id: "tealights", label: "Scented tealight candles", anchor: "#tealights", gridId: "productGrid" },
+  ];
+
+  var categoryById = {};
+  categories.forEach(function (c) {
+    categoryById[c.id] = c;
+  });
+
+  function productCategory(p) {
+    return p.category || "tealights";
+  }
+
+  function categoryLabel(p) {
+    var cat = categoryById[productCategory(p)];
+    return cat ? cat.label : "Scented tealight candles";
+  }
+
+  function categoryAnchor(p) {
+    var cat = categoryById[productCategory(p)];
+    return cat ? cat.anchor : "#tealights";
+  }
 
   function productImage(slug) {
     return "assets/products/" + slug + ".png";
   }
 
+  function productUrl(p) {
+    return "product.html?id=" + encodeURIComponent(p.id);
+  }
+
+  function productThumb(p) {
+    var imgs = p.images && p.images.length ? p.images : [p.slug];
+    return productImage(imgs[0]);
+  }
+
   function productFullName(p) {
-    return p.cartName || "Scented Tealight Candles — " + p.name;
+    if (p.cartName) return p.cartName;
+    if (productCategory(p) === "scented-candles") {
+      return "Scented Candle — " + p.name;
+    }
+    return "Scented Tealight Candles — " + p.name;
+  }
+
+  function productAlt(p) {
+    if (productCategory(p) === "scented-candles") {
+      return "YINSCENT " + p.name + " scented candle";
+    }
+    return "YINSCENT " + p.name + " scented tealight candles";
   }
 
   function renderProductCard(p, grid) {
     var article = document.createElement("article");
-    article.className = "product" + (grid ? " product--grid" : "");
+    var catId = productCategory(p);
+    article.className =
+      "product" +
+      (grid ? " product--grid" : "") +
+      (catId === "scented-candles" ? " product--landscape" : "");
     article.setAttribute("data-id", p.id);
     article.setAttribute("data-name", productFullName(p));
     article.setAttribute("data-price", p.price);
 
     article.innerHTML =
-      '<a href="#tealights" class="product__img-wrap">' +
-      '<img class="product__img" src="' + productImage(p.slug) + '" alt="YINSCENT ' + p.name + ' scented tealight candles" loading="lazy" />' +
+      '<a href="' + productUrl(p) + '" class="product__img-wrap">' +
+      '<img class="product__img" src="' + productThumb(p) + '" alt="' + productAlt(p) + '" loading="lazy" />' +
       '<button type="button" class="product__wish" aria-label="Add to wishlist">♡</button>' +
       "</a>" +
-      '<p class="product__cat">' + categoryLabel + "</p>" +
-      '<h3 class="product__name"><a href="#tealights">' + p.name + "</a></h3>" +
+      '<p class="product__cat">' + categoryLabel(p) + "</p>" +
+      '<h3 class="product__name"><a href="' + productUrl(p) + '">' + p.name + "</a></h3>" +
       (grid ? '<p class="product__desc">' + p.desc + "</p>" : "") +
       '<p class="product__price">£' + p.price + "</p>" +
       '<button type="button" class="btn btn--cart add-to-cart">Add to cart</button>';
@@ -37,33 +82,40 @@
   function renderCatalog() {
     var track = document.getElementById("categoryTrack");
     var topTrack = document.getElementById("productTrack");
-    var grid = document.getElementById("productGrid");
 
     if (track) {
       products.forEach(function (p, i) {
         var a = document.createElement("a");
-        a.href = "#tealights";
+        a.href = productUrl(p);
         a.className = "category-pill" + (i === 0 ? " is-active" : "");
         a.innerHTML =
-          '<img class="category-pill__img" src="' + productImage(p.slug) + '" alt="" width="72" height="72" />' +
-          "<span>" + p.name + "</span>";
+          '<img class="category-pill__img" src="' + productThumb(p) + '" alt="" width="72" height="72" />' +
+          "<span>" + p.name + (productCategory(p) === "scented-candles" ? " · Candle" : "") + "</span>";
         track.appendChild(a);
       });
     }
 
     if (topTrack) {
       products
-        .filter(function (p) { return p.featured; })
+        .filter(function (p) {
+          return p.featured;
+        })
         .forEach(function (p) {
           topTrack.appendChild(renderProductCard(p, false));
         });
     }
 
-    if (grid) {
-      products.forEach(function (p) {
-        grid.appendChild(renderProductCard(p, true));
-      });
-    }
+    categories.forEach(function (cat) {
+      var grid = document.getElementById(cat.gridId);
+      if (!grid) return;
+      products
+        .filter(function (p) {
+          return productCategory(p) === cat.id;
+        })
+        .forEach(function (p) {
+          grid.appendChild(renderProductCard(p, true));
+        });
+    });
   }
 
   renderCatalog();
@@ -194,5 +246,4 @@
       }
     });
   }
-
 })();
