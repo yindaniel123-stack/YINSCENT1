@@ -58,7 +58,7 @@
       <a href="#tealights">Tealights</a>
       <a href="#scented-candles">Candles</a>
       <a href="#top-sellers">Bestsellers</a>
-      <a href="#scents">Our story</a>
+      <a href="index.html?page=story">Our story</a>
       <a href="#promos">Offers</a>
     </nav>
   </header>
@@ -78,7 +78,7 @@
         <a href="#tealights">Tealights</a>
         <a href="#scented-candles">Candles</a>
         <a href="#top-sellers">Bestsellers</a>
-        <a href="#scents">Our story</a>
+        <a href="index.html?page=story">Our story</a>
         <a href="#promos">Offers</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -114,6 +114,7 @@
   </div>
 
   <main class="pdp" id="productDetail" hidden aria-live="polite"></main>
+  <main class="story-page" id="storyDetail" hidden aria-live="polite"></main>
 
   <main id="shopMain">
     <!-- Hero poster -->
@@ -190,25 +191,28 @@
 
     <!-- Editorial quote -->
     <section class="editorial" id="scents">
-      <div class="editorial__visual">
-        <div class="editorial__img" style="background-image: url('assets/products/lavender.png')"></div>
-      </div>
-      <div class="editorial__copy">
-        <blockquote>
+      <a href="index.html?page=story" class="editorial__link">
+        <div class="editorial__visual">
+          <div class="editorial__img" style="background-image: url('assets/products/lavender.png')"></div>
+        </div>
+        <div class="editorial__copy">
+          <blockquote>
+            <p>
+              A home transforms when the air tells stories — with
+              <strong>scented tealight candles</strong> that fill every corner with warmth.
+            </p>
+          </blockquote>
           <p>
-            A home transforms when the air tells stories — with
-            <strong>scented tealight candles</strong> that fill every corner with warmth.
+            Small daily rituals that stir memory and calm:
+            <strong>apple, lavender, cinnamon, rose</strong> and twelve more signature scents.
           </p>
-        </blockquote>
-        <p>
-          Small daily rituals that stir memory and calm:
-          <strong>apple, lavender, cinnamon, rose</strong> and twelve more signature scents.
-        </p>
-        <p>
-          Premium quality wax, a long-lasting burn, and aromas crafted to make any space feel like home.
-        </p>
-        <p class="editorial__closing">Because living beautifully is also breathing beautifully.</p>
-      </div>
+          <p>
+            Premium quality wax, a long-lasting burn, and aromas crafted to make any space feel like home.
+          </p>
+          <p class="editorial__closing">Because living beautifully is also breathing beautifully.</p>
+          <span class="editorial__cta">Read our story →</span>
+        </div>
+      </a>
     </section>
 
     <!-- Newsletter -->
@@ -307,7 +311,7 @@
       <div class="footer__col">
         <h4>More</h4>
         <a href="#">Contact</a>
-        <a href="#">About us</a>
+        <a href="index.html?page=story">About us</a>
         <a href="#" id="pro">Professional access</a>
         <a href="#">FAQs</a>
         <a href="#">Blog</a>
@@ -331,5 +335,6 @@
   <script src="/js/products.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/product.js"></script>
+  <script src="/js/story.js"></script>
   </body>
 </html>
