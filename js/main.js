@@ -46,6 +46,12 @@
     if (productCategory(p) === "scented-candles") {
       return "Scented Candle — " + p.name;
     }
+    if (productCategory(p) === "reed-diffusers") {
+      return "Reed Diffuser — " + p.name;
+    }
+    if (productCategory(p) === "tealight-holders") {
+      return "Tealight Holder — " + p.name.replace(" — 12 Pack", "");
+    }
     return "Scented Tealight Candles — " + p.name;
   }
 
@@ -53,7 +59,21 @@
     if (productCategory(p) === "scented-candles") {
       return "YINSCENT " + p.name + " scented candle";
     }
+    if (productCategory(p) === "reed-diffusers") {
+      return "YINSCENT " + p.name + " reed diffuser";
+    }
+    if (productCategory(p) === "tealight-holders") {
+      return "YINSCENT " + p.name.replace(" — 12 Pack", "") + " tealight holder";
+    }
     return "YINSCENT " + p.name + " scented tealight candles";
+  }
+
+  function isLandscapeProduct(catId) {
+    return (
+      catId === "scented-candles" ||
+      catId === "reed-diffusers" ||
+      catId === "tealight-holders"
+    );
   }
 
   function renderProductCard(p, grid) {
@@ -62,7 +82,7 @@
     article.className =
       "product" +
       (grid ? " product--grid" : "") +
-      (catId === "scented-candles" ? " product--landscape" : "");
+      (isLandscapeProduct(catId) ? " product--landscape" : "");
     article.setAttribute("data-id", p.id);
     article.setAttribute("data-name", productFullName(p));
     article.setAttribute("data-price", p.price);
@@ -92,7 +112,16 @@
         a.className = "category-pill" + (i === 0 ? " is-active" : "");
         a.innerHTML =
           '<img class="category-pill__img" src="' + productThumb(p) + '" alt="" width="72" height="72" />' +
-          "<span>" + p.name + (productCategory(p) === "scented-candles" ? " · Candle" : "") + "</span>";
+          "<span>" +
+          p.name +
+          (productCategory(p) === "scented-candles"
+            ? " · Candle"
+            : productCategory(p) === "reed-diffusers"
+              ? " · Diffuser"
+              : productCategory(p) === "tealight-holders"
+                ? " · Holder"
+                : "") +
+          "</span>";
         track.appendChild(a);
       });
     }
@@ -120,7 +149,8 @@
     });
   }
 
-  if (!new URLSearchParams(window.location.search).get("id")) {
+  var pageParams = new URLSearchParams(window.location.search);
+  if (!pageParams.get("id") && pageParams.get("page") !== "story") {
     renderCatalog();
   }
 
@@ -237,6 +267,60 @@
       });
       pill.classList.add("is-active");
     });
+
+  /* Hero poster carousel */
+  var heroPoster = document.getElementById("heroPoster");
+  if (heroPoster) {
+    var heroSlides = heroPoster.querySelectorAll(".hero-poster__img");
+    var heroDots = heroPoster.querySelectorAll(".hero-poster__dot");
+    var heroLink = document.getElementById("heroPosterLink");
+    var heroTargets = ["#tealights", "#scented-candles"];
+    var heroIndex = 0;
+    var heroTimer;
+
+    function showHeroSlide(index) {
+      heroIndex = index;
+      heroSlides.forEach(function (img, i) {
+        img.classList.toggle("is-active", i === index);
+      });
+      heroDots.forEach(function (dot, i) {
+        var on = i === index;
+        dot.classList.toggle("is-active", on);
+        dot.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      if (heroLink && heroTargets[index]) {
+        heroLink.setAttribute("href", heroTargets[index]);
+      }
+    }
+
+    function nextHeroSlide() {
+      showHeroSlide((heroIndex + 1) % heroSlides.length);
+    }
+
+    function startHeroTimer() {
+      clearInterval(heroTimer);
+      heroTimer = setInterval(nextHeroSlide, 6000);
+    }
+
+    heroDots.forEach(function (dot) {
+      dot.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var i = parseInt(dot.getAttribute("data-slide"), 10);
+        if (!isNaN(i)) {
+          showHeroSlide(i);
+          startHeroTimer();
+        }
+      });
+    });
+
+    if (heroSlides.length > 1) {
+      showHeroSlide(0);
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        startHeroTimer();
+      }
+    }
+  }
 
   /* Newsletter */
   var newsletterForm = document.getElementById("newsletterForm");

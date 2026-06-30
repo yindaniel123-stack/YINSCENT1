@@ -52,6 +52,12 @@
     if (productCategory(p) === "scented-candles") {
       return "Scented Candle — " + p.name;
     }
+    if (productCategory(p) === "reed-diffusers") {
+      return "Reed Diffuser — " + p.name;
+    }
+    if (productCategory(p) === "tealight-holders") {
+      return "Tealight Holder — " + p.name.replace(" — 12 Pack", "");
+    }
     return "Scented Tealight Candles — " + p.name;
   }
 
@@ -59,6 +65,12 @@
     var suffix = index === 1 ? " — alternate view" : "";
     if (productCategory(p) === "scented-candles") {
       return "YINSCENT " + p.name + " scented candle" + suffix;
+    }
+    if (productCategory(p) === "reed-diffusers") {
+      return "YINSCENT " + p.name + " reed diffuser" + suffix;
+    }
+    if (productCategory(p) === "tealight-holders") {
+      return "YINSCENT " + p.name.replace(" — 12 Pack", "") + " tealight holder" + suffix;
     }
     return "YINSCENT " + p.name + " scented tealight candles" + suffix;
   }
