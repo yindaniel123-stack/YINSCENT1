@@ -11,6 +11,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/styles.css" />
+    <script>
+      if (new URLSearchParams(window.location.search).get("page") === "story") {
+        document.documentElement.classList.add("is-story-page");
+      }
+    </script>
   </head>
   <body>
   <header class="header">
@@ -57,8 +62,10 @@
     <nav class="header__nav" aria-label="Primary">
       <a href="#tealights">Tealights</a>
       <a href="#scented-candles">Candles</a>
+      <a href="#reed-diffusers">Diffusers</a>
+      <a href="#tealight-holders">Holders</a>
       <a href="#top-sellers">Bestsellers</a>
-      <a href="index.html?page=story">Our story</a>
+      <a href="?page=story">Our story</a>
       <a href="#promos">Offers</a>
     </nav>
   </header>
@@ -77,8 +84,10 @@
       <nav class="drawer__nav">
         <a href="#tealights">Tealights</a>
         <a href="#scented-candles">Candles</a>
+        <a href="#reed-diffusers">Diffusers</a>
+        <a href="#tealight-holders">Holders</a>
         <a href="#top-sellers">Bestsellers</a>
-        <a href="index.html?page=story">Our story</a>
+        <a href="?page=story">Our story</a>
         <a href="#promos">Offers</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -87,6 +96,8 @@
         <ul>
           <li><a href="#tealights">Scented tealight candles</a></li>
           <li><a href="#scented-candles">Scented candles</a></li>
+          <li><a href="#reed-diffusers">Reed diffusers</a></li>
+          <li><a href="#tealight-holders">Tealight holders</a></li>
         </ul>
       </div>
     </aside>
@@ -114,21 +125,112 @@
   </div>
 
   <main class="pdp" id="productDetail" hidden aria-live="polite"></main>
-  <main class="story-page" id="storyDetail" hidden aria-live="polite"></main>
+
+  <main class="story-page" id="storyDetail" aria-label="Our story">
+    <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Our story</span>
+    </nav>
+    <div class="story-layout">
+      <div class="story-gallery">
+        <figure class="story-gallery__main">
+          <img
+            id="storyMainImage"
+            src="assets/poster.jpg"
+            alt="YINSCENT scented candle collection"
+          />
+        </figure>
+        <div class="story-gallery__thumbs" role="tablist" aria-label="Story images">
+          <button
+            type="button"
+            class="story-gallery__thumb is-active"
+            data-src="assets/poster.jpg"
+            data-alt="YINSCENT scented candle collection"
+            aria-label="View image 1 of 2"
+          >
+            <img src="assets/poster.jpg" alt="" width="96" height="96" />
+          </button>
+          <button
+            type="button"
+            class="story-gallery__thumb"
+            data-src="assets/products/lavender-candle-lit.png"
+            data-alt="YINSCENT lavender scented candle"
+            aria-label="View image 2 of 2"
+          >
+            <img src="assets/products/lavender-candle-lit.png" alt="" width="96" height="96" />
+          </button>
+        </div>
+      </div>
+      <div class="story-content">
+        <p class="story-content__eyebrow">YINSCENT</p>
+        <h1>Our story</h1>
+        <p class="story-content__lede">Because living beautifully is also breathing beautifully.</p>
+        <blockquote>
+          <p>
+            A home transforms when the air tells stories — with
+            <strong>scented candles</strong> and <strong>tealights</strong> that fill every corner with warmth.
+          </p>
+        </blockquote>
+        <p>
+          YINSCENT began with a simple belief: scent is memory. A single flame can recall a summer orchard, a
+          linen-fresh morning, or the calm of lavender at dusk.
+        </p>
+        <p>
+          We craft premium wax candles and scented tealights in signature aromas — from crisp apple and romantic rose
+          to fresh ocean breeze and soothing jasmine. Each piece is designed for a clean, long-lasting burn and an
+          atmosphere that feels unmistakably like home.
+        </p>
+        <ul class="story-values">
+          <li><span aria-hidden="true">✦</span> Premium quality wax</li>
+          <li><span aria-hidden="true">◷</span> Long-lasting burn</li>
+          <li><span aria-hidden="true">❧</span> Signature aromas</li>
+          <li><span aria-hidden="true">⌂</span> Perfect for any space</li>
+        </ul>
+        <p>
+          Small daily rituals matter. Lighting a candle at the end of the day is our invitation to pause, unwind, and
+          breathe beautifully.
+        </p>
+        <div class="story-content__actions">
+          <a href="index.html#scented-candles" class="btn btn--gold">Shop scented candles</a>
+          <a href="index.html#tealights" class="btn btn--cart">Shop tealights</a>
+        </div>
+        <a href="index.html" class="story-content__back">← Back to home</a>
+      </div>
+    </div>
+  </main>
 
   <main id="shopMain">
     <!-- Hero poster -->
     <section class="hero hero--poster" id="new" aria-label="YINSCENT collection poster">
-      <a href="#tealights" class="hero-poster">
-        <img
-          src="assets/poster.jpg"
-          alt="YINSCENT — 12 scented tealight candles. Cozy, fruity, refreshing."
-          width="2048"
-          height="1364"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </a>
+      <div class="hero-poster" id="heroPoster">
+        <a href="#tealights" class="hero-poster__link" id="heroPosterLink">
+          <div class="hero-poster__slides">
+            <img
+              class="hero-poster__img is-active"
+              src="assets/poster.jpg"
+              alt="YINSCENT — 12 scented tealight candles. Cozy, fruity, refreshing."
+              width="2048"
+              height="1364"
+              fetchpriority="high"
+              decoding="async"
+            />
+            <img
+              class="hero-poster__img"
+              src="assets/poster-candles.jpg"
+              alt="YINSCENT — Scented candles collection. Fresh, long lasting, perfect for any space."
+              width="2048"
+              height="1364"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </a>
+        <div class="hero-poster__nav" role="tablist" aria-label="Poster slides">
+          <button type="button" class="hero-poster__dot is-active" data-slide="0" aria-label="Tealight collection" aria-selected="true"></button>
+          <button type="button" class="hero-poster__dot" data-slide="1" aria-label="Scented candles collection" aria-selected="false"></button>
+        </div>
+      </div>
       <div class="hero-intro">
         <p class="hero__badge">Collection</p>
         <h1>Scented Tealight Candles</h1>
@@ -189,9 +291,45 @@
       <div class="product-grid product-grid--candles" id="candleGrid"></div>
     </section>
 
+    <!-- Reed Diffusers -->
+    <section class="section section--category" id="reed-diffusers">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow">New collection</p>
+        <h2>Reed diffusers</h2>
+        <p class="category-intro__lede">
+          Flameless home fragrance with natural rattan sticks — sweet, steady scent for up to 8+ weeks.
+        </p>
+        <ul class="category-features" aria-label="Product features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> Natural rattan sticks</li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> Up to 8+ weeks</li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> Paraben free</li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Perfect for any space</li>
+        </ul>
+      </div>
+      <div class="product-grid product-grid--candles" id="diffuserGrid"></div>
+    </section>
+
+    <!-- Tealight Holders -->
+    <section class="section section--category" id="tealight-holders">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow">New collection</p>
+        <h2>Tealight holders</h2>
+        <p class="category-intro__lede">
+          Elegant crystal clear glass holders in four beautiful shapes — sturdy, reusable, and perfect for home, parties, and weddings.
+        </p>
+        <ul class="category-features" aria-label="Product features">
+          <li><span class="category-features__icon" aria-hidden="true">◇</span> Crystal clear glass</li>
+          <li><span class="category-features__icon" aria-hidden="true">⛨</span> Sturdy & durable</li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> 12 pcs value pack</li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Fits standard tealights</li>
+        </ul>
+      </div>
+      <div class="product-grid product-grid--candles" id="holderGrid"></div>
+    </section>
+
     <!-- Editorial quote -->
     <section class="editorial" id="scents">
-      <a href="index.html?page=story" class="editorial__link">
+      <a href="?page=story" class="editorial__link">
         <div class="editorial__visual">
           <div class="editorial__img" style="background-image: url('assets/products/lavender.png')"></div>
         </div>
@@ -311,7 +449,7 @@
       <div class="footer__col">
         <h4>More</h4>
         <a href="#">Contact</a>
-        <a href="index.html?page=story">About us</a>
+        <a href="?page=story">About us</a>
         <a href="#" id="pro">Professional access</a>
         <a href="#">FAQs</a>
         <a href="#">Blog</a>
@@ -331,10 +469,10 @@
     <p class="footer__copy">© <span id="year"></span> YINSCENT. All rights reserved.</p>
   </footer>
 
-  <script src="/js/paths.js"></script>
-  <script src="/js/products.js"></script>
-  <script src="/js/main.js"></script>
-  <script src="/js/product.js"></script>
-  <script src="/js/story.js"></script>
+  <script src="js/paths.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/product.js"></script>
+  <script src="js/story.js"></script>
   </body>
 </html>
