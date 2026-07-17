@@ -64,6 +64,9 @@
       <a href="#scented-candles">Candles</a>
       <a href="#reed-diffusers">Diffusers</a>
       <a href="#tealight-holders">Holders</a>
+      <a href="#scented-sachets">Sachets</a>
+      <a href="#essential-oils">Oils</a>
+      <a href="#smart-aroma-refills">Refills</a>
       <a href="#top-sellers">Bestsellers</a>
       <a href="?page=story">Our story</a>
       <a href="#promos">Offers</a>
@@ -86,6 +89,9 @@
         <a href="#scented-candles">Candles</a>
         <a href="#reed-diffusers">Diffusers</a>
         <a href="#tealight-holders">Holders</a>
+        <a href="#scented-sachets">Sachets</a>
+        <a href="#essential-oils">Oils</a>
+        <a href="#smart-aroma-refills">Refills</a>
         <a href="#top-sellers">Bestsellers</a>
         <a href="?page=story">Our story</a>
         <a href="#promos">Offers</a>
@@ -98,6 +104,9 @@
           <li><a href="#scented-candles">Scented candles</a></li>
           <li><a href="#reed-diffusers">Reed diffusers</a></li>
           <li><a href="#tealight-holders">Tealight holders</a></li>
+          <li><a href="#scented-sachets">Scented sachets</a></li>
+          <li><a href="#essential-oils">Essential oils</a></li>
+          <li><a href="#smart-aroma-refills">Smart aroma diffuser refill</a></li>
         </ul>
       </div>
     </aside>
@@ -138,7 +147,7 @@
           <img
             id="storyMainImage"
             src="assets/poster.jpg"
-            alt="YINSCENT scented candle collection"
+            alt="YINSCENT lavender home collection"
           />
         </figure>
         <div class="story-gallery__thumbs" role="tablist" aria-label="Story images">
@@ -146,7 +155,7 @@
             type="button"
             class="story-gallery__thumb is-active"
             data-src="assets/poster.jpg"
-            data-alt="YINSCENT scented candle collection"
+            data-alt="YINSCENT lavender home collection"
             aria-label="View image 1 of 2"
           >
             <img src="assets/poster.jpg" alt="" width="96" height="96" />
@@ -209,26 +218,72 @@
             <img
               class="hero-poster__img is-active"
               src="assets/poster.jpg"
-              alt="YINSCENT — 12 scented tealight candles. Cozy, fruity, refreshing."
-              width="2048"
-              height="1364"
+              alt="YINSCENT — Lavender home collection. Breathe in lavender. Feel the calm."
+              width="1024"
+              height="682"
+              data-target="#tealights"
               fetchpriority="high"
               decoding="async"
             />
             <img
               class="hero-poster__img"
               src="assets/poster-candles.jpg"
-              alt="YINSCENT — Scented candles collection. Fresh, long lasting, perfect for any space."
-              width="2048"
-              height="1364"
+              alt="YINSCENT — Cotton home collection. Fresh, soft, comforting."
+              width="1024"
+              height="682"
+              data-target="#tealights"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="hero-poster__img"
+              src="assets/poster-rose.jpg"
+              alt="YINSCENT — Rose home collection. Romantic, elegant, timeless."
+              width="1024"
+              height="682"
+              data-target="#reed-diffusers"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="hero-poster__img"
+              src="assets/poster-cherry.jpg"
+              alt="YINSCENT — Cherry home collection. Sweet, juicy, inviting."
+              width="1024"
+              height="682"
+              data-target="#scented-candles"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="hero-poster__img"
+              src="assets/poster-jasmine.jpg"
+              alt="YINSCENT — Jasmine home collection. Pure, floral, serene."
+              width="1024"
+              height="682"
+              data-target="#tealights"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="hero-poster__img"
+              src="assets/poster-ocean.jpg"
+              alt="YINSCENT — Ocean home collection. Fresh, clean, reviving."
+              width="1024"
+              height="682"
+              data-target="#tealights"
               loading="lazy"
               decoding="async"
             />
           </div>
         </a>
         <div class="hero-poster__nav" role="tablist" aria-label="Poster slides">
-          <button type="button" class="hero-poster__dot is-active" data-slide="0" aria-label="Tealight collection" aria-selected="true"></button>
-          <button type="button" class="hero-poster__dot" data-slide="1" aria-label="Scented candles collection" aria-selected="false"></button>
+          <button type="button" class="hero-poster__dot is-active" data-slide="0" aria-label="Lavender home collection" aria-selected="true"></button>
+          <button type="button" class="hero-poster__dot" data-slide="1" aria-label="Cotton home collection" aria-selected="false"></button>
+          <button type="button" class="hero-poster__dot" data-slide="2" aria-label="Rose home collection" aria-selected="false"></button>
+          <button type="button" class="hero-poster__dot" data-slide="3" aria-label="Cherry home collection" aria-selected="false"></button>
+          <button type="button" class="hero-poster__dot" data-slide="4" aria-label="Jasmine home collection" aria-selected="false"></button>
+          <button type="button" class="hero-poster__dot" data-slide="5" aria-label="Ocean home collection" aria-selected="false"></button>
         </div>
       </div>
       <div class="hero-intro">
@@ -325,6 +380,60 @@
         </ul>
       </div>
       <div class="product-grid product-grid--candles" id="holderGrid"></div>
+    </section>
+
+    <!-- Scented Sachets -->
+    <section class="section section--category" id="scented-sachets">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow">New collection</p>
+        <h2>Scented sachets</h2>
+        <p class="category-intro__lede">
+          Hangable fragrance sachets with natural fragrance oil — long-lasting aroma for closets, drawers, and any small space.
+        </p>
+        <ul class="category-features" aria-label="Product features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> Natural fragrance oil</li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> Long-lasting aroma</li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> Built-in hang hook</li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Ideal for any space</li>
+        </ul>
+      </div>
+      <div class="product-grid product-grid--candles" id="sachetGrid"></div>
+    </section>
+
+    <!-- Essential Oils -->
+    <section class="section section--category" id="essential-oils">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow">New collection</p>
+        <h2>Essential oils</h2>
+        <p class="category-intro__lede">
+          Natural &amp; pure home essences — long-lasting aroma for oil burners and ultrasonic diffusers. Pack of 16 bottles.
+        </p>
+        <ul class="category-features" aria-label="Product features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> Natural &amp; pure essence</li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Warm &amp; cozy atmosphere</li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> Long-lasting aroma</li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> For burners &amp; diffusers</li>
+        </ul>
+      </div>
+      <div class="product-grid product-grid--candles" id="oilGrid"></div>
+    </section>
+
+    <!-- Smart Aroma Diffuser Refills -->
+    <section class="section section--category" id="smart-aroma-refills">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow">New collection</p>
+        <h2>Smart aroma diffuser refill</h2>
+        <p class="category-intro__lede">
+          100&nbsp;ml fragrance refills for smart aroma diffusers — long-lasting scent with an easy-pour tip. Pack of 12 bottles.
+        </p>
+        <ul class="category-features" aria-label="Product features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> Rich fragrance refill</li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> 100&nbsp;ml / 3.4&nbsp;fl&nbsp;oz</li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> For smart aroma diffusers</li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> 12 pcs display pack</li>
+        </ul>
+      </div>
+      <div class="product-grid product-grid--candles" id="refillGrid"></div>
     </section>
 
     <!-- Editorial quote -->
