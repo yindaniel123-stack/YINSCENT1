@@ -52,6 +52,15 @@
     if (productCategory(p) === "tealight-holders") {
       return "Tealight Holder — " + p.name.replace(" — 12 Pack", "");
     }
+    if (productCategory(p) === "scented-sachets") {
+      return "Scented Sachet — " + p.name;
+    }
+    if (productCategory(p) === "essential-oils") {
+      return "Essential Oil — " + p.name;
+    }
+    if (productCategory(p) === "smart-aroma-refills") {
+      return "Smart Aroma Diffuser Refill — " + p.name;
+    }
     return "Scented Tealight Candles — " + p.name;
   }
 
@@ -65,6 +74,15 @@
     if (productCategory(p) === "tealight-holders") {
       return "YINSCENT " + p.name.replace(" — 12 Pack", "") + " tealight holder";
     }
+    if (productCategory(p) === "scented-sachets") {
+      return "YINSCENT " + p.name + " scented sachet";
+    }
+    if (productCategory(p) === "essential-oils") {
+      return "YINSCENT " + p.name + " essential oil";
+    }
+    if (productCategory(p) === "smart-aroma-refills") {
+      return "YINSCENT " + p.name + " smart aroma diffuser refill";
+    }
     return "YINSCENT " + p.name + " scented tealight candles";
   }
 
@@ -72,7 +90,10 @@
     return (
       catId === "scented-candles" ||
       catId === "reed-diffusers" ||
-      catId === "tealight-holders"
+      catId === "tealight-holders" ||
+      catId === "scented-sachets" ||
+      catId === "essential-oils" ||
+      catId === "smart-aroma-refills"
     );
   }
 
@@ -120,7 +141,13 @@
               ? " · Diffuser"
               : productCategory(p) === "tealight-holders"
                 ? " · Holder"
-                : "") +
+                : productCategory(p) === "scented-sachets"
+                  ? " · Sachet"
+                  : productCategory(p) === "essential-oils"
+                    ? " · Oil"
+                    : productCategory(p) === "smart-aroma-refills"
+                      ? " · Refill"
+                      : "") +
           "</span>";
         track.appendChild(a);
       });
@@ -274,7 +301,6 @@
     var heroSlides = heroPoster.querySelectorAll(".hero-poster__img");
     var heroDots = heroPoster.querySelectorAll(".hero-poster__dot");
     var heroLink = document.getElementById("heroPosterLink");
-    var heroTargets = ["#tealights", "#scented-candles"];
     var heroIndex = 0;
     var heroTimer;
 
@@ -288,8 +314,9 @@
         dot.classList.toggle("is-active", on);
         dot.setAttribute("aria-selected", on ? "true" : "false");
       });
-      if (heroLink && heroTargets[index]) {
-        heroLink.setAttribute("href", heroTargets[index]);
+      if (heroLink && heroSlides[index]) {
+        var target = heroSlides[index].getAttribute("data-target") || "#tealights";
+        heroLink.setAttribute("href", target);
       }
     }
 

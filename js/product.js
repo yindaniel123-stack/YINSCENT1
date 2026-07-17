@@ -58,6 +58,15 @@
     if (productCategory(p) === "tealight-holders") {
       return "Tealight Holder — " + p.name.replace(" — 12 Pack", "");
     }
+    if (productCategory(p) === "scented-sachets") {
+      return "Scented Sachet — " + p.name;
+    }
+    if (productCategory(p) === "essential-oils") {
+      return "Essential Oil — " + p.name;
+    }
+    if (productCategory(p) === "smart-aroma-refills") {
+      return "Smart Aroma Diffuser Refill — " + p.name;
+    }
     return "Scented Tealight Candles — " + p.name;
   }
 
@@ -71,6 +80,15 @@
     }
     if (productCategory(p) === "tealight-holders") {
       return "YINSCENT " + p.name.replace(" — 12 Pack", "") + " tealight holder" + suffix;
+    }
+    if (productCategory(p) === "scented-sachets") {
+      return "YINSCENT " + p.name + " scented sachet" + suffix;
+    }
+    if (productCategory(p) === "essential-oils") {
+      return "YINSCENT " + p.name + " essential oil" + suffix;
+    }
+    if (productCategory(p) === "smart-aroma-refills") {
+      return "YINSCENT " + p.name + " smart aroma diffuser refill" + suffix;
     }
     return "YINSCENT " + p.name + " scented tealight candles" + suffix;
   }
