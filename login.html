@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin sign in — YINSCENT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body class="page-checkout">
+    <header class="header header--checkout">
+      <a href="index.html" class="header__logo" aria-label="YINSCENT home">
+        <img src="assets/logo.png" alt="YINSCENT" width="200" height="154" />
+      </a>
+      <a href="index.html" class="checkout-back">← Back to shop</a>
+    </header>
+
+    <main class="auth-page">
+      <section class="auth-card" aria-labelledby="loginTitle">
+        <p class="checkout__eyebrow">Restricted area</p>
+        <h1 id="loginTitle">Admin sign in</h1>
+        <p class="auth-card__lede">Enter the admin password to manage the store.</p>
+
+        <form class="auth-form" id="loginForm" novalidate>
+          <label>
+            Password
+            <input
+              type="password"
+              name="password"
+              id="password"
+              autocomplete="current-password"
+              required
+              autofocus
+            />
+          </label>
+          <p class="auth-form__error" id="loginError" hidden role="alert"></p>
+          <button type="submit" class="btn btn--gold" id="loginSubmit">Sign in</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer footer--checkout">
+      <p class="footer__copy">© <span id="year"></span> YINSCENT. All rights reserved.</p>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+      (function () {
+        var yearEl = document.getElementById("year");
+        if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+        var params = new URLSearchParams(window.location.search);
+        var next = params.get("next") || "admin.html";
+        // Only allow same-site relative redirects.
+        if (/^([a-z]+:)?\/\//i.test(next) || next.indexOf("\\") !== -1) next = "admin.html";
+
+        // Already signed in? Go straight through.
+        window.YinscentAuth.getUser().then(function (user) {
+          if (user && user.role === "admin") window.location.replace(next);
+        });
+
+        var form = document.getElementById("loginForm");
+        var passwordInput = document.getElementById("password");
+        var errorEl = document.getElementById("loginError");
+        var submitBtn = document.getElementById("loginSubmit");
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          errorEl.hidden = true;
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Signing in…";
+
+          window.YinscentAuth.signIn(passwordInput.value)
+            .then(function () {
+              window.location.replace(next);
+            })
+            .catch(function (err) {
+              errorEl.textContent = err.message || "Sign in failed. Please try again.";
+              errorEl.hidden = false;
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Sign in";
+              passwordInput.focus();
+              passwordInput.select();
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>

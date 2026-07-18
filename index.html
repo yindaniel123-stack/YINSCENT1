@@ -39,12 +39,26 @@
           <path d="M20 20l-4.5-4.5" stroke-linecap="round" />
         </svg>
       </button>
-      <button type="button" class="header__icon" aria-label="Account">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="9" r="3.5" />
-          <path d="M5 20c1.5-4 12.5-4 14 0" stroke-linecap="round" />
-        </svg>
-      </button>
+      <div class="user-menu" id="userMenu">
+        <button
+          type="button"
+          class="header__icon"
+          id="userMenuToggle"
+          aria-label="Account"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="9" r="3.5" />
+            <path d="M5 20c1.5-4 12.5-4 14 0" stroke-linecap="round" />
+          </svg>
+        </button>
+        <div class="user-menu__dropdown" id="userMenuDropdown" hidden>
+          <a href="#" class="user-menu__item">My account</a>
+          <a href="#" class="user-menu__item">Orders</a>
+          <a href="admin.html" class="user-menu__item user-menu__item--admin" id="userMenuAdmin" hidden>Admin</a>
+        </div>
+      </div>
       <button
         type="button"
         class="header__icon header__cart-btn"
@@ -130,6 +144,18 @@
         <a href="#top-sellers" class="btn btn--gold" id="cartContinue">Continue shopping</a>
       </div>
       <ul class="cart-list" id="cartList" hidden></ul>
+      <div class="cart-summary" id="cartSummary" hidden>
+        <div class="cart-summary__row">
+          <span>Subtotal</span>
+          <strong id="cartSubtotal">£0.00</strong>
+        </div>
+        <p>Shipping and taxes calculated at checkout.</p>
+        <button type="button" class="btn btn--gold cart-summary__checkout" id="cartCheckout">
+          Checkout
+        </button>
+        <button type="button" class="cart-summary__clear" id="cartClear">Clear cart</button>
+      </div>
+      <p class="visually-hidden" id="cartStatus" role="status" aria-live="polite"></p>
     </aside>
   </div>
 
@@ -219,8 +245,8 @@
               class="hero-poster__img is-active"
               src="assets/poster.jpg"
               alt="YINSCENT — Lavender home collection. Breathe in lavender. Feel the calm."
-              width="1024"
-              height="682"
+              width="2048"
+              height="1365"
               data-target="#tealights"
               fetchpriority="high"
               decoding="async"
@@ -229,8 +255,8 @@
               class="hero-poster__img"
               src="assets/poster-candles.jpg"
               alt="YINSCENT — Cotton home collection. Fresh, soft, comforting."
-              width="1024"
-              height="682"
+              width="2048"
+              height="1365"
               data-target="#tealights"
               loading="lazy"
               decoding="async"
@@ -239,8 +265,8 @@
               class="hero-poster__img"
               src="assets/poster-rose.jpg"
               alt="YINSCENT — Rose home collection. Romantic, elegant, timeless."
-              width="1024"
-              height="682"
+              width="2048"
+              height="1365"
               data-target="#reed-diffusers"
               loading="lazy"
               decoding="async"
@@ -249,8 +275,8 @@
               class="hero-poster__img"
               src="assets/poster-cherry.jpg"
               alt="YINSCENT — Cherry home collection. Sweet, juicy, inviting."
-              width="1024"
-              height="682"
+              width="2048"
+              height="1365"
               data-target="#scented-candles"
               loading="lazy"
               decoding="async"
@@ -259,8 +285,8 @@
               class="hero-poster__img"
               src="assets/poster-jasmine.jpg"
               alt="YINSCENT — Jasmine home collection. Pure, floral, serene."
-              width="1024"
-              height="682"
+              width="2048"
+              height="1365"
               data-target="#tealights"
               loading="lazy"
               decoding="async"
@@ -269,8 +295,8 @@
               class="hero-poster__img"
               src="assets/poster-ocean.jpg"
               alt="YINSCENT — Ocean home collection. Fresh, clean, reviving."
-              width="1024"
-              height="682"
+              width="2048"
+              height="1365"
               data-target="#tealights"
               loading="lazy"
               decoding="async"
@@ -579,6 +605,7 @@
   </footer>
 
   <script src="js/paths.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/products.js"></script>
   <script src="js/main.js"></script>
   <script src="js/product.js"></script>

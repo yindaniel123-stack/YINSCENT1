@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout — YINSCENT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="page-checkout">
+    <header class="header header--checkout">
+      <a href="index.html" class="header__logo" aria-label="YINSCENT home">
+        <img src="assets/logo.png" alt="YINSCENT" width="200" height="154" />
+      </a>
+      <a href="index.html" class="checkout-back">← Continue shopping</a>
+    </header>
+
+    <main class="checkout" id="checkoutMain">
+      <div class="checkout__empty" id="checkoutEmpty" hidden>
+        <h1>Your cart is empty</h1>
+        <p>Add a fragrance you love, then return to checkout.</p>
+        <a href="index.html#fragrances-collection" class="btn btn--gold">Shop fragrances</a>
+      </div>
+
+      <div class="checkout__layout" id="checkoutFormWrap">
+        <section class="checkout__form-panel" aria-labelledby="checkoutDetailsTitle">
+          <p class="checkout__eyebrow">Secure checkout</p>
+          <h1 id="checkoutDetailsTitle">Checkout</h1>
+          <p class="checkout__lede">Enter your delivery details, then pay securely with PayPal.</p>
+
+          <form class="checkout-form" id="checkoutForm" novalidate>
+            <fieldset>
+              <legend>Contact</legend>
+              <label>
+                Email
+                <input type="email" name="email" id="email" autocomplete="email" required />
+              </label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Delivery</legend>
+              <div class="checkout-form__row">
+                <label>
+                  First name
+                  <input type="text" name="firstName" id="firstName" autocomplete="given-name" required />
+                </label>
+                <label>
+                  Last name
+                  <input type="text" name="lastName" id="lastName" autocomplete="family-name" required />
+                </label>
+              </div>
+              <label>
+                Address
+                <input type="text" name="address" id="address" autocomplete="street-address" required />
+              </label>
+              <div class="checkout-form__row">
+                <label>
+                  City
+                  <input type="text" name="city" id="city" autocomplete="address-level2" required />
+                </label>
+                <label>
+                  Postcode
+                  <input type="text" name="postcode" id="postcode" autocomplete="postal-code" required />
+                </label>
+              </div>
+              <label>
+                Country
+                <select name="country" id="country" autocomplete="country" required>
+                  <option value="GB" selected>United Kingdom</option>
+                  <option value="IE">Ireland</option>
+                  <option value="US">United States</option>
+                  <option value="CA">Canada</option>
+                  <option value="AU">Australia</option>
+                  <option value="FR">France</option>
+                  <option value="DE">Germany</option>
+                  <option value="ES">Spain</option>
+                  <option value="IT">Italy</option>
+                  <option value="NL">Netherlands</option>
+                </select>
+              </label>
+            </fieldset>
+
+            <p class="checkout-form__error" id="checkoutError" hidden role="alert"></p>
+          </form>
+
+          <div class="checkout-pay">
+            <h2>Payment</h2>
+            <p>Pay with PayPal or a debit/credit card through PayPal.</p>
+            <div id="paypal-button-container"></div>
+            <p class="checkout-pay__note" id="paypalStatus" role="status" aria-live="polite"></p>
+          </div>
+        </section>
+
+        <aside class="checkout__summary" aria-labelledby="orderSummaryTitle">
+          <h2 id="orderSummaryTitle">Order summary</h2>
+          <ul class="checkout-summary__list" id="checkoutItems"></ul>
+          <div class="checkout-summary__totals">
+            <div class="checkout-summary__row">
+              <span>Subtotal</span>
+              <span id="checkoutSubtotal">£0.00</span>
+            </div>
+            <div class="checkout-summary__row">
+              <span>Shipping</span>
+              <span id="checkoutShipping">£0.00</span>
+            </div>
+            <div class="checkout-summary__row checkout-summary__row--total">
+              <span>Total</span>
+              <strong id="checkoutTotal">£0.00</strong>
+            </div>
+          </div>
+          <p class="checkout-summary__note" id="shippingNote"></p>
+        </aside>
+      </div>
+
+      <div class="checkout__success" id="checkoutSuccess" hidden>
+        <p class="checkout__eyebrow">Thank you</p>
+        <h1>Order confirmed</h1>
+        <p class="checkout__lede">
+          Your payment was successful. A confirmation email will be sent by PayPal.
+        </p>
+        <dl class="checkout-success__meta">
+          <div>
+            <dt>Order reference</dt>
+            <dd id="successOrderId">—</dd>
+          </div>
+          <div>
+            <dt>Total paid</dt>
+            <dd id="successTotal">—</dd>
+          </div>
+        </dl>
+        <a href="index.html" class="btn btn--gold">Back to home</a>
+      </div>
+    </main>
+
+    <footer class="footer footer--checkout">
+      <p class="footer__copy">© <span id="year"></span> YINSCENT. All rights reserved.</p>
+    </footer>
+
+    <script src="js/paths.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/checkout-config.js"></script>
+    <script src="js/checkout.js"></script>
+  </body>
+</html>

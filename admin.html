@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admin — YINSCENT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="page-checkout">
+    <header class="header header--checkout">
+      <a href="index.html" class="header__logo" aria-label="YINSCENT home">
+        <img src="assets/logo.png" alt="YINSCENT" width="200" height="154" />
+      </a>
+      <a href="index.html" class="checkout-back">← Back to shop</a>
+    </header>
+
+    <main class="admin" id="adminMain">
+      <section class="admin-login" id="adminLogin" hidden aria-labelledby="adminLoginTitle">
+        <p class="checkout__eyebrow">Restricted area</p>
+        <h1 id="adminLoginTitle">Admin sign in</h1>
+        <p class="admin-login__lede">Enter the admin password to continue.</p>
+        <form class="admin-login__form" id="adminLoginForm" novalidate>
+          <label>
+            Password
+            <input
+              type="password"
+              name="password"
+              id="adminPassword"
+              autocomplete="current-password"
+              required
+            />
+          </label>
+          <p class="admin-login__error" id="adminLoginError" hidden role="alert"></p>
+          <button type="submit" class="btn btn--gold" id="adminLoginSubmit">Sign in</button>
+        </form>
+      </section>
+
+      <section class="admin-dashboard" id="adminDashboard" hidden aria-labelledby="adminDashboardTitle">
+        <div class="admin-dashboard__head">
+          <div>
+            <p class="checkout__eyebrow">YINSCENT admin</p>
+            <h1 id="adminDashboardTitle">Overview</h1>
+            <p class="admin-dashboard__welcome" id="adminWelcome"></p>
+          </div>
+          <button type="button" class="btn btn--cart admin-dashboard__signout" id="adminSignOut">
+            Sign out
+          </button>
+        </div>
+
+        <div class="admin-stats" aria-label="Key metrics">
+          <article class="admin-stat admin-stat--metric">
+            <span class="admin-stat__label">Revenue · 30 days</span>
+            <strong class="admin-stat__value" id="adminRevenue">—</strong>
+            <span class="admin-stat__delta" id="adminRevenueDelta"></span>
+          </article>
+          <article class="admin-stat admin-stat--metric">
+            <span class="admin-stat__label">Orders · 30 days</span>
+            <strong class="admin-stat__value" id="adminOrders">—</strong>
+            <span class="admin-stat__delta" id="adminOrdersDelta"></span>
+          </article>
+          <article class="admin-stat admin-stat--metric">
+            <span class="admin-stat__label">Avg order value</span>
+            <strong class="admin-stat__value" id="adminAov">—</strong>
+            <span class="admin-stat__delta" id="adminAovDelta"></span>
+          </article>
+          <article class="admin-stat admin-stat--metric">
+            <span class="admin-stat__label">Units sold · 30 days</span>
+            <strong class="admin-stat__value" id="adminUnits">—</strong>
+            <span class="admin-stat__delta" id="adminUnitsDelta"></span>
+          </article>
+        </div>
+
+        <div class="admin-stats" aria-label="Catalog summary">
+          <article class="admin-stat">
+            <span class="admin-stat__label">Products</span>
+            <strong class="admin-stat__value" id="adminProductCount">0</strong>
+            <span class="admin-stat__note">in the catalog</span>
+          </article>
+          <article class="admin-stat">
+            <span class="admin-stat__label">Categories</span>
+            <strong class="admin-stat__value" id="adminCategoryCount">0</strong>
+            <span class="admin-stat__note">active collections</span>
+          </article>
+          <article class="admin-stat">
+            <span class="admin-stat__label">Featured</span>
+            <strong class="admin-stat__value" id="adminFeaturedCount">0</strong>
+            <span class="admin-stat__note">top seller placements</span>
+          </article>
+          <article class="admin-stat">
+            <span class="admin-stat__label">Average price</span>
+            <strong class="admin-stat__value" id="adminAveragePrice">£0.00</strong>
+            <span class="admin-stat__note">across all products</span>
+          </article>
+        </div>
+
+        <div class="admin-overview-grid">
+          <section class="admin-panel" aria-labelledby="categorySummaryTitle">
+            <div class="admin-panel__head">
+              <div>
+                <p class="admin-panel__eyebrow">Catalog</p>
+                <h2 id="categorySummaryTitle">Products by category</h2>
+              </div>
+              <a href="index.html#products" class="admin-panel__link">View shop →</a>
+            </div>
+            <div class="admin-category-list" id="adminCategoryList"></div>
+          </section>
+
+          <aside class="admin-panel" aria-labelledby="storeStatusTitle">
+            <div class="admin-panel__head">
+              <div>
+                <p class="admin-panel__eyebrow">System</p>
+                <h2 id="storeStatusTitle">Store status</h2>
+              </div>
+            </div>
+            <ul class="admin-status-list">
+              <li><span class="admin-status-dot is-live"></span><span>Storefront</span><strong>Live</strong></li>
+              <li><span class="admin-status-dot is-live"></span><span>Admin session</span><strong>Active</strong></li>
+              <li><span class="admin-status-dot is-external"></span><span>Payments</span><strong>PayPal</strong></li>
+            </ul>
+            <p class="admin-status-note">Orders and revenue remain in your PayPal business dashboard.</p>
+          </aside>
+        </div>
+
+        <section class="admin-panel admin-analytics" id="adminAnalytics" aria-labelledby="analyticsTitle">
+          <div class="admin-panel__head">
+            <div>
+              <p class="admin-panel__eyebrow">Analytics</p>
+              <h2 id="analyticsTitle">Sales analytics</h2>
+            </div>
+            <div class="admin-period" role="group" aria-label="Select reporting period" id="adminAnalyticsPeriods">
+              <button type="button" class="admin-period__btn is-active" data-period="7" aria-pressed="true">7 days</button>
+              <button type="button" class="admin-period__btn" data-period="30" aria-pressed="false">30 days</button>
+              <button type="button" class="admin-period__btn" data-period="90" aria-pressed="false">90 days</button>
+            </div>
+          </div>
+
+          <p class="admin-analytics__state" id="adminAnalyticsLoading" aria-live="polite">Loading sales data…</p>
+
+          <div class="admin-analytics__state admin-analytics__state--error" id="adminAnalyticsError" hidden role="alert">
+            <span>Sales data is unavailable right now.</span>
+            <button type="button" class="admin-analytics__retry" id="adminAnalyticsRetry">Retry</button>
+          </div>
+
+          <p class="admin-analytics__state" id="adminAnalyticsEmpty" hidden>
+            No orders were recorded in the selected period.
+          </p>
+
+          <div class="admin-analytics__body" id="adminAnalyticsBody" hidden>
+            <div class="admin-analytics__summary" id="adminAnalyticsSummary"></div>
+
+            <figure class="admin-chart" aria-labelledby="revenueTrendTitle">
+              <figcaption class="admin-chart__title" id="revenueTrendTitle">Revenue trend</figcaption>
+              <div class="admin-chart__plot" id="adminRevenueChart"></div>
+            </figure>
+
+            <div class="admin-analytics__grid">
+              <div class="admin-analytics__block" aria-labelledby="salesByCategoryTitle">
+                <h3 id="salesByCategoryTitle" class="admin-analytics__subtitle">Sales by category</h3>
+                <div class="admin-category-list" id="adminSalesByCategory"></div>
+              </div>
+              <div class="admin-analytics__block" aria-labelledby="topProductsTitle">
+                <h3 id="topProductsTitle" class="admin-analytics__subtitle">Top products</h3>
+                <ol class="admin-top-products" id="adminTopProducts"></ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-panel admin-order-stats" id="adminOrderStats" aria-labelledby="orderStatsTitle">
+          <div class="admin-panel__head">
+            <div>
+              <p class="admin-panel__eyebrow">Orders</p>
+              <h2 id="orderStatsTitle">Order statistics</h2>
+            </div>
+            <span class="admin-panel__meta" id="adminOrderStatsMeta"></span>
+          </div>
+
+          <p class="admin-order-state" id="adminOrderStatsState" aria-live="polite">Loading order data…</p>
+
+          <div class="admin-order-stats__grid" id="adminOrderStatsGrid" hidden>
+            <article class="admin-stat">
+              <span class="admin-stat__label">Total orders</span>
+              <strong class="admin-stat__value" id="adminOrderTotal">—</strong>
+              <span class="admin-stat__note">recorded all time</span>
+            </article>
+            <article class="admin-stat">
+              <span class="admin-stat__label">Recent activity</span>
+              <strong class="admin-stat__value" id="adminOrderRecentCount">—</strong>
+              <span class="admin-stat__note">orders in the last 7 days</span>
+            </article>
+            <article class="admin-stat">
+              <span class="admin-stat__label">Avg items / order</span>
+              <strong class="admin-stat__value" id="adminOrderAvgItems">—</strong>
+              <span class="admin-stat__note">units per order</span>
+            </article>
+            <article class="admin-stat">
+              <span class="admin-stat__label">Largest order</span>
+              <strong class="admin-stat__value" id="adminOrderLargest">—</strong>
+              <span class="admin-stat__note" id="adminOrderLargestNote">by order total</span>
+            </article>
+          </div>
+
+          <div class="admin-order-recent" id="adminOrderRecent" hidden>
+            <h3 class="admin-order-recent__title" id="recentOrdersTitle">Recent orders</h3>
+            <div class="admin-order-table-wrap">
+              <table class="admin-order-table" aria-labelledby="recentOrdersTitle">
+                <thead>
+                  <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Units</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody id="adminOrderTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-panel admin-panel--featured" aria-labelledby="featuredProductsTitle">
+          <div class="admin-panel__head">
+            <div>
+              <p class="admin-panel__eyebrow">Merchandising</p>
+              <h2 id="featuredProductsTitle">Featured products</h2>
+            </div>
+            <span class="admin-panel__meta" id="adminFeaturedMeta"></span>
+          </div>
+          <div class="admin-featured-list" id="adminFeaturedList"></div>
+        </section>
+
+        <section class="admin-quick-actions" aria-labelledby="quickActionsTitle">
+          <h2 id="quickActionsTitle">Quick actions</h2>
+          <div class="admin-quick-actions__grid">
+            <a href="index.html" class="admin-action">
+              <span>View storefront</span>
+              <strong>Open shop →</strong>
+            </a>
+            <a href="index.html#top-sellers" class="admin-action">
+              <span>Review merchandising</span>
+              <strong>Top sellers →</strong>
+            </a>
+            <a href="https://www.paypal.com/businessmanage/transactions" class="admin-action" target="_blank" rel="noopener">
+              <span>Manage orders</span>
+              <strong>Open PayPal ↗</strong>
+            </a>
+          </div>
+        </section>
+      </section>
+
+      <p class="admin-loading" id="adminLoading">Checking session…</p>
+    </main>
+
+    <footer class="footer footer--checkout">
+      <p class="footer__copy">© <span id="year"></span> YINSCENT. All rights reserved.</p>
+    </footer>
+
+    <script src="js/paths.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/admin-orders.js"></script>
+  </body>
+</html>
