@@ -44,7 +44,7 @@ module.exports = async function handler(req, res) {
   const added = store.addOrder({
     id: id,
     total: Math.round(total * 100) / 100,
-    currency: String(body.currency || "GBP").slice(0, 3),
+    currency: String(body.currency || "USD").slice(0, 3),
     items: items,
     createdAt: new Date().toISOString(),
   });
