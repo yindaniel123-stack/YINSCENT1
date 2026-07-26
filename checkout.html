@@ -17,72 +17,177 @@
       <a href="index.html" class="header__logo" aria-label="YINSCENT home">
         <img src="assets/logo.png" alt="YINSCENT" width="200" height="154" />
       </a>
-      <a href="index.html" class="checkout-back">← Continue shopping</a>
+      <div class="header__tools">
+        <div class="lang-switch" role="group" aria-label="Language" data-i18n-attr="aria-label:lang.label">
+          <button type="button" class="lang-switch__btn is-active" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" class="lang-switch__btn" data-lang="zh" aria-pressed="false">中文</button>
+          <button type="button" class="lang-switch__btn" data-lang="es" aria-pressed="false">ES</button>
+          <button type="button" class="lang-switch__btn" data-lang="pt" aria-pressed="false">PT</button>
+        </div>
+      </div>
+      <a href="index.html" class="checkout-back" data-i18n="checkout.back">← Continue shopping</a>
     </header>
 
     <main class="checkout" id="checkoutMain">
       <div class="checkout__empty" id="checkoutEmpty" hidden>
-        <h1>Your cart is empty</h1>
-        <p>Add a fragrance you love, then return to checkout.</p>
-        <a href="index.html#fragrances-collection" class="btn btn--gold">Shop fragrances</a>
+        <h1 data-i18n="checkout.empty_title">Your cart is empty</h1>
+        <p data-i18n="checkout.empty_p">Add a fragrance you love, then return to checkout.</p>
+        <a href="index.html#fragrances-collection" class="btn btn--gold" data-i18n="checkout.shop">Shop fragrances</a>
       </div>
 
       <div class="checkout__layout" id="checkoutFormWrap">
         <section class="checkout__form-panel" aria-labelledby="checkoutDetailsTitle">
-          <p class="checkout__eyebrow">Secure checkout</p>
-          <h1 id="checkoutDetailsTitle">Checkout</h1>
-          <p class="checkout__lede">Enter your delivery details, then pay securely with PayPal.</p>
+          <p class="checkout__eyebrow" data-i18n="checkout.secure">Secure checkout</p>
+          <h1 id="checkoutDetailsTitle" data-i18n="checkout.title">Checkout</h1>
+          <p class="checkout__lede" data-i18n="checkout.lede">Enter your delivery details, then pay securely with PayPal.</p>
 
           <form class="checkout-form" id="checkoutForm" novalidate>
             <fieldset>
-              <legend>Contact</legend>
+              <legend data-i18n="checkout.contact">Contact</legend>
               <label>
-                Email
+                <span data-i18n="checkout.email">Email</span>
                 <input type="email" name="email" id="email" autocomplete="email" required />
               </label>
             </fieldset>
 
             <fieldset>
-              <legend>Delivery</legend>
+              <legend data-i18n="checkout.delivery">Delivery</legend>
               <div class="checkout-form__row">
                 <label>
-                  First name
+                  <span data-i18n="checkout.first">First name</span>
                   <input type="text" name="firstName" id="firstName" autocomplete="given-name" required />
                 </label>
                 <label>
-                  Last name
+                  <span data-i18n="checkout.last">Last name</span>
                   <input type="text" name="lastName" id="lastName" autocomplete="family-name" required />
                 </label>
               </div>
               <label>
-                Address
+                <span data-i18n="checkout.address">Address</span>
                 <input type="text" name="address" id="address" autocomplete="street-address" required />
               </label>
               <div class="checkout-form__row">
                 <label>
-                  City
+                  <span data-i18n="checkout.city">City</span>
                   <input type="text" name="city" id="city" autocomplete="address-level2" required />
                 </label>
                 <label>
-                  Postcode
+                  <span data-i18n="checkout.postcode">Postcode</span>
                   <input type="text" name="postcode" id="postcode" autocomplete="postal-code" required />
                 </label>
               </div>
               <label>
-                Country
+                <span data-i18n="checkout.country">Country</span>
                 <select name="country" id="country" autocomplete="country" required>
-                  <option value="GB" selected>United Kingdom</option>
-                  <option value="IE">Ireland</option>
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
+                  <option value="" disabled selected data-i18n="checkout.select_country">Select a country</option>
+                  <option value="AL">Albania</option>
+                  <option value="DZ">Algeria</option>
+                  <option value="AR">Argentina</option>
                   <option value="AU">Australia</option>
+                  <option value="AT">Austria</option>
+                  <option value="BH">Bahrain</option>
+                  <option value="BD">Bangladesh</option>
+                  <option value="BE">Belgium</option>
+                  <option value="BZ">Belize</option>
+                  <option value="BO">Bolivia</option>
+                  <option value="BA">Bosnia and Herzegovina</option>
+                  <option value="BR">Brazil</option>
+                  <option value="BN">Brunei</option>
+                  <option value="BG">Bulgaria</option>
+                  <option value="KH">Cambodia</option>
+                  <option value="CA">Canada</option>
+                  <option value="CL">Chile</option>
+                  <option value="CN">China</option>
+                  <option value="CO">Colombia</option>
+                  <option value="CR">Costa Rica</option>
+                  <option value="HR">Croatia</option>
+                  <option value="CY">Cyprus</option>
+                  <option value="CZ">Czechia</option>
+                  <option value="DK">Denmark</option>
+                  <option value="DO">Dominican Republic</option>
+                  <option value="EC">Ecuador</option>
+                  <option value="EG">Egypt</option>
+                  <option value="SV">El Salvador</option>
+                  <option value="EE">Estonia</option>
+                  <option value="ET">Ethiopia</option>
+                  <option value="FJ">Fiji</option>
+                  <option value="FI">Finland</option>
                   <option value="FR">France</option>
                   <option value="DE">Germany</option>
-                  <option value="ES">Spain</option>
+                  <option value="GH">Ghana</option>
+                  <option value="GR">Greece</option>
+                  <option value="GT">Guatemala</option>
+                  <option value="HN">Honduras</option>
+                  <option value="HK">Hong Kong</option>
+                  <option value="HU">Hungary</option>
+                  <option value="IS">Iceland</option>
+                  <option value="IN">India</option>
+                  <option value="ID">Indonesia</option>
+                  <option value="IE">Ireland</option>
+                  <option value="IL">Israel</option>
                   <option value="IT">Italy</option>
+                  <option value="JM">Jamaica</option>
+                  <option value="JP">Japan</option>
+                  <option value="JO">Jordan</option>
+                  <option value="KZ">Kazakhstan</option>
+                  <option value="KE">Kenya</option>
+                  <option value="KW">Kuwait</option>
+                  <option value="LA">Laos</option>
+                  <option value="LV">Latvia</option>
+                  <option value="LB">Lebanon</option>
+                  <option value="LI">Liechtenstein</option>
+                  <option value="LT">Lithuania</option>
+                  <option value="LU">Luxembourg</option>
+                  <option value="MO">Macao</option>
+                  <option value="MY">Malaysia</option>
+                  <option value="MT">Malta</option>
+                  <option value="MX">Mexico</option>
+                  <option value="MD">Moldova</option>
+                  <option value="ME">Montenegro</option>
+                  <option value="MA">Morocco</option>
+                  <option value="MM">Myanmar</option>
+                  <option value="NP">Nepal</option>
                   <option value="NL">Netherlands</option>
+                  <option value="NZ">New Zealand</option>
+                  <option value="NG">Nigeria</option>
+                  <option value="MK">North Macedonia</option>
+                  <option value="NO">Norway</option>
+                  <option value="OM">Oman</option>
+                  <option value="PK">Pakistan</option>
+                  <option value="PA">Panama</option>
+                  <option value="PG">Papua New Guinea</option>
+                  <option value="PY">Paraguay</option>
+                  <option value="PE">Peru</option>
+                  <option value="PH">Philippines</option>
+                  <option value="PL">Poland</option>
+                  <option value="PT">Portugal</option>
+                  <option value="QA">Qatar</option>
+                  <option value="RO">Romania</option>
+                  <option value="SA">Saudi Arabia</option>
+                  <option value="RS">Serbia</option>
+                  <option value="SG">Singapore</option>
+                  <option value="SK">Slovakia</option>
+                  <option value="SI">Slovenia</option>
+                  <option value="ZA">South Africa</option>
+                  <option value="KR">South Korea</option>
+                  <option value="ES">Spain</option>
+                  <option value="LK">Sri Lanka</option>
+                  <option value="SE">Sweden</option>
+                  <option value="CH">Switzerland</option>
+                  <option value="TW">Taiwan</option>
+                  <option value="TH">Thailand</option>
+                  <option value="TT">Trinidad and Tobago</option>
+                  <option value="TN">Tunisia</option>
+                  <option value="TR">Türkiye</option>
+                  <option value="UA">Ukraine</option>
+                  <option value="AE">United Arab Emirates</option>
+                  <option value="GB">United Kingdom</option>
+                  <option value="US">United States</option>
+                  <option value="UY">Uruguay</option>
+                  <option value="VN">Vietnam</option>
                 </select>
               </label>
+              <p class="checkout-form__hint" data-i18n="checkout.ship_note">We ship worldwide.</p>
             </fieldset>
 
             <p class="checkout-form__error" id="checkoutError" hidden role="alert"></p>
@@ -102,15 +207,15 @@
           <div class="checkout-summary__totals">
             <div class="checkout-summary__row">
               <span>Subtotal</span>
-              <span id="checkoutSubtotal">£0.00</span>
+              <span id="checkoutSubtotal">$0.00</span>
             </div>
             <div class="checkout-summary__row">
               <span>Shipping</span>
-              <span id="checkoutShipping">£0.00</span>
+              <span id="checkoutShipping">$0.00</span>
             </div>
             <div class="checkout-summary__row checkout-summary__row--total">
               <span>Total</span>
-              <strong id="checkoutTotal">£0.00</strong>
+              <strong id="checkoutTotal">$0.00</strong>
             </div>
           </div>
           <p class="checkout-summary__note" id="shippingNote"></p>
@@ -142,6 +247,7 @@
     </footer>
 
     <script src="js/paths.js"></script>
+    <script src="js/i18n.js"></script>
     <script src="js/products.js"></script>
     <script src="js/checkout-config.js"></script>
     <script src="js/checkout.js"></script>

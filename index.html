@@ -12,9 +12,11 @@
     />
     <link rel="stylesheet" href="css/styles.css" />
     <script>
-      if (new URLSearchParams(window.location.search).get("page") === "story") {
-        document.documentElement.classList.add("is-story-page");
-      }
+      (function () {
+        var page = new URLSearchParams(window.location.search).get("page");
+        if (page === "story") document.documentElement.classList.add("is-story-page");
+        if (page === "contact") document.documentElement.classList.add("is-contact-page");
+      })();
     </script>
   </head>
   <body>
@@ -24,6 +26,7 @@
       class="header__menu"
       id="menuOpen"
       aria-label="Open menu"
+      data-i18n-attr="aria-label:nav.menu"
     >
       <span></span><span></span><span></span>
     </button>
@@ -33,7 +36,13 @@
     </a>
 
     <div class="header__tools">
-      <button type="button" class="header__icon" aria-label="Search">
+      <div class="lang-switch" role="group" aria-label="Language" data-i18n-attr="aria-label:lang.label">
+        <button type="button" class="lang-switch__btn is-active" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" class="lang-switch__btn" data-lang="zh" aria-pressed="false">中文</button>
+        <button type="button" class="lang-switch__btn" data-lang="es" aria-pressed="false">ES</button>
+        <button type="button" class="lang-switch__btn" data-lang="pt" aria-pressed="false">PT</button>
+      </div>
+      <button type="button" class="header__icon" aria-label="Search" data-i18n-attr="aria-label:nav.search">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="11" cy="11" r="6" />
           <path d="M20 20l-4.5-4.5" stroke-linecap="round" />
@@ -45,6 +54,7 @@
           class="header__icon"
           id="userMenuToggle"
           aria-label="Account"
+          data-i18n-attr="aria-label:nav.account"
           aria-haspopup="true"
           aria-expanded="false"
         >
@@ -54,9 +64,9 @@
           </svg>
         </button>
         <div class="user-menu__dropdown" id="userMenuDropdown" hidden>
-          <a href="#" class="user-menu__item">My account</a>
-          <a href="#" class="user-menu__item">Orders</a>
-          <a href="admin.html" class="user-menu__item user-menu__item--admin" id="userMenuAdmin" hidden>Admin</a>
+          <a href="#" class="user-menu__item" data-i18n="account.mine">My account</a>
+          <a href="#" class="user-menu__item" data-i18n="account.orders">Orders</a>
+          <a href="admin.html" class="user-menu__item user-menu__item--admin" id="userMenuAdmin" hidden data-i18n="account.admin">Admin</a>
         </div>
       </div>
       <button
@@ -64,6 +74,7 @@
         class="header__icon header__cart-btn"
         id="cartOpen"
         aria-label="Open cart, 0 items"
+        data-i18n-attr="aria-label:nav.cart"
       >
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M6 8h12l-1 14H7L6 8z" stroke-linejoin="round" />
@@ -73,17 +84,18 @@
       </button>
     </div>
 
-    <nav class="header__nav" aria-label="Primary">
-      <a href="#tealights">Tealights</a>
-      <a href="#scented-candles">Candles</a>
-      <a href="#reed-diffusers">Diffusers</a>
-      <a href="#tealight-holders">Holders</a>
-      <a href="#scented-sachets">Sachets</a>
-      <a href="#essential-oils">Oils</a>
-      <a href="#smart-aroma-refills">Refills</a>
-      <a href="#top-sellers">Bestsellers</a>
-      <a href="?page=story">Our story</a>
-      <a href="#promos">Offers</a>
+    <nav class="header__nav" aria-label="Primary" data-i18n-attr="aria-label:nav.primary">
+      <a href="#tealights" data-i18n="nav.tealights">Tealights</a>
+      <a href="#scented-candles" data-i18n="nav.candles">Candles</a>
+      <a href="#reed-diffusers" data-i18n="nav.diffusers">Diffusers</a>
+      <a href="#tealight-holders" data-i18n="nav.holders">Holders</a>
+      <a href="#scented-sachets" data-i18n="nav.sachets">Sachets</a>
+      <a href="#essential-oils" data-i18n="nav.oils">Oils</a>
+      <a href="#smart-aroma-diffusers" data-i18n="nav.smart">Smart diffusers</a>
+      <a href="#smart-aroma-refills" data-i18n="nav.refills">Refills</a>
+      <a href="#top-sellers" data-i18n="nav.bestsellers">Bestsellers</a>
+      <a href="?page=story" data-i18n="nav.story">Our story</a>
+      <a href="#top-sellers" data-i18n="nav.offers">Offers</a>
     </nav>
   </header>
 
@@ -94,33 +106,35 @@
         <a href="#" class="drawer__logo">
           <img src="assets/logo.png" alt="YINSCENT" width="160" height="123" />
         </a>
-        <button type="button" class="drawer__close" id="menuClose" aria-label="Close menu">
+        <button type="button" class="drawer__close" id="menuClose" aria-label="Close menu" data-i18n-attr="aria-label:nav.close">
           ×
         </button>
       </div>
       <nav class="drawer__nav">
-        <a href="#tealights">Tealights</a>
-        <a href="#scented-candles">Candles</a>
-        <a href="#reed-diffusers">Diffusers</a>
-        <a href="#tealight-holders">Holders</a>
-        <a href="#scented-sachets">Sachets</a>
-        <a href="#essential-oils">Oils</a>
-        <a href="#smart-aroma-refills">Refills</a>
-        <a href="#top-sellers">Bestsellers</a>
-        <a href="?page=story">Our story</a>
-        <a href="#promos">Offers</a>
-        <a href="#contact">Contact</a>
+        <a href="#tealights" data-i18n="nav.tealights">Tealights</a>
+        <a href="#scented-candles" data-i18n="nav.candles">Candles</a>
+        <a href="#reed-diffusers" data-i18n="nav.diffusers">Diffusers</a>
+        <a href="#tealight-holders" data-i18n="nav.holders">Holders</a>
+        <a href="#scented-sachets" data-i18n="nav.sachets">Sachets</a>
+        <a href="#essential-oils" data-i18n="nav.oils">Oils</a>
+        <a href="#smart-aroma-diffusers" data-i18n="nav.smart">Smart diffusers</a>
+        <a href="#smart-aroma-refills" data-i18n="nav.refills">Refills</a>
+        <a href="#top-sellers" data-i18n="nav.bestsellers">Bestsellers</a>
+        <a href="?page=story" data-i18n="nav.story">Our story</a>
+        <a href="#top-sellers" data-i18n="nav.offers">Offers</a>
+        <a href="?page=contact" data-i18n="nav.contact">Contact</a>
       </nav>
       <div class="drawer__sub">
-        <h3>Products</h3>
+        <h3 data-i18n="nav.products">Products</h3>
         <ul>
-          <li><a href="#tealights">Scented tealight candles</a></li>
-          <li><a href="#scented-candles">Scented candles</a></li>
-          <li><a href="#reed-diffusers">Reed diffusers</a></li>
-          <li><a href="#tealight-holders">Tealight holders</a></li>
-          <li><a href="#scented-sachets">Scented sachets</a></li>
-          <li><a href="#essential-oils">Essential oils</a></li>
-          <li><a href="#smart-aroma-refills">Smart aroma diffuser refill</a></li>
+          <li><a href="#tealights" data-i18n="nav.tealights_full">Scented tealight candles</a></li>
+          <li><a href="#scented-candles" data-i18n="nav.candles_full">Scented candles</a></li>
+          <li><a href="#reed-diffusers" data-i18n="nav.diffusers_full">Reed diffusers</a></li>
+          <li><a href="#tealight-holders" data-i18n="nav.holders_full">Tealight holders</a></li>
+          <li><a href="#scented-sachets" data-i18n="nav.sachets_full">Scented sachets</a></li>
+          <li><a href="#essential-oils" data-i18n="nav.oils_full">Essential oils</a></li>
+          <li><a href="#smart-aroma-diffusers" data-i18n="nav.smart_full">Smart aroma diffuser</a></li>
+          <li><a href="#smart-aroma-refills" data-i18n="nav.refills_full">Smart aroma diffuser refill</a></li>
         </ul>
       </div>
     </aside>
@@ -128,10 +142,10 @@
 
   <!-- Cart drawer -->
   <div class="overlay" id="cartOverlay" aria-hidden="true">
-    <aside class="drawer drawer--cart" id="cartDrawer" aria-label="Shopping cart">
+    <aside class="drawer drawer--cart" id="cartDrawer" aria-label="Shopping cart" data-i18n-attr="aria-label:cart.aria">
       <div class="drawer__head">
-        <h2>Cart (<span id="cartDrawerCount">0</span>)</h2>
-        <button type="button" class="drawer__close" id="cartClose" aria-label="Close cart">
+        <h2><span data-i18n="cart.title">Cart</span> (<span id="cartDrawerCount">0</span>)</h2>
+        <button type="button" class="drawer__close" id="cartClose" aria-label="Close cart" data-i18n-attr="aria-label:cart.close">
           ×
         </button>
       </div>
@@ -140,20 +154,20 @@
           <path d="M6 8h12l-1 14H7L6 8z" stroke-linejoin="round" />
           <path d="M9 8V6a3 3 0 016 0v2" stroke-linecap="round" />
         </svg>
-        <p>Your cart is empty</p>
-        <a href="#top-sellers" class="btn btn--gold" id="cartContinue">Continue shopping</a>
+        <p data-i18n="cart.empty">Your cart is empty</p>
+        <a href="#top-sellers" class="btn btn--gold" id="cartContinue" data-i18n="cart.continue">Continue shopping</a>
       </div>
       <ul class="cart-list" id="cartList" hidden></ul>
       <div class="cart-summary" id="cartSummary" hidden>
         <div class="cart-summary__row">
-          <span>Subtotal</span>
-          <strong id="cartSubtotal">£0.00</strong>
+          <span data-i18n="cart.subtotal">Subtotal</span>
+          <strong id="cartSubtotal">$0.00</strong>
         </div>
-        <p>Shipping and taxes calculated at checkout.</p>
-        <button type="button" class="btn btn--gold cart-summary__checkout" id="cartCheckout">
+        <p data-i18n="cart.shipping">Shipping and taxes calculated at checkout.</p>
+        <button type="button" class="btn btn--gold cart-summary__checkout" id="cartCheckout" data-i18n="cart.checkout">
           Checkout
         </button>
-        <button type="button" class="cart-summary__clear" id="cartClear">Clear cart</button>
+        <button type="button" class="cart-summary__clear" id="cartClear" data-i18n="cart.clear">Clear cart</button>
       </div>
       <p class="visually-hidden" id="cartStatus" role="status" aria-live="polite"></p>
     </aside>
@@ -163,74 +177,169 @@
 
   <main class="story-page" id="storyDetail" aria-label="Our story">
     <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
-      <a href="index.html">Home</a>
+      <a href="index.html" data-i18n="story.home">Home</a>
       <span aria-hidden="true">/</span>
-      <span>Our story</span>
+      <span data-i18n="story.crumb">Our story</span>
     </nav>
     <div class="story-layout">
       <div class="story-gallery">
         <figure class="story-gallery__main">
           <img
             id="storyMainImage"
-            src="assets/poster.jpg"
-            alt="YINSCENT lavender home collection"
+            src="assets/story-building.jpg"
+            alt="YINSCENT company building in Yiwu"
           />
         </figure>
-        <div class="story-gallery__thumbs" role="tablist" aria-label="Story images">
+        <div class="story-gallery__thumbs" role="tablist" aria-label="Story images" data-i18n-attr="aria-label:story.images">
           <button
             type="button"
             class="story-gallery__thumb is-active"
-            data-src="assets/poster.jpg"
-            data-alt="YINSCENT lavender home collection"
-            aria-label="View image 1 of 2"
+            data-src="assets/story-building.jpg"
+            data-alt="YINSCENT company building in Yiwu"
+            aria-label="View image 1 of 5"
           >
-            <img src="assets/poster.jpg" alt="" width="96" height="96" />
+            <img src="assets/story-building.jpg" alt="" width="96" height="96" />
           </button>
           <button
             type="button"
             class="story-gallery__thumb"
-            data-src="assets/products/lavender-candle-lit.png"
-            data-alt="YINSCENT lavender scented candle"
-            aria-label="View image 2 of 2"
+            data-src="assets/story-facility.jpg"
+            data-alt="YINSCENT manufacturing facility entrance in Yiwu"
+            aria-label="View image 2 of 5"
           >
-            <img src="assets/products/lavender-candle-lit.png" alt="" width="96" height="96" />
+            <img src="assets/story-facility.jpg" alt="" width="96" height="96" />
+          </button>
+          <button
+            type="button"
+            class="story-gallery__thumb"
+            data-src="assets/story-workshop.jpg"
+            data-alt="YINSCENT fragrance production workshop"
+            aria-label="View image 3 of 5"
+          >
+            <img src="assets/story-workshop.jpg" alt="" width="96" height="96" />
+          </button>
+          <button
+            type="button"
+            class="story-gallery__thumb"
+            data-src="assets/story-production.jpg"
+            data-alt="YINSCENT production line filling fragrance products"
+            aria-label="View image 4 of 5"
+          >
+            <img src="assets/story-production.jpg" alt="" width="96" height="96" />
+          </button>
+          <button
+            type="button"
+            class="story-gallery__thumb"
+            data-src="assets/story-packaging.jpg"
+            data-alt="YINSCENT team packaging fragrance products"
+            aria-label="View image 5 of 5"
+          >
+            <img src="assets/story-packaging.jpg" alt="" width="96" height="96" />
           </button>
         </div>
       </div>
       <div class="story-content">
         <p class="story-content__eyebrow">YINSCENT</p>
-        <h1>Our story</h1>
-        <p class="story-content__lede">Because living beautifully is also breathing beautifully.</p>
-        <blockquote>
-          <p>
-            A home transforms when the air tells stories — with
-            <strong>scented candles</strong> and <strong>tealights</strong> that fill every corner with warmth.
-          </p>
-        </blockquote>
-        <p>
-          YINSCENT began with a simple belief: scent is memory. A single flame can recall a summer orchard, a
-          linen-fresh morning, or the calm of lavender at dusk.
+        <h1 data-i18n="story.title">Company Introduction</h1>
+        <p data-i18n="story.p1">
+          Based in Yiwu, China, we are a fragrance company dedicated to enriching everyday life through the power of
+          scent. Supported by our own manufacturing facility, we produce more than 100 high-quality fragrance products
+          designed for a wide range of homes, preferences, and occasions.
         </p>
-        <p>
-          We craft premium wax candles and scented tealights in signature aromas — from crisp apple and romantic rose
-          to fresh ocean breeze and soothing jasmine. Each piece is designed for a clean, long-lasting burn and an
-          atmosphere that feels unmistakably like home.
+        <p data-i18n="story.p2" data-i18n-html="true">
+          Our mission is
+          <strong>to bring fragrance into every home and make scent appreciation a universal lifestyle.</strong>
+          By combining reliable manufacturing, thoughtful product development, and consistent quality, we make beautiful
+          fragrance experiences accessible to customers worldwide.
         </p>
-        <ul class="story-values">
-          <li><span aria-hidden="true">✦</span> Premium quality wax</li>
-          <li><span aria-hidden="true">◷</span> Long-lasting burn</li>
-          <li><span aria-hidden="true">❧</span> Signature aromas</li>
-          <li><span aria-hidden="true">⌂</span> Perfect for any space</li>
-        </ul>
-        <p>
-          Small daily rituals matter. Lighting a candle at the end of the day is our invitation to pause, unwind, and
-          breathe beautifully.
+        <p data-i18n="story.p3">
+          We warmly welcome wholesale inquiries and opportunities for long-term cooperation. Contact our team today to
+          request a quotation and discover the right fragrance products for your market.
         </p>
         <div class="story-content__actions">
-          <a href="index.html#scented-candles" class="btn btn--gold">Shop scented candles</a>
-          <a href="index.html#tealights" class="btn btn--cart">Shop tealights</a>
+          <a href="index.html" class="btn btn--gold" data-i18n="btn.shop">Shop</a>
+          <a href="index.html?page=contact" class="btn btn--cart" data-i18n="nav.contact">Contact</a>
         </div>
-        <a href="index.html" class="story-content__back">← Back to home</a>
+        <a href="index.html" class="story-content__back" data-i18n="story.back">← Back to home</a>
+      </div>
+    </div>
+  </main>
+
+  <main class="contact-page" id="contactDetail" aria-label="Contact" data-i18n-attr="aria-label:contact.aria">
+    <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-i18n="contact.home">Home</a>
+      <span aria-hidden="true">/</span>
+      <span data-i18n="contact.crumb">Contact</span>
+    </nav>
+    <div class="contact-layout">
+      <div class="contact-content">
+        <p class="story-content__eyebrow">YINSCENT</p>
+        <h1 data-i18n="contact.title">CONTACT</h1>
+        <p class="contact-content__intro" data-i18n="contact.intro">
+          We would love to hear from you. Reach out for product questions, wholesale enquiries, or partnership
+          opportunities—our team in Yiwu is happy to help.
+        </p>
+        <p class="contact-content__intro" data-i18n="contact.intro2">
+          When requesting a quotation, please provide your required quantity, delivery address, and contact number
+          so we can prepare an accurate quote for you.
+        </p>
+        <form
+          class="contact-form"
+          id="contactForm"
+          action="https://formsubmit.co/yindaniel123@gmail.com"
+          method="POST"
+          novalidate
+        >
+          <input type="hidden" name="_subject" value="YINSCENT contact" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_next" id="contactNext" value="" />
+          <input type="hidden" name="_url" id="contactUrl" value="" />
+          <p class="contact-form__title" data-i18n="contact.form_title">Send a message</p>
+          <label for="contactName">
+            <span data-i18n="contact.name">Name</span>
+            <input
+              type="text"
+              id="contactName"
+              name="name"
+              autocomplete="name"
+              required
+              data-i18n-placeholder="contact.name_ph"
+              placeholder="Your name"
+            />
+          </label>
+          <label for="contactEmail">
+            <span data-i18n="contact.email">Email</span>
+            <input
+              type="email"
+              id="contactEmail"
+              name="email"
+              autocomplete="email"
+              required
+              data-i18n-placeholder="contact.email_ph"
+              placeholder="Your email"
+            />
+          </label>
+          <label for="contactMessage">
+            <span data-i18n="contact.message">Message</span>
+            <textarea
+              id="contactMessage"
+              name="message"
+              rows="5"
+              required
+              data-i18n-placeholder="contact.message_ph"
+              placeholder="How can we help?"
+            ></textarea>
+          </label>
+          <button type="submit" class="btn btn--gold" data-i18n="contact.submit">Send message</button>
+          <p class="contact-form__thanks" id="contactThanks" hidden tabindex="-1" data-i18n="contact.thanks">
+            Thank you — we will get back to you soon.
+          </p>
+          <p class="contact-form__error" id="contactError" hidden role="alert" data-i18n="contact.error">
+            Sorry — we could not send your message. Please try again.
+          </p>
+        </form>
+        <a href="index.html" class="story-content__back" data-i18n="contact.back">← Back to home</a>
       </div>
     </div>
   </main>
@@ -313,25 +422,25 @@
         </div>
       </div>
       <div class="hero-intro">
-        <p class="hero__badge">Collection</p>
-        <h1>Scented Tealight Candles</h1>
-        <p class="hero__tagline">
-          Fill your space with 12 enchanting aromas — premium wax, long-lasting burn.
+        <p class="hero__badge" data-i18n="hero.badge">Collection</p>
+        <h1 data-i18n="hero.title">Scented Tealight Candles</h1>
+        <p class="hero__tagline" data-i18n="hero.tagline">
+          Contact us for quotation
         </p>
-        <a href="#tealights" class="btn btn--gold">Shop all scents</a>
+        <a href="#tealights" class="btn btn--gold" data-i18n="btn.shop_scents">Shop all scents</a>
       </div>
     </section>
 
     <!-- Scent quick links -->
-    <section class="category-strip" aria-label="Shop by scent">
+    <section class="category-strip" aria-label="Shop by scent" data-i18n-attr="aria-label:scent_strip">
       <div class="category-strip__track" id="categoryTrack"></div>
     </section>
 
     <!-- Top sellers -->
     <section class="section" id="top-sellers">
       <div class="section__head">
-        <h2>Top sellers</h2>
-        <a href="#tealights" class="link-more">View all</a>
+        <h2 data-i18n="top.title">Top sellers</h2>
+        <a href="#tealights" class="link-more" data-i18n="top.view_all">View all</a>
       </div>
       <div class="product-track" id="productTrack"></div>
     </section>
@@ -339,16 +448,16 @@
     <!-- Scented Tealight Candles -->
     <section class="section section--category" id="tealights">
       <div class="category-intro">
-        <p class="category-intro__eyebrow">Shop the range</p>
-        <h2>All scents</h2>
-        <p class="category-intro__lede">
+        <p class="category-intro__eyebrow" data-i18n="cat.shop_range">Shop the range</p>
+        <h2 data-i18n="tealights.title">Tealights</h2>
+        <p class="category-intro__lede" data-i18n="tealights.lede">
           Choose from our full range of signature aromas — premium wax, long-lasting burn.
         </p>
-        <ul class="category-features" aria-label="Product features">
-          <li><span class="category-features__icon" aria-hidden="true">✦</span> Signature aromas</li>
-          <li><span class="category-features__icon" aria-hidden="true">◷</span> Long-lasting burn</li>
-          <li><span class="category-features__icon" aria-hidden="true">❧</span> Premium quality wax</li>
-          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Perfect for any space</li>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="tealights.f1">Signature aromas</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="tealights.f2">Long-lasting burn</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="tealights.f3">Premium quality wax</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="tealights.f4">Perfect for any space</span></li>
         </ul>
       </div>
       <div class="product-grid" id="productGrid"></div>
@@ -357,16 +466,16 @@
     <!-- Scented Candles -->
     <section class="section section--category" id="scented-candles">
       <div class="category-intro">
-        <p class="category-intro__eyebrow">New collection</p>
-        <h2>Scented candles</h2>
-        <p class="category-intro__lede">
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="candles.title">Scented candles</h2>
+        <p class="category-intro__lede" data-i18n="candles.lede">
           Glass jar candles in signature YINSCENT scents — fresh, soft, and made to linger up to 45 hours.
         </p>
-        <ul class="category-features" aria-label="Product features">
-          <li><span class="category-features__icon" aria-hidden="true">☁</span> Fresh cotton</li>
-          <li><span class="category-features__icon" aria-hidden="true">◷</span> Up to 45 hours</li>
-          <li><span class="category-features__icon" aria-hidden="true">❧</span> 260g premium wax</li>
-          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Perfect for any space</li>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">☁</span> <span data-i18n="candles.f1">Fresh cotton</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="candles.f2">Up to 45 hours</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="candles.f3">260g premium wax</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="tealights.f4">Perfect for any space</span></li>
         </ul>
       </div>
       <div class="product-grid product-grid--candles" id="candleGrid"></div>
@@ -375,16 +484,16 @@
     <!-- Reed Diffusers -->
     <section class="section section--category" id="reed-diffusers">
       <div class="category-intro">
-        <p class="category-intro__eyebrow">New collection</p>
-        <h2>Reed diffusers</h2>
-        <p class="category-intro__lede">
-          Flameless home fragrance with natural rattan sticks — sweet, steady scent for up to 8+ weeks.
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="diffusers.title">Reed diffusers</h2>
+        <p class="category-intro__lede" data-i18n="diffusers.lede">
+          Flameless home fragrance with natural rattan sticks — available in 35&nbsp;ml and 100&nbsp;ml. Sweet, steady scent for up to 8+ weeks.
         </p>
-        <ul class="category-features" aria-label="Product features">
-          <li><span class="category-features__icon" aria-hidden="true">❧</span> Natural rattan sticks</li>
-          <li><span class="category-features__icon" aria-hidden="true">◷</span> Up to 8+ weeks</li>
-          <li><span class="category-features__icon" aria-hidden="true">✦</span> Paraben free</li>
-          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Perfect for any space</li>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="diffusers.f1">Natural rattan sticks</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="diffusers.f2">Up to 8+ weeks</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="diffusers.f3">Paraben free</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="tealights.f4">Perfect for any space</span></li>
         </ul>
       </div>
       <div class="product-grid product-grid--candles" id="diffuserGrid"></div>
@@ -393,16 +502,16 @@
     <!-- Tealight Holders -->
     <section class="section section--category" id="tealight-holders">
       <div class="category-intro">
-        <p class="category-intro__eyebrow">New collection</p>
-        <h2>Tealight holders</h2>
-        <p class="category-intro__lede">
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="holders.title">Tealight holders</h2>
+        <p class="category-intro__lede" data-i18n="holders.lede">
           Elegant crystal clear glass holders in four beautiful shapes — sturdy, reusable, and perfect for home, parties, and weddings.
         </p>
-        <ul class="category-features" aria-label="Product features">
-          <li><span class="category-features__icon" aria-hidden="true">◇</span> Crystal clear glass</li>
-          <li><span class="category-features__icon" aria-hidden="true">⛨</span> Sturdy & durable</li>
-          <li><span class="category-features__icon" aria-hidden="true">✦</span> 12 pcs value pack</li>
-          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Fits standard tealights</li>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">◇</span> <span data-i18n="holders.f1">Crystal clear glass</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⛨</span> <span data-i18n="holders.f2">Sturdy & durable</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="holders.f3">12 pcs value pack</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="holders.f4">Fits standard tealights</span></li>
         </ul>
       </div>
       <div class="product-grid product-grid--candles" id="holderGrid"></div>
@@ -411,16 +520,16 @@
     <!-- Scented Sachets -->
     <section class="section section--category" id="scented-sachets">
       <div class="category-intro">
-        <p class="category-intro__eyebrow">New collection</p>
-        <h2>Scented sachets</h2>
-        <p class="category-intro__lede">
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="sachets.title">Scented sachets</h2>
+        <p class="category-intro__lede" data-i18n="sachets.lede">
           Hangable fragrance sachets with natural fragrance oil — long-lasting aroma for closets, drawers, and any small space.
         </p>
-        <ul class="category-features" aria-label="Product features">
-          <li><span class="category-features__icon" aria-hidden="true">❧</span> Natural fragrance oil</li>
-          <li><span class="category-features__icon" aria-hidden="true">◷</span> Long-lasting aroma</li>
-          <li><span class="category-features__icon" aria-hidden="true">✦</span> Built-in hang hook</li>
-          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Ideal for any space</li>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="sachets.f1">Natural fragrance oil</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="sachets.f2">Long-lasting aroma</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="sachets.f3">Built-in hang hook</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="sachets.f4">Ideal for any space</span></li>
         </ul>
       </div>
       <div class="product-grid product-grid--candles" id="sachetGrid"></div>
@@ -429,119 +538,63 @@
     <!-- Essential Oils -->
     <section class="section section--category" id="essential-oils">
       <div class="category-intro">
-        <p class="category-intro__eyebrow">New collection</p>
-        <h2>Essential oils</h2>
-        <p class="category-intro__lede">
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="oils.title">Essential oils</h2>
+        <p class="category-intro__lede" data-i18n="oils.lede">
           Natural &amp; pure home essences — long-lasting aroma for oil burners and ultrasonic diffusers. Pack of 16 bottles.
         </p>
-        <ul class="category-features" aria-label="Product features">
-          <li><span class="category-features__icon" aria-hidden="true">❧</span> Natural &amp; pure essence</li>
-          <li><span class="category-features__icon" aria-hidden="true">⌂</span> Warm &amp; cozy atmosphere</li>
-          <li><span class="category-features__icon" aria-hidden="true">◷</span> Long-lasting aroma</li>
-          <li><span class="category-features__icon" aria-hidden="true">✦</span> For burners &amp; diffusers</li>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="oils.f1">Natural &amp; pure essence</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="oils.f2">Warm &amp; cozy atmosphere</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="sachets.f2">Long-lasting aroma</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="oils.f4">For burners &amp; diffusers</span></li>
         </ul>
       </div>
       <div class="product-grid product-grid--candles" id="oilGrid"></div>
     </section>
 
+    <!-- Smart Aroma Diffusers -->
+    <section class="section section--category" id="smart-aroma-diffusers">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="smart.title">Smart aroma diffuser</h2>
+        <p class="category-intro__lede" data-i18n="smart.lede">
+          Smart cool-mist diffusers with a digital timer and visible scent tank — three designs, one for every space. Pair with our 100&nbsp;ml refills.
+        </p>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="smart.f1">Ultra-fine cool mist</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="smart.f2">Smart timer display</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="smart.f3">Visible scent tank</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="smart.f4">Whisper-quiet operation</span></li>
+        </ul>
+      </div>
+      <div class="product-grid product-grid--candles" id="smartDiffuserGrid"></div>
+    </section>
+
     <!-- Smart Aroma Diffuser Refills -->
     <section class="section section--category" id="smart-aroma-refills">
       <div class="category-intro">
-        <p class="category-intro__eyebrow">New collection</p>
-        <h2>Smart aroma diffuser refill</h2>
-        <p class="category-intro__lede">
-          100&nbsp;ml fragrance refills for smart aroma diffusers — long-lasting scent with an easy-pour tip. Pack of 12 bottles.
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="refills.title">Smart aroma diffuser refill</h2>
+        <p class="category-intro__lede" data-i18n="refills.lede">
+          Fragrance refills for smart aroma diffusers — long-lasting scent with an easy-pour tip. Available in 100&nbsp;ml and 300&nbsp;ml. Pack of 12 bottles.
         </p>
-        <ul class="category-features" aria-label="Product features">
-          <li><span class="category-features__icon" aria-hidden="true">❧</span> Rich fragrance refill</li>
-          <li><span class="category-features__icon" aria-hidden="true">◷</span> 100&nbsp;ml / 3.4&nbsp;fl&nbsp;oz</li>
-          <li><span class="category-features__icon" aria-hidden="true">✦</span> For smart aroma diffusers</li>
-          <li><span class="category-features__icon" aria-hidden="true">⌂</span> 12 pcs display pack</li>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="refills.f1">Rich fragrance refill</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="refills.f2">100&nbsp;ml &amp; 300&nbsp;ml sizes</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="refills.f3">For smart aroma diffusers</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="refills.f4">12 pcs display pack</span></li>
         </ul>
       </div>
       <div class="product-grid product-grid--candles" id="refillGrid"></div>
     </section>
 
-    <!-- Editorial quote -->
-    <section class="editorial" id="scents">
-      <a href="?page=story" class="editorial__link">
-        <div class="editorial__visual">
-          <div class="editorial__img" style="background-image: url('assets/products/lavender.png')"></div>
-        </div>
-        <div class="editorial__copy">
-          <blockquote>
-            <p>
-              A home transforms when the air tells stories — with
-              <strong>scented tealight candles</strong> that fill every corner with warmth.
-            </p>
-          </blockquote>
-          <p>
-            Small daily rituals that stir memory and calm:
-            <strong>apple, lavender, cinnamon, rose</strong> and twelve more signature scents.
-          </p>
-          <p>
-            Premium quality wax, a long-lasting burn, and aromas crafted to make any space feel like home.
-          </p>
-          <p class="editorial__closing">Because living beautifully is also breathing beautifully.</p>
-          <span class="editorial__cta">Read our story →</span>
-        </div>
-      </a>
-    </section>
-
-    <!-- Newsletter -->
-    <section class="newsletter" id="promos">
-      <div class="newsletter__inner">
-        <p class="newsletter__eyebrow">Inspiration every week</p>
-        <h2>Newsletter</h2>
-        <p class="newsletter__lede">
-          Subscribe and receive 20% off your first order.<br />
-          Scents that surprise you each week — new arrivals, home ideas, and launches
-          before anyone else, straight to your inbox.
-        </p>
-        <form class="newsletter__form" id="newsletterForm">
-          <label class="visually-hidden" for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Your email" required />
-          <button type="submit" class="btn btn--gold">Subscribe</button>
-        </form>
-      </div>
-    </section>
-
-    <!-- Inspiration grid -->
-    <section class="section section--inspire" id="products">
-      <div class="section__head section__head--center">
-        <h2>Inspiration</h2>
-        <p class="section__sub">Details that transform spaces</p>
-      </div>
-      <div class="inspire-grid">
-        <a href="#tealights" class="inspire-card inspire-card--wide">
-          <img class="inspire-card__img" src="assets/products/apple.png" alt="Apple tealights" loading="lazy" />
-          <span>Apple</span>
-        </a>
-        <a href="#tealights" class="inspire-card">
-          <img class="inspire-card__img" src="assets/products/cherry.png" alt="Cherry tealights" loading="lazy" />
-          <span>Cherry</span>
-        </a>
-        <a href="#tealights" class="inspire-card">
-          <img class="inspire-card__img" src="assets/products/lavender.png" alt="Lavender tealights" loading="lazy" />
-          <span>Lavender</span>
-        </a>
-        <a href="#tealights" class="inspire-card inspire-card--wide">
-          <img class="inspire-card__img" src="assets/products/ocean.png" alt="Ocean tealights" loading="lazy" />
-          <span>Ocean</span>
-        </a>
-        <a href="#tealights" class="inspire-card">
-          <img class="inspire-card__img" src="assets/products/vanilla.png" alt="Vanilla tealights" loading="lazy" />
-          <span>Vanilla</span>
-        </a>
-      </div>
-    </section>
-
     <!-- Press -->
     <section class="press" id="blog">
       <div class="section__head section__head--center">
-        <h2>As featured in</h2>
-        <p class="section__sub">What the press says about us</p>
-        <a href="#" class="link-more">View more</a>
+        <h2 data-i18n="press.title">As featured in</h2>
+        <p class="section__sub" data-i18n="press.sub">What the press says about us</p>
+        <a href="#" class="link-more" data-i18n="press.more">View more</a>
       </div>
       <div class="press__marquee" aria-hidden="true">
         <div class="press__track">
@@ -568,32 +621,32 @@
     </div>
     <div class="footer__grid">
       <div class="footer__col">
-        <h4>Your account</h4>
-        <a href="#">My account</a>
-        <a href="#">Orders</a>
-        <a href="#">Account details</a>
-        <a href="#">Cart</a>
+        <h4 data-i18n="footer.account">Your account</h4>
+        <a href="#" data-i18n="account.mine">My account</a>
+        <a href="#" data-i18n="account.orders">Orders</a>
+        <a href="#" data-i18n="account.details">Account details</a>
+        <a href="#" data-i18n="account.cart">Cart</a>
       </div>
       <div class="footer__col">
-        <h4>Legal</h4>
-        <a href="#">Terms &amp; conditions</a>
-        <a href="#">Returns</a>
-        <a href="#">Privacy policy</a>
-        <a href="#">Cookie policy</a>
+        <h4 data-i18n="footer.legal">Legal</h4>
+        <a href="#" data-i18n="footer.terms">Terms &amp; conditions</a>
+        <a href="#" data-i18n="footer.returns">Returns</a>
+        <a href="#" data-i18n="footer.privacy">Privacy policy</a>
+        <a href="#" data-i18n="footer.cookies">Cookie policy</a>
       </div>
       <div class="footer__col">
-        <h4>More</h4>
-        <a href="#">Contact</a>
-        <a href="?page=story">About us</a>
-        <a href="#" id="pro">Professional access</a>
-        <a href="#">FAQs</a>
-        <a href="#">Blog</a>
+        <h4 data-i18n="footer.more">More</h4>
+        <a href="?page=contact" data-i18n="footer.contact">Contact</a>
+        <a href="?page=story" data-i18n="footer.about">About us</a>
+        <a href="#" id="pro" data-i18n="footer.pro">Professional access</a>
+        <a href="#" data-i18n="footer.faqs">FAQs</a>
+        <a href="#" data-i18n="footer.blog">Blog</a>
       </div>
       <div class="footer__col">
-        <h4>Discover</h4>
-        <a href="#">Work with us</a>
-        <a href="#">Promo codes</a>
-        <a href="#">Student discount</a>
+        <h4 data-i18n="footer.discover">Discover</h4>
+        <a href="#" data-i18n="footer.work">Work with us</a>
+        <a href="#" data-i18n="footer.promo">Promo codes</a>
+        <a href="#" data-i18n="footer.student">Student discount</a>
       </div>
     </div>
     <div class="footer__social">
@@ -601,14 +654,16 @@
       <a href="#" aria-label="Facebook">Facebook</a>
       <a href="#" aria-label="Pinterest">Pinterest</a>
     </div>
-    <p class="footer__copy">© <span id="year"></span> YINSCENT. All rights reserved.</p>
+    <p class="footer__copy" data-i18n="footer.copy" data-i18n-html="true">© {year} YINSCENT. All rights reserved.</p>
   </footer>
 
   <script src="js/paths.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/products.js"></script>
   <script src="js/main.js"></script>
   <script src="js/product.js"></script>
   <script src="js/story.js"></script>
+  <script src="js/contact.js"></script>
   </body>
 </html>
