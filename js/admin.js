@@ -35,7 +35,7 @@
     document.getElementById("adminProductCount").textContent = String(products.length);
     document.getElementById("adminCategoryCount").textContent = String(categories.length);
     document.getElementById("adminFeaturedCount").textContent = String(featured.length);
-    document.getElementById("adminAveragePrice").textContent = "£" + averagePrice.toFixed(2);
+    document.getElementById("adminAveragePrice").textContent = "$" + averagePrice.toFixed(2);
     document.getElementById("adminFeaturedMeta").textContent =
       featured.length + " product" + (featured.length === 1 ? "" : "s") + " featured";
 
@@ -87,7 +87,7 @@
           (categories.find(function (category) {
             return category.id === productCategory(product);
           }) || { label: "Scented tealight candles" }).label +
-          '</small></span><span class="admin-featured-product__price">£' +
+          '</small></span><span class="admin-featured-product__price">$' +
           Number(product.price).toFixed(2) +
           "</span>";
         featuredList.appendChild(link);
@@ -165,11 +165,11 @@
         var previousAov = previous.orders ? previous.revenue / previous.orders : 0;
 
         var d = deltaText(current.revenue, previous.revenue);
-        setMetric("adminRevenue", "adminRevenueDelta", "£" + current.revenue.toFixed(2), d.text, d.direction);
+        setMetric("adminRevenue", "adminRevenueDelta", "$" + current.revenue.toFixed(2), d.text, d.direction);
         d = deltaText(current.orders, previous.orders);
         setMetric("adminOrders", "adminOrdersDelta", String(current.orders), d.text, d.direction);
         d = deltaText(currentAov, previousAov);
-        setMetric("adminAov", "adminAovDelta", "£" + currentAov.toFixed(2), d.text, d.direction);
+        setMetric("adminAov", "adminAovDelta", "$" + currentAov.toFixed(2), d.text, d.direction);
         d = deltaText(current.units, previous.units);
         setMetric("adminUnits", "adminUnitsDelta", String(current.units), d.text, d.direction);
       })
@@ -178,7 +178,7 @@
           setMetric(
             id,
             id + "Delta",
-            i === 0 || i === 2 ? "£0.00" : "0",
+            i === 0 || i === 2 ? "$0.00" : "0",
             "order data unavailable",
             ""
           );
@@ -296,10 +296,10 @@
     if (!container) return;
     var aov = result.totals.orders ? result.totals.revenue / result.totals.orders : 0;
     var items = [
-      { label: "Revenue", value: "£" + result.totals.revenue.toFixed(2) },
+      { label: "Revenue", value: "$" + result.totals.revenue.toFixed(2) },
       { label: "Orders", value: String(result.totals.orders) },
       { label: "Units sold", value: String(result.totals.units) },
-      { label: "Avg order", value: "£" + aov.toFixed(2) },
+      { label: "Avg order", value: "$" + aov.toFixed(2) },
     ];
     container.innerHTML = items
       .map(function (item) {
@@ -376,7 +376,7 @@
           yAt(b.revenue).toFixed(1) +
           '" r="3"><title>' +
           formatDay(b.end - 1) +
-          ": £" +
+          ": $" +
           b.revenue.toFixed(2) +
           "</title></circle>"
         );
@@ -407,7 +407,7 @@
     var ariaLabel =
       "Revenue trend over the last " +
       result.days +
-      " days. Peak £" +
+      " days. Peak $" +
       maxRev.toFixed(2) +
       " per " +
       (result.bucketDays === 1 ? "day" : "week") +
@@ -442,7 +442,7 @@
       "</caption><thead><tr><th>Period ending</th><th>Revenue</th></tr></thead><tbody>" +
       buckets
         .map(function (b) {
-          return "<tr><td>" + formatDay(b.end - 1) + "</td><td>£" + b.revenue.toFixed(2) + "</td></tr>";
+          return "<tr><td>" + formatDay(b.end - 1) + "</td><td>$" + b.revenue.toFixed(2) + "</td></tr>";
         })
         .join("") +
       "</tbody></table>";
@@ -473,7 +473,7 @@
         return (
           '<div class="admin-category-row"><div class="admin-category-row__text"><span>' +
           escapeHtml(entry.label) +
-          "</span><strong>£" +
+          "</span><strong>$" +
           entry.revenue.toFixed(2) +
           '</strong></div><div class="admin-category-row__track"><span style="width:' +
           pct +
@@ -508,7 +508,7 @@
           " unit" +
           (entry.units === 1 ? "" : "s") +
           " sold</small></span>" +
-          '<span class="admin-top-products__value">£' +
+          '<span class="admin-top-products__value">$' +
           entry.revenue.toFixed(2) +
           "</span></li>"
         );

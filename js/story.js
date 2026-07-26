@@ -2,7 +2,15 @@
   if (new URLSearchParams(window.location.search).get("page") !== "story") return;
 
   document.body.classList.add("page-story");
-  document.title = "YINSCENT — Our Story";
+  function setStoryTitle() {
+    if (window.YINSCENT_I18N && window.YINSCENT_I18N.t) {
+      document.title = window.YINSCENT_I18N.t("meta.story");
+    } else {
+      document.title = "YINSCENT — Our Story";
+    }
+  }
+  setStoryTitle();
+  window.addEventListener("yinscent:langchange", setStoryTitle);
 
   var mainImg = document.getElementById("storyMainImage");
   var thumbs = document.querySelectorAll(".story-gallery__thumb");

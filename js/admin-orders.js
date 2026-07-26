@@ -25,7 +25,7 @@
 
   function money(amount, currency) {
     var value = (Number(amount) || 0).toFixed(2);
-    if (!currency || currency === "GBP") return "£" + value;
+    if (!currency || currency === "USD") return "$" + value;
     return currency + " " + value;
   }
 

@@ -7,6 +7,18 @@
     { id: "tealights", label: "Scented tealight candles", anchor: "#tealights", gridId: "productGrid" },
   ];
 
+  function i18n() {
+    return window.YINSCENT_I18N;
+  }
+
+  function tr(key, vars) {
+    return i18n() && i18n().t ? i18n().t(key, vars) : key;
+  }
+
+  function locProduct(p) {
+    return i18n() && i18n().localizeProduct ? i18n().localizeProduct(p) : p;
+  }
+
   var categoryById = {};
   categories.forEach(function (c) {
     categoryById[c.id] = c;
@@ -17,7 +29,9 @@
   }
 
   function categoryLabel(p) {
-    var cat = categoryById[productCategory(p)];
+    var id = productCategory(p);
+    if (i18n() && i18n().categoryLabel) return i18n().categoryLabel(id);
+    var cat = categoryById[id];
     return cat ? cat.label : "Scented tealight candles";
   }
 
@@ -42,48 +56,45 @@
   }
 
   function productFullName(p) {
-    if (p.cartName) return p.cartName;
+    var lp = locProduct(p);
+    if (lp.cartName) return lp.cartName;
+    var name = lp.name;
     if (productCategory(p) === "scented-candles") {
-      return "Scented Candle — " + p.name;
+      return tr("cat.scented-candles").replace(/s$/, "") + " — " + name;
     }
     if (productCategory(p) === "reed-diffusers") {
-      return "Reed Diffuser — " + p.name;
+      return tr("cat.reed-diffusers").replace(/s$/, "") + " — " + name;
     }
     if (productCategory(p) === "tealight-holders") {
-      return "Tealight Holder — " + p.name.replace(" — 12 Pack", "");
+      return tr("cat.tealight-holders").replace(/s$/, "") + " — " + name.replace(" — 12 Pack", "").replace(" — 12 件装", "");
     }
     if (productCategory(p) === "scented-sachets") {
-      return "Scented Sachet — " + p.name;
+      return tr("cat.scented-sachets").replace(/s$/, "") + " — " + name;
     }
     if (productCategory(p) === "essential-oils") {
-      return "Essential Oil — " + p.name;
+      return tr("cat.essential-oils").replace(/s$/, "") + " — " + name;
     }
     if (productCategory(p) === "smart-aroma-refills") {
-      return "Smart Aroma Diffuser Refill — " + p.name;
+      return tr("cat.smart-aroma-refills") + " — " + name;
     }
-    return "Scented Tealight Candles — " + p.name;
+    if (productCategory(p) === "smart-aroma-diffusers") {
+      return tr("cat.smart-aroma-diffusers") + " — " + name;
+    }
+    return tr("cat.tealights") + " — " + name;
   }
 
   function productAlt(p) {
-    if (productCategory(p) === "scented-candles") {
-      return "YINSCENT " + p.name + " scented candle";
-    }
-    if (productCategory(p) === "reed-diffusers") {
-      return "YINSCENT " + p.name + " reed diffuser";
-    }
-    if (productCategory(p) === "tealight-holders") {
-      return "YINSCENT " + p.name.replace(" — 12 Pack", "") + " tealight holder";
-    }
-    if (productCategory(p) === "scented-sachets") {
-      return "YINSCENT " + p.name + " scented sachet";
-    }
-    if (productCategory(p) === "essential-oils") {
-      return "YINSCENT " + p.name + " essential oil";
-    }
-    if (productCategory(p) === "smart-aroma-refills") {
-      return "YINSCENT " + p.name + " smart aroma diffuser refill";
-    }
-    return "YINSCENT " + p.name + " scented tealight candles";
+    var lp = locProduct(p);
+    return "YINSCENT " + lp.name + " " + categoryLabel(p);
+  }
+
+  function sortByName(list) {
+    return list.slice().sort(function (a, b) {
+      return String(a.name || "").localeCompare(String(b.name || ""), undefined, {
+        sensitivity: "base",
+        numeric: true,
+      });
+    });
   }
 
   function isLandscapeProduct(catId) {
@@ -93,11 +104,24 @@
       catId === "tealight-holders" ||
       catId === "scented-sachets" ||
       catId === "essential-oils" ||
-      catId === "smart-aroma-refills"
+      catId === "smart-aroma-refills" ||
+      catId === "smart-aroma-diffusers"
     );
   }
 
+  function catSuffix(catId) {
+    if (catId === "scented-candles") return tr("suffix.candle");
+    if (catId === "reed-diffusers") return tr("suffix.diffuser");
+    if (catId === "tealight-holders") return tr("suffix.holder");
+    if (catId === "scented-sachets") return tr("suffix.sachet");
+    if (catId === "essential-oils") return tr("suffix.oil");
+    if (catId === "smart-aroma-refills") return tr("suffix.refill");
+    if (catId === "smart-aroma-diffusers") return tr("suffix.smart");
+    return "";
+  }
+
   function renderProductCard(p, grid) {
+    var lp = locProduct(p);
     var article = document.createElement("article");
     var catId = productCategory(p);
     article.className =
@@ -111,75 +135,88 @@
     article.innerHTML =
       '<a href="' + productUrl(p) + '" class="product__img-wrap">' +
       '<img class="product__img" src="' + productThumb(p) + '" alt="' + productAlt(p) + '" loading="lazy" />' +
-      '<button type="button" class="product__wish" aria-label="Add to wishlist">♡</button>' +
+      '<button type="button" class="product__wish" aria-label="' + tr("btn.wish") + '">♡</button>' +
       "</a>" +
       '<p class="product__cat">' + categoryLabel(p) + "</p>" +
-      '<h3 class="product__name"><a href="' + productUrl(p) + '">' + p.name + "</a></h3>" +
-      (grid ? '<p class="product__desc">' + p.desc + "</p>" : "") +
-      '<p class="product__price">£' + p.price + "</p>" +
-      '<button type="button" class="btn btn--cart add-to-cart">Add to cart</button>';
+      '<h3 class="product__name"><a href="' + productUrl(p) + '">' + lp.name + "</a></h3>" +
+      (grid ? '<p class="product__desc">' + lp.desc + "</p>" : "") +
+      '<p class="product__price">$' + p.price + "</p>" +
+      '<button type="button" class="btn btn--cart add-to-cart">' + tr("btn.add") + "</button>";
 
     return article;
+  }
+
+  function clearCatalog() {
+    var track = document.getElementById("categoryTrack");
+    var topTrack = document.getElementById("productTrack");
+    if (track) track.innerHTML = "";
+    if (topTrack) topTrack.innerHTML = "";
+    categories.forEach(function (cat) {
+      var grid = document.getElementById(cat.gridId);
+      if (grid) grid.innerHTML = "";
+    });
   }
 
   function renderCatalog() {
     var track = document.getElementById("categoryTrack");
     var topTrack = document.getElementById("productTrack");
+    var sortedProducts = sortByName(products);
 
     if (track) {
-      products.forEach(function (p, i) {
+      sortedProducts.forEach(function (p, i) {
+        var lp = locProduct(p);
         var a = document.createElement("a");
         a.href = productUrl(p);
         a.className = "category-pill" + (i === 0 ? " is-active" : "");
         a.innerHTML =
           '<img class="category-pill__img" src="' + productThumb(p) + '" alt="" width="72" height="72" />' +
           "<span>" +
-          p.name +
-          (productCategory(p) === "scented-candles"
-            ? " · Candle"
-            : productCategory(p) === "reed-diffusers"
-              ? " · Diffuser"
-              : productCategory(p) === "tealight-holders"
-                ? " · Holder"
-                : productCategory(p) === "scented-sachets"
-                  ? " · Sachet"
-                  : productCategory(p) === "essential-oils"
-                    ? " · Oil"
-                    : productCategory(p) === "smart-aroma-refills"
-                      ? " · Refill"
-                      : "") +
+          lp.name +
+          catSuffix(productCategory(p)) +
           "</span>";
         track.appendChild(a);
       });
     }
 
     if (topTrack) {
-      products
-        .filter(function (p) {
+      sortByName(
+        products.filter(function (p) {
           return p.featured;
         })
-        .forEach(function (p) {
-          topTrack.appendChild(renderProductCard(p, false));
-        });
+      ).forEach(function (p) {
+        topTrack.appendChild(renderProductCard(p, false));
+      });
     }
 
     categories.forEach(function (cat) {
       var grid = document.getElementById(cat.gridId);
       if (!grid) return;
-      products
-        .filter(function (p) {
+      sortByName(
+        products.filter(function (p) {
           return productCategory(p) === cat.id;
         })
-        .forEach(function (p) {
-          grid.appendChild(renderProductCard(p, true));
-        });
+      ).forEach(function (p) {
+        grid.appendChild(renderProductCard(p, true));
+      });
     });
   }
 
   var pageParams = new URLSearchParams(window.location.search);
-  if (!pageParams.get("id") && pageParams.get("page") !== "story") {
+  var detailPage = pageParams.get("page");
+  var isDetailView = Boolean(pageParams.get("id")) || detailPage === "story" || detailPage === "contact";
+  if (!isDetailView) {
     renderCatalog();
   }
+
+  window.addEventListener("yinscent:langchange", function () {
+    if (!isDetailView) {
+      clearCatalog();
+      renderCatalog();
+    }
+    if (typeof window.YINSCENT_refreshCartLabels === "function") {
+      window.YINSCENT_refreshCartLabels();
+    }
+  });
 
   /* Hidden admin access: click the footer copyright line 5 times within 3s */
   var adminTapTarget = document.querySelector(".footer__copy");
@@ -278,7 +315,7 @@
   }
 
   function formatMoney(value) {
-    return "£" + Number(value).toFixed(2);
+    return "$" + Number(value).toFixed(2);
   }
 
   function loadCart() {
@@ -324,7 +361,7 @@
     }
     if (cartDrawerCount) cartDrawerCount.textContent = String(n);
     if (cartOpen) {
-      cartOpen.setAttribute("aria-label", "Open cart, " + n + " item" + (n === 1 ? "" : "s"));
+      cartOpen.setAttribute("aria-label", tr("nav.cart", { n: n }));
     }
     if (cartEmpty) cartEmpty.hidden = n > 0;
     if (cartSummary) cartSummary.hidden = n === 0;
@@ -497,7 +534,7 @@
       e.stopPropagation();
       var on = wishBtn.classList.toggle("is-active");
       wishBtn.textContent = on ? "♥" : "♡";
-      wishBtn.setAttribute("aria-label", on ? "Remove from wishlist" : "Add to wishlist");
+      wishBtn.setAttribute("aria-label", on ? tr("btn.unwish") : tr("btn.wish"));
     }
   });
 

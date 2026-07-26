@@ -5,9 +5,23 @@
   var products = window.YINSCENT_PRODUCTS || [];
   var base = window.YINSCENT_BASE || "/";
   var cartStorageKey = "yinscent-cart-v1";
-  var currency = window.YINSCENT_PAYPAL_CURRENCY || "GBP";
+  var currency = window.YINSCENT_PAYPAL_CURRENCY || "USD";
   var flatShipping = Number(window.YINSCENT_SHIPPING_FLAT || 0);
   var freeShippingMin = Number(window.YINSCENT_FREE_SHIPPING_MIN || 0);
+  /* Worldwide shipping — keep in sync with checkout.html country options. */
+  var shippableCountries = {
+    AE: 1, AL: 1, AR: 1, AT: 1, AU: 1, BA: 1, BD: 1, BE: 1, BG: 1, BH: 1,
+    BN: 1, BO: 1, BR: 1, BZ: 1, CA: 1, CH: 1, CL: 1, CN: 1, CO: 1, CR: 1,
+    CY: 1, CZ: 1, DE: 1, DK: 1, DO: 1, DZ: 1, EC: 1, EE: 1, EG: 1, ES: 1,
+    ET: 1, FI: 1, FJ: 1, FR: 1, GB: 1, GH: 1, GR: 1, GT: 1, HK: 1, HN: 1,
+    HR: 1, HU: 1, ID: 1, IE: 1, IL: 1, IN: 1, IS: 1, IT: 1, JM: 1, JO: 1,
+    JP: 1, KE: 1, KH: 1, KR: 1, KW: 1, KZ: 1, LA: 1, LB: 1, LI: 1, LK: 1,
+    LT: 1, LU: 1, LV: 1, MA: 1, MD: 1, ME: 1, MK: 1, MM: 1, MO: 1, MT: 1,
+    MX: 1, MY: 1, NG: 1, NL: 1, NO: 1, NP: 1, NZ: 1, OM: 1, PA: 1, PE: 1,
+    PG: 1, PH: 1, PK: 1, PL: 1, PT: 1, PY: 1, QA: 1, RO: 1, RS: 1, SA: 1,
+    SE: 1, SG: 1, SI: 1, SK: 1, SV: 1, TH: 1, TN: 1, TR: 1, TT: 1, TW: 1,
+    UA: 1, US: 1, UY: 1, VN: 1, ZA: 1,
+  };
   var clientId = window.YINSCENT_PAYPAL_CLIENT_ID || "";
 
   var emptyEl = document.getElementById("checkoutEmpty");
@@ -54,7 +68,7 @@
   }
 
   function formatMoney(value) {
-    return "£" + Number(value).toFixed(2);
+    return "$" + Number(value).toFixed(2);
   }
 
   function loadCart() {
@@ -122,9 +136,9 @@
     shippingEl.textContent = totals.shipping === 0 ? "Free" : formatMoney(totals.shipping);
     totalEl.textContent = formatMoney(totals.total);
     shippingNote.textContent =
-      freeShippingMin > 0
-        ? "Free shipping on orders over " + formatMoney(freeShippingMin) + "."
-        : "";
+      (freeShippingMin > 0
+        ? "Free shipping on orders over " + formatMoney(freeShippingMin) + ". "
+        : "") + "We ship worldwide.";
   }
 
   function showError(message) {
@@ -155,6 +169,12 @@
       form.elements.email.focus();
       return false;
     }
+    var country = String(form.elements.country.value || "").trim().toUpperCase();
+    if (!shippableCountries[country]) {
+      showError("Please select a delivery country from the list.");
+      form.elements.country.focus();
+      return false;
+    }
     showError("");
     return true;
   }
@@ -167,7 +187,7 @@
       address: String(form.elements.address.value || "").trim(),
       city: String(form.elements.city.value || "").trim(),
       postcode: String(form.elements.postcode.value || "").trim(),
-      country: String(form.elements.country.value || "GB").trim(),
+      country: String(form.elements.country.value || "").trim().toUpperCase(),
     };
   }
 
@@ -220,7 +240,7 @@
       encodeURIComponent(clientId) +
       "&currency=" +
       encodeURIComponent(currency) +
-      "&intent=capture&components=buttons";
+      "&intent=capture&components=buttons&disable-funding=paylater";
     script.onload = cb;
     script.onerror = function () {
       if (paypalStatus) {
