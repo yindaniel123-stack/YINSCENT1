@@ -83,8 +83,9 @@ const server = http.createServer(function (req, res) {
   }
 
   if (urlPath.startsWith("/api/")) {
-    const handlerPath = insideRoot(urlPath.replace(/\/$/, "") + ".js");
-    const apiRoot = path.resolve(root, "api");
+    const rel = urlPath.replace(/^\/api\/?/, "").replace(/\/$/, "");
+    const handlerPath = insideRoot(path.join("api", "_routes", rel + ".js"));
+    const apiRoot = path.resolve(root, "api", "_routes");
     if (!handlerPath || !handlerPath.startsWith(apiRoot + path.sep) || !fs.existsSync(handlerPath)) {
       res.writeHead(404, { "Content-Type": "application/json" });
       return res.end(JSON.stringify({ error: "Not found" }));
