@@ -7,7 +7,9 @@
 const crypto = require("crypto");
 
 const COOKIE_NAME = "yinscent_admin";
+const MEMBER_COOKIE = "yinscent_user";
 const SESSION_TTL_SECONDS = 8 * 60 * 60;
+const MEMBER_TTL_SECONDS = 14 * 24 * 60 * 60;
 
 function getSecret() {
   const explicit = process.env.ADMIN_SESSION_SECRET;
@@ -15,6 +17,13 @@ function getSecret() {
   const password = process.env.ADMIN_PASSWORD;
   if (!password) return null;
   return crypto.createHash("sha256").update("yinscent-session:" + password).digest("hex");
+}
+
+function memberSecret() {
+  if (process.env.AUTH_SECRET) return process.env.AUTH_SECRET;
+  const password = process.env.ADMIN_PASSWORD;
+  if (!password) return null;
+  return crypto.createHash("sha256").update("yinscent-member:" + password).digest("hex");
 }
 
 function sign(value, secret) {
@@ -26,6 +35,50 @@ function createToken() {
   if (!secret) return null;
   const payload = String(Date.now() + SESSION_TTL_SECONDS * 1000);
   return payload + "." + sign(payload, secret);
+}
+
+function createAdminToken(admin) {
+  const secret = getSecret();
+  if (!secret || !admin) return null;
+  const payload = Buffer.from(JSON.stringify({
+    id: admin.id || "super",
+    sv: Number(admin.sessionVersion) || 0,
+    super: !admin.id || admin.id === "super",
+    exp: Date.now() + SESSION_TTL_SECONDS * 1000,
+  })).toString("base64url");
+  return payload + "." + sign(payload, secret);
+}
+
+function superAdmin() {
+  return {
+    id: "super",
+    username: "admin",
+    name: "超级管理员",
+    super: true,
+    permissions: require("./permissions").list(),
+  };
+}
+
+function readAdmin(req) {
+  const token = parseCookies(req)[COOKIE_NAME];
+  const secret = getSecret();
+  if (!token || !secret) return null;
+  const data = readSignedPayload(token, secret);
+  if (data && Number(data.exp) > Date.now() && data.id) {
+    if (data.super || data.id === "super") return superAdmin();
+    const admin = require("./admins").findById(data.id);
+    if (!admin || admin.disabled) return null;
+    if (Number(data.sv) !== Number(admin.sessionVersion || 0)) return null;
+    return {
+      id: admin.id,
+      username: admin.username,
+      name: admin.name || admin.username,
+      super: false,
+      permissions: require("./permissions").normalize(admin.permissions),
+    };
+  }
+  if (verifyToken(token)) return superAdmin();
+  return null;
 }
 
 function verifyToken(token) {
@@ -54,15 +107,59 @@ function parseCookies(req) {
   return cookies;
 }
 
-/* The authorization gate: any admin API should return 401 when this is false. */
-function isAuthorized(req) {
-  return verifyToken(parseCookies(req)[COOKIE_NAME]);
+function safeEqualText(given, expected) {
+  const a = Buffer.from(String(given));
+  const b = Buffer.from(String(expected));
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 
-function cookieAttributes(req) {
+function readSignedPayload(token, secret) {
+  if (!secret || !token) return null;
+  const dot = token.lastIndexOf(".");
+  if (dot < 1) return null;
+  const payload = token.slice(0, dot);
+  const expected = sign(payload, secret);
+  if (!safeEqualText(token.slice(dot + 1), expected)) return null;
+  try {
+    return JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
+  } catch (e) {
+    return null;
+  }
+}
+
+function createMemberToken(userId, sessionVersion) {
+  const secret = memberSecret();
+  if (!secret || !userId) return null;
+  const payload = Buffer.from(
+    JSON.stringify({
+      sub: userId,
+      sv: Number(sessionVersion) || 0,
+      exp: Date.now() + MEMBER_TTL_SECONDS * 1000,
+    })
+  ).toString("base64url");
+  return payload + "." + sign(payload, secret);
+}
+
+function readMember(req) {
+  const data = readSignedPayload(parseCookies(req)[MEMBER_COOKIE], memberSecret());
+  if (!data || !data.sub || Number(data.exp) <= Date.now()) return null;
+  return data;
+}
+
+/* Admin password session, or a member whose stored role is admin. */
+function isAuthorized(req) {
+  if (readAdmin(req)) return true;
+  const member = readMember(req);
+  if (!member) return false;
+  const user = require("./users").findById(member.sub);
+  if (!user || user.disabled || user.role !== "admin") return false;
+  return Number(member.sv) === Number(user.sessionVersion || 0);
+}
+
+function cookieAttributes(req, sameSite) {
   const host = (req.headers.host || "").split(":")[0];
-  const isLocal = host === "localhost" || host === "127.0.0.1";
-  return "Path=/; HttpOnly; SameSite=Strict" + (isLocal ? "" : "; Secure");
+  const isLocal = host === "localhost" || host === "127.0.0.1" || host === "::1";
+  return "Path=/; HttpOnly; SameSite=" + (sameSite || "Strict") + (isLocal ? "" : "; Secure");
 }
 
 function sessionCookie(req, token) {
@@ -71,6 +168,26 @@ function sessionCookie(req, token) {
 
 function clearCookie(req) {
   return COOKIE_NAME + "=; Max-Age=0; " + cookieAttributes(req);
+}
+
+function memberCookie(req, token) {
+  return (
+    MEMBER_COOKIE +
+    "=" +
+    token +
+    "; Max-Age=" +
+    MEMBER_TTL_SECONDS +
+    "; " +
+    cookieAttributes(req, "Lax")
+  );
+}
+
+function clearMemberCookie(req) {
+  return MEMBER_COOKIE + "=; Max-Age=0; " + cookieAttributes(req, "Lax");
+}
+
+function tempCookie(req, name, value, maxAge) {
+  return name + "=" + encodeURIComponent(value) + "; Max-Age=" + maxAge + "; " + cookieAttributes(req, "Lax");
 }
 
 function sendJson(res, status, body) {
@@ -93,9 +210,17 @@ async function readJsonBody(req) {
 
 module.exports = {
   createToken,
+  createAdminToken,
+  createMemberToken,
+  readMember,
+  readAdmin,
   isAuthorized,
   sessionCookie,
   clearCookie,
+  memberCookie,
+  clearMemberCookie,
+  tempCookie,
+  parseCookies,
   sendJson,
   readJsonBody,
 };

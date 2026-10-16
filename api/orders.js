@@ -1,8 +1,11 @@
 const session = require("./_lib/session");
 const store = require("./_lib/orders");
+const notices = require("./_lib/notices");
+const mailer = require("./_lib/mail");
+const { currentUser } = require("./_lib/access");
 
 /*
- * POST: record a completed order (called by checkout after PayPal capture).
+ * POST: record a completed order (legacy; storefront checkout is disabled).
  *       Stores no personal data - just order id, totals, and line items.
  * GET:  list recorded orders. Admin session required.
  */
@@ -17,6 +20,9 @@ module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return session.sendJson(res, 405, { error: "Method not allowed" });
   }
+
+  const member = currentUser(req);
+  if (!member) return session.sendJson(res, 401, { error: "unauthorized", login: "/login.html" });
 
   let body;
   try {
@@ -44,10 +50,18 @@ module.exports = async function handler(req, res) {
   const added = store.addOrder({
     id: id,
     total: Math.round(total * 100) / 100,
-    currency: String(body.currency || "USD").slice(0, 3),
+    currency: String(body.currency || "CNY").slice(0, 3),
     items: items,
+    userId: member.id,
+    customerName: member.name || member.username || "",
+    phone: member.phone || "",
+    email: member.email || "",
+    status: "已提交",
+    orderStatus: "待付款",
+    payStatus: "未付款",
     createdAt: new Date().toISOString(),
   });
+  if (added) notices.orderCreated(store.readOrders().filter(function (order) { return order.id === id; })[0] || { id: id }, mailer.origin(req)).catch(function () {});
 
   return session.sendJson(res, added ? 201 : 200, { ok: true });
 };
