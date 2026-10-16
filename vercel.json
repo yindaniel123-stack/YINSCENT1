@@ -2,6 +2,8 @@
   "rewrites": [
     { "source": "/product.html", "destination": "/index.html" },
     { "source": "/story.html", "destination": "/index.html" },
-    { "source": "/story", "destination": "/index.html" }
+    { "source": "/story", "destination": "/index.html" },
+    { "source": "/checkout.html", "destination": "/index.html" },
+    { "source": "/checkout", "destination": "/index.html" }
   ]
 }

@@ -25,8 +25,10 @@
 
   function money(amount, currency) {
     var value = (Number(amount) || 0).toFixed(2);
-    if (!currency || currency === "USD") return "$" + value;
-    return currency + " " + value;
+    var code = currency || "CNY";
+    if (code === "CNY") return "¥" + value;
+    if (code === "USD") return "$" + value;
+    return code + " " + value;
   }
 
   function orderUnits(order) {
@@ -65,7 +67,7 @@
 
   function render(orders) {
     if (!orders.length) {
-      showState("No orders recorded yet. Completed checkouts will appear here.", false, false);
+      showState("No orders recorded yet.", false, false);
       if (metaEl) metaEl.textContent = "";
       return;
     }

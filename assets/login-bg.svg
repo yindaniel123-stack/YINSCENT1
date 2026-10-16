@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+  <rect width="1440" height="900" fill="#f4efe6"/>
+  <g fill="#e7d7b8" opacity="0.72" filter="url(#blur)">
+    <ellipse cx="120" cy="140" rx="220" ry="150"/>
+    <ellipse cx="1320" cy="180" rx="240" ry="160"/>
+    <ellipse cx="160" cy="780" rx="260" ry="170"/>
+    <ellipse cx="1280" cy="760" rx="250" ry="160"/>
+    <ellipse cx="720" cy="40" rx="180" ry="90"/>
+  </g>
+  <g fill="#ead9b4" opacity="0.45">
+    <path d="M70 210c70-90 170-70 150 20-70 8-120-10-150-20z"/>
+    <path d="M1220 90c80-40 160 20 120 90-70-10-110-40-120-90z"/>
+    <path d="M80 720c90-50 160 10 130 80-60-6-100-36-130-80z"/>
+    <path d="M1240 700c-30-80 70-130 140-70-20 50-70 80-140 70z"/>
+  </g>
+  <g fill="none" stroke="#c9b48a" stroke-width="1.6" opacity="0.7" stroke-linecap="round">
+    <path d="M80 220c40-70 120-90 150-30-50 10-90 40-150 30z"/>
+    <path d="M70 250c30 40 20 90-20 110"/>
+    <path d="M210 90c-30 50-10 110 40 130"/>
+    <path d="M250 120c40-20 70 10 60 50"/>
+    <path d="M1180 120c50-40 130-20 150 40-60 8-110-10-150-40z"/>
+    <path d="M1240 160c10 50-10 90-40 110"/>
+    <path d="M1360 260c-40 30-90 20-110-20"/>
+    <path d="M90 700c60-30 110 20 90 80-40-10-70-40-90-80z"/>
+    <path d="M160 760c20 40 10 80-30 100"/>
+    <path d="M1260 680c-20-60 40-110 100-90-10 40-50 70-100 90z"/>
+    <path d="M1320 720c30 30 20 70-10 90"/>
+    <path d="M40 420c50-20 80 20 60 60"/>
+    <path d="M1400 480c-40-30-20-80 20-100"/>
+  </g>
+  <defs>
+    <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+</svg>

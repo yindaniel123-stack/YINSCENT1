@@ -1,0 +1,8 @@
+{
+  "name": "yinscent",
+  "private": true,
+  "dependencies": {
+    "google-libphonenumber": "^3.2.40",
+    "hash-wasm": "^4.12.0"
+  }
+}

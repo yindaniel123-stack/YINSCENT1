@@ -1,95 +1,258 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin sign in — YINSCENT</title>
+    <title>登录 — YINSCENT</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css" />
-    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="css/styles.css?v=73" />
   </head>
-  <body class="page-checkout">
-    <header class="header header--checkout">
-      <a href="index.html" class="header__logo" aria-label="YINSCENT home">
-        <img src="assets/logo.png" alt="YINSCENT" width="200" height="154" />
-      </a>
-      <a href="index.html" class="checkout-back">← Back to shop</a>
-    </header>
+  <body class="login-page">
+    <div class="login-lang lang-switch" role="group" aria-label="Language">
+      <button type="button" class="lang-switch__btn" data-lang="en">EN</button>
+      <button type="button" class="lang-switch__btn" data-lang="zh">简体中文</button>
+      <button type="button" class="lang-switch__btn" data-lang="zh-Hant">繁體中文</button>
+      <button type="button" class="lang-switch__btn" data-lang="es">ES</button>
+      <button type="button" class="lang-switch__btn" data-lang="pt">PT</button>
+    </div>
 
-    <main class="auth-page">
-      <section class="auth-card" aria-labelledby="loginTitle">
-        <p class="checkout__eyebrow">Restricted area</p>
-        <h1 id="loginTitle">Admin sign in</h1>
-        <p class="auth-card__lede">Enter the admin password to manage the store.</p>
+    <main class="login-panel" id="loginCard">
+      <img class="login-panel__logo" src="assets/logo-mark.png?v=1" alt="YINSCENT" width="1024" height="789" />
+      <h1 data-copy="title">登录</h1>
+      <p class="login-panel__en">SIGN IN TO YINSCENT</p>
 
-        <form class="auth-form" id="loginForm" novalidate>
-          <label>
-            Password
+      <form class="login-form" id="memberLogin" novalidate>
+        <label class="login-field">
+          <span data-copy="idLabel">账号</span>
+          <span class="login-field__box">
+            <svg class="login-field__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.2"></circle>
+              <path d="M5.5 19.2c.8-3.2 3.3-4.8 6.5-4.8s5.7 1.6 6.5 4.8"></path>
+            </svg>
+            <input
+              type="text"
+              name="username"
+              id="loginId"
+              autocomplete="username"
+              placeholder="请输入账号"
+              data-copy-ph="idPh"
+            />
+          </span>
+        </label>
+        <label class="login-field">
+          <span data-copy="password">密码</span>
+          <span class="login-field__box">
+            <svg class="login-field__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="6" y="11" width="12" height="8.5" rx="1.4"></rect>
+              <path d="M8.5 11V8.2a3.5 3.5 0 0 1 7 0V11"></path>
+            </svg>
             <input
               type="password"
               name="password"
-              id="password"
+              id="loginPassword"
               autocomplete="current-password"
               required
-              autofocus
+              placeholder="请输入密码"
+              data-copy-ph="passwordPh"
             />
-          </label>
-          <p class="auth-form__error" id="loginError" hidden role="alert"></p>
-          <button type="submit" class="btn btn--gold" id="loginSubmit">Sign in</button>
-        </form>
-      </section>
+            <button type="button" class="login-field__eye" id="togglePassword" aria-label="显示密码">
+              <svg class="icon-eye" viewBox="0 0 24 24" aria-hidden="true" hidden>
+                <path d="M2.5 12S6.2 6.5 12 6.5 21.5 12 21.5 12 17.8 17.5 12 17.5 2.5 12 2.5 12z"></path>
+                <circle cx="12" cy="12" r="2.4"></circle>
+              </svg>
+              <svg class="icon-eye-off" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M2.5 12S6.2 6.5 12 6.5 21.5 12 21.5 12 17.8 17.5 12 17.5 2.5 12 2.5 12z"></path>
+                <circle cx="12" cy="12" r="2.4"></circle>
+                <path d="M19 5.5L5 18.5"></path>
+              </svg>
+            </button>
+          </span>
+        </label>
+        <p class="login-form__error" id="loginError" hidden role="alert"></p>
+        <button type="submit" class="btn btn--gold" id="loginSubmit" data-copy="submit">登录</button>
+      </form>
+
+      <form class="login-form" id="forgotForm" hidden novalidate>
+        <label class="login-field">
+          <span data-copy="idLabel">账号</span>
+          <span class="login-field__box">
+            <input type="text" id="forgotUser" name="username" autocomplete="username" required placeholder="请输入账号" data-copy-ph="idPh" />
+          </span>
+        </label>
+        <label class="login-field">
+          <span data-copy="emailLabel">绑定邮箱</span>
+          <span class="login-field__box">
+            <input type="email" id="forgotEmail" name="email" inputmode="email" autocomplete="email" required maxlength="254" placeholder="请输入绑定邮箱" data-copy-ph="emailPh" />
+          </span>
+          <span class="login-field__hint" data-copy="emailHint">支持网易、QQ、Gmail、Outlook及企业邮箱</span>
+        </label>
+        <p class="login-form__error" id="forgotError" hidden role="alert"></p>
+        <p class="login-form__note" id="forgotNote" hidden></p>
+        <button type="submit" class="btn btn--gold" id="forgotSubmit" data-copy="forgotSubmit">提交重置申请</button>
+        <button type="button" class="login-switch" id="showLogin" data-copy="backLogin">返回登录</button>
+      </form>
+
+      <p class="login-extra">
+        <a href="#" id="showApply" data-copy="apply">新客户注册</a>
+        <a href="#" id="showForgot" data-copy="forgot">忘记密码？</a>
+      </p>
     </main>
 
-    <footer class="footer footer--checkout">
-      <p class="footer__copy">© <span id="year"></span> YINSCENT. All rights reserved.</p>
-    </footer>
+    <section class="apply-card" id="applyCard" hidden>
+      <aside class="apply-side">
+        <div class="apply-brand">
+          <img class="apply-brand__logo" src="assets/logo-mark.png?v=1" alt="YINSCENT" />
+          <p class="apply-brand__en"><span></span>HOME FRAGRANCE<span></span></p>
+        </div>
+        <img class="apply-side__photo" src="assets/products/jasmine-diffuser.png" alt="" />
+        <ul class="apply-points">
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-2.8 7.2-7 9-4.2-1.8-7-4.8-7-9V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
+            <span data-copy="pointGuard">正品保障
+品质香氛</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v8H3z"></path><path d="M14 10h4l3 3v2h-7"></path><circle cx="7" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle></svg>
+            <span data-copy="pointShip">稳定供货
+快速发货</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.2 4.6L19 8.2l-3.5 3.4.8 4.9L12 14.2 7.7 16.5l.8-4.9L5 8.2l4.8-.6L12 3z"></path></svg>
+            <span data-copy="pointCare">专属服务
+长期合作</span>
+          </li>
+        </ul>
+      </aside>
+      <div class="apply-main">
+        <h1 data-copy="applyTitle">新客户注册</h1>
+        <p class="apply-en">CREATE YOUR ACCOUNT</p>
+        <form class="apply-form" id="applyForm" novalidate>
+          <label class="apply-field">
+            <span><i>*</i><span data-copy="accountLabel">账号</span></span>
+            <span class="apply-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"></circle><path d="M5.5 19.2c.8-3.2 3.3-4.8 6.5-4.8s5.7 1.6 6.5 4.8"></path></svg>
+              <input type="text" id="applyUser" name="username" required maxlength="20" autocomplete="username" placeholder="请输入账号（4-20位，字母或数字）" data-copy-ph="accountPh" />
+            </span>
+          </label>
+          <label class="apply-field">
+            <span><i>*</i><span data-copy="applyEmailLabel">邮箱</span></span>
+            <span class="apply-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="1.4"></rect><path d="M4 7l8 6 8-6"></path></svg>
+              <input type="email" id="applyEmail" name="email" inputmode="email" autocomplete="email" required maxlength="254" placeholder="请输入邮箱地址" data-copy-ph="applyEmailPh" />
+            </span>
+            <span class="apply-hint" data-copy="emailHint">支持网易、QQ、Gmail、Outlook及企业邮箱</span>
+          </label>
+          <label class="apply-field">
+            <span><i>*</i><span data-copy="contactLabel">联系人</span></span>
+            <span class="apply-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"></circle><path d="M5.5 19.2c.8-3.2 3.3-4.8 6.5-4.8s5.7 1.6 6.5 4.8"></path></svg>
+              <input type="text" id="applyName" name="name" required maxlength="80" autocomplete="name" placeholder="请输入联系人姓名" data-copy-ph="contactPh" />
+            </span>
+          </label>
+          <label class="apply-field">
+            <span><i>*</i><span data-copy="phoneLabel">联系电话</span></span>
+            <span class="apply-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3.5h3l1.2 3-1.8 1.1a12 12 0 0 0 5 5l1.1-1.8 3 1.2v3A1.5 1.5 0 0 1 18 16.5 14.5 14.5 0 0 1 3.5 2 1.5 1.5 0 0 1 5 3.5"></path></svg>
+              <input type="tel" id="applyPhone" name="phone" required maxlength="24" autocomplete="tel" placeholder="请输入联系电话" data-copy-ph="phonePh" />
+            </span>
+          </label>
+          <label class="apply-field">
+            <span data-copy="companyLabel">公司名称（选填）</span>
+            <span class="apply-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V6l8-3 8 3v14"></path><path d="M9 20v-4h6v4M9 9h.01M12 9h.01M15 9h.01M9 13h.01M12 13h.01M15 13h.01"></path></svg>
+              <input type="text" id="applyCompany" name="company" maxlength="80" placeholder="请输入公司名称" data-copy-ph="companyPh" />
+            </span>
+          </label>
+          <label class="apply-field">
+            <span><i>*</i><span data-copy="countryLabel">国家/地区</span></span>
+            <span class="apply-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"></path><circle cx="12" cy="10" r="1.6"></circle></svg>
+              <select id="applyCountry" name="country" required>
+                <option value="">请选择国家/地区</option>
+                <option value="CN">中国大陆</option>
+                <option value="HK">中国香港</option>
+                <option value="MO">中国澳门</option>
+                <option value="TW">中国台湾</option>
+                <option value="US">美国</option>
+                <option value="CA">加拿大</option>
+                <option value="GB">英国</option>
+                <option value="AU">澳大利亚</option>
+                <option value="NZ">新西兰</option>
+                <option value="JP">日本</option>
+                <option value="KR">韩国</option>
+                <option value="SG">新加坡</option>
+                <option value="MY">马来西亚</option>
+                <option value="TH">泰国</option>
+                <option value="VN">越南</option>
+                <option value="ID">印度尼西亚</option>
+                <option value="PH">菲律宾</option>
+                <option value="IN">印度</option>
+                <option value="AE">阿联酋</option>
+                <option value="SA">沙特阿拉伯</option>
+                <option value="DE">德国</option>
+                <option value="FR">法国</option>
+                <option value="IT">意大利</option>
+                <option value="ES">西班牙</option>
+                <option value="PT">葡萄牙</option>
+                <option value="NL">荷兰</option>
+                <option value="BE">比利时</option>
+                <option value="CH">瑞士</option>
+                <option value="SE">瑞典</option>
+                <option value="NO">挪威</option>
+                <option value="DK">丹麦</option>
+                <option value="FI">芬兰</option>
+                <option value="IE">爱尔兰</option>
+                <option value="RU">俄罗斯</option>
+                <option value="BR">巴西</option>
+                <option value="MX">墨西哥</option>
+                <option value="AR">阿根廷</option>
+                <option value="ZA">南非</option>
+                <option value="TR">土耳其</option>
+                <option value="EG">埃及</option>
+              </select>
+            </span>
+          </label>
+          <label class="apply-field">
+            <span data-copy="addressLabel">详细地址（选填）</span>
+            <span class="apply-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"></path><circle cx="12" cy="10" r="1.6"></circle></svg>
+              <input type="text" id="applyAddress" name="address" maxlength="200" placeholder="请输入详细地址" data-copy-ph="addressPh" />
+            </span>
+          </label>
+          <label class="apply-field">
+            <span data-copy="cityLabel">城市</span>
+            <span class="apply-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V6l8-3 8 3v14"></path><path d="M9 20v-4h6v4"></path></svg>
+              <input type="text" id="applyCity" name="city" maxlength="40" placeholder="请输入城市" data-copy-ph="cityPh" />
+            </span>
+          </label>
+          <label class="apply-field apply-field--wide">
+            <span data-copy="noteLabel">备注（选填）</span>
+            <span class="apply-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h8l5 5v13H7z"></path><path d="M15 3v6h6M9 13h8M9 17h5"></path></svg>
+              <input type="text" id="applyNoteInput" name="note" maxlength="500" placeholder="请输入备注信息，如业务类型、合作需求等" data-copy-ph="notePh" />
+            </span>
+          </label>
+          <label class="apply-agree">
+            <input type="checkbox" id="applyAgree" />
+            <span><span data-copy="agree">我已阅读并同意</span> <a href="#" id="applyTerms" data-copy="terms">《网站使用条款》</a> <span data-copy="andWord">和</span> <a href="#" id="applyPrivacy" data-copy="privacy">《隐私政策》</a></span>
+          </label>
+          <p class="login-form__error" id="applyError" hidden role="alert"></p>
+          <p class="login-form__note" id="applyNote" hidden></p>
+          <button type="submit" class="btn btn--gold" id="applySubmit" data-copy="applySubmit">提交注册申请</button>
+          <button type="button" class="login-switch" id="applyBack" data-copy="backLogin">返回登录</button>
+        </form>
+      </div>
+    </section>
 
-    <script src="js/auth.js"></script>
-    <script>
-      (function () {
-        var yearEl = document.getElementById("year");
-        if (yearEl) yearEl.textContent = String(new Date().getFullYear());
-
-        var params = new URLSearchParams(window.location.search);
-        var next = params.get("next") || "admin.html";
-        // Only allow same-site relative redirects.
-        if (/^([a-z]+:)?\/\//i.test(next) || next.indexOf("\\") !== -1) next = "admin.html";
-
-        // Already signed in? Go straight through.
-        window.YinscentAuth.getUser().then(function (user) {
-          if (user && user.role === "admin") window.location.replace(next);
-        });
-
-        var form = document.getElementById("loginForm");
-        var passwordInput = document.getElementById("password");
-        var errorEl = document.getElementById("loginError");
-        var submitBtn = document.getElementById("loginSubmit");
-
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
-          errorEl.hidden = true;
-          submitBtn.disabled = true;
-          submitBtn.textContent = "Signing in…";
-
-          window.YinscentAuth.signIn(passwordInput.value)
-            .then(function () {
-              window.location.replace(next);
-            })
-            .catch(function (err) {
-              errorEl.textContent = err.message || "Sign in failed. Please try again.";
-              errorEl.hidden = false;
-              submitBtn.disabled = false;
-              submitBtn.textContent = "Sign in";
-              passwordInput.focus();
-              passwordInput.select();
-            });
-        });
-      })();
-    </script>
+    <script src="js/paths.js?v=4"></script>
+    <script src="js/i18n.js?v=12"></script>
+    <script src="js/auth.js?v=7"></script>
+    <script src="js/login-page.js?v=19"></script>
   </body>
 </html>

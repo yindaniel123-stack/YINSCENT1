@@ -14,16 +14,39 @@
   var categories = window.YINSCENT_CATEGORIES || [];
   var base = window.YINSCENT_BASE || "/";
 
+  function money(amount) {
+    if (window.YINSCENT_MONEY) return window.YINSCENT_MONEY(amount);
+    var n = Number(amount);
+    if (!isFinite(n)) n = 0;
+    return "¥" + n.toFixed(2);
+  }
+
   function productCategory(product) {
     return product.category || "tealights";
   }
 
   function productImage(product) {
     var images = product.images && product.images.length ? product.images : [product.slug];
-    return base + "assets/products/" + images[0] + ".png";
+    var url = base + "assets/products/" + images[0] + ".png";
+    if (/^(apple|mango|cinnamon|cotton|cherry|ocean|jasmine|lavender|orange-blossom|coconut|vanilla|rose)-diffuser$/.test(images[0])) url += "?v=2";
+    if (/^(apple|mango|cinnamon|cotton|cherry|ocean|jasmine|lavender|orange-blossom|coconut|vanilla|rose)-diffuser-35$/.test(images[0])) url += "?v=3";
+    if (/^(vanilla|cotton|cherry|cinnamon|rose|mango|lavender|ocean|jasmine|apple|coconut|orange-blossom|strawberry-cream)-cozy$/.test(images[0])) url += "?v=4";
+    if (/^(lavender|cotton|ocean|rose|cherry|jasmine)-refill$/.test(images[0])) url += "?v=5";
+    if (/^(lavender|cotton|ocean|rose|cherry|jasmine)-refill-300$/.test(images[0])) url += "?v=6";
+    if (/^smart-diffuser-(aurora|halo|kitty)$/.test(images[0])) url += "?v=7";
+    if (/^(lavender|cotton|cherry|apple|rose|jasmine|coconut|cinnamon|mango|vanilla|ocean|orange-blossom)-pack$/.test(images[0])) url += "?v=8";
+    if (/^(eucalyptus|agarwood|amber-rose|red-berries|coconut|pinecone|vanilla|sandalwood|gardenia)-wood$/.test(images[0])) url += "?v=10";
+    if (/^(square|star|heart|plum-blossom)-tealight-holder$/.test(images[0])) url += "?v=11";
+    if (/^(passion-fruit-palo-santo|mango-sandalwood|pear-amber|sandalwood-ocean|freesia-amber|lavender-cotton)-diffuser$/.test(images[0])) url += "?v=12";
+    if (/^[a-z]+-zodiac-diffuser$/.test(images[0])) url += "?v=13";
+    if (/-reed-refill$/.test(images[0])) url += "?v=14";
+    if (/-christmas-diffuser$/.test(images[0])) url += "?v=15";
+    if (/-cup-candle$/.test(images[0])) url += "?v=16";
+    return url;
   }
 
   function renderOverview() {
+    if (!document.getElementById("adminProductCount")) return;
     var featured = products.filter(function (product) {
       return product.featured;
     });
@@ -35,7 +58,7 @@
     document.getElementById("adminProductCount").textContent = String(products.length);
     document.getElementById("adminCategoryCount").textContent = String(categories.length);
     document.getElementById("adminFeaturedCount").textContent = String(featured.length);
-    document.getElementById("adminAveragePrice").textContent = "$" + averagePrice.toFixed(2);
+    document.getElementById("adminAveragePrice").textContent = money(averagePrice);
     document.getElementById("adminFeaturedMeta").textContent =
       featured.length + " product" + (featured.length === 1 ? "" : "s") + " featured";
 
@@ -87,8 +110,8 @@
           (categories.find(function (category) {
             return category.id === productCategory(product);
           }) || { label: "Scented tealight candles" }).label +
-          '</small></span><span class="admin-featured-product__price">$' +
-          Number(product.price).toFixed(2) +
+          '</small></span><span class="admin-featured-product__price">' +
+          money(product.price) +
           "</span>";
         featuredList.appendChild(link);
       });
@@ -99,6 +122,8 @@
     if (loading) loading.hidden = view !== "loading";
     if (loginSection) loginSection.hidden = view !== "login";
     if (dashboard) dashboard.hidden = view !== "dashboard";
+    document.body.classList.toggle("is-desk", view === "dashboard");
+    document.dispatchEvent(new CustomEvent("yinscent:desk"));
     if (view === "login" && passwordInput) passwordInput.focus();
   }
 
@@ -165,11 +190,11 @@
         var previousAov = previous.orders ? previous.revenue / previous.orders : 0;
 
         var d = deltaText(current.revenue, previous.revenue);
-        setMetric("adminRevenue", "adminRevenueDelta", "$" + current.revenue.toFixed(2), d.text, d.direction);
+        setMetric("adminRevenue", "adminRevenueDelta", money(current.revenue), d.text, d.direction);
         d = deltaText(current.orders, previous.orders);
         setMetric("adminOrders", "adminOrdersDelta", String(current.orders), d.text, d.direction);
         d = deltaText(currentAov, previousAov);
-        setMetric("adminAov", "adminAovDelta", "$" + currentAov.toFixed(2), d.text, d.direction);
+        setMetric("adminAov", "adminAovDelta", money(currentAov), d.text, d.direction);
         d = deltaText(current.units, previous.units);
         setMetric("adminUnits", "adminUnitsDelta", String(current.units), d.text, d.direction);
       })
@@ -178,7 +203,7 @@
           setMetric(
             id,
             id + "Delta",
-            i === 0 || i === 2 ? "$0.00" : "0",
+            i === 0 || i === 2 ? money(0) : "0",
             "order data unavailable",
             ""
           );
@@ -296,10 +321,10 @@
     if (!container) return;
     var aov = result.totals.orders ? result.totals.revenue / result.totals.orders : 0;
     var items = [
-      { label: "Revenue", value: "$" + result.totals.revenue.toFixed(2) },
+      { label: "Revenue", value: money(result.totals.revenue) },
       { label: "Orders", value: String(result.totals.orders) },
       { label: "Units sold", value: String(result.totals.units) },
-      { label: "Avg order", value: "$" + aov.toFixed(2) },
+      { label: "Avg order", value: money(aov) },
     ];
     container.innerHTML = items
       .map(function (item) {
@@ -376,8 +401,8 @@
           yAt(b.revenue).toFixed(1) +
           '" r="3"><title>' +
           formatDay(b.end - 1) +
-          ": $" +
-          b.revenue.toFixed(2) +
+          ": " +
+          money(b.revenue) +
           "</title></circle>"
         );
       })
@@ -407,8 +432,8 @@
     var ariaLabel =
       "Revenue trend over the last " +
       result.days +
-      " days. Peak $" +
-      maxRev.toFixed(2) +
+      " days. Peak " +
+      money(maxRev) +
       " per " +
       (result.bucketDays === 1 ? "day" : "week") +
       ".";
@@ -442,7 +467,7 @@
       "</caption><thead><tr><th>Period ending</th><th>Revenue</th></tr></thead><tbody>" +
       buckets
         .map(function (b) {
-          return "<tr><td>" + formatDay(b.end - 1) + "</td><td>$" + b.revenue.toFixed(2) + "</td></tr>";
+          return "<tr><td>" + formatDay(b.end - 1) + "</td><td>" + money(b.revenue) + "</td></tr>";
         })
         .join("") +
       "</tbody></table>";
@@ -473,8 +498,8 @@
         return (
           '<div class="admin-category-row"><div class="admin-category-row__text"><span>' +
           escapeHtml(entry.label) +
-          "</span><strong>$" +
-          entry.revenue.toFixed(2) +
+          "</span><strong>" +
+          money(entry.revenue) +
           '</strong></div><div class="admin-category-row__track"><span style="width:' +
           pct +
           '%"></span></div></div>'
@@ -508,8 +533,8 @@
           " unit" +
           (entry.units === 1 ? "" : "s") +
           " sold</small></span>" +
-          '<span class="admin-top-products__value">$' +
-          entry.revenue.toFixed(2) +
+          '<span class="admin-top-products__value">' +
+          money(entry.revenue) +
           "</span></li>"
         );
       })
@@ -572,11 +597,13 @@
   showView("loading");
   renderOverview();
   window.YinscentAuth.refresh().then(function (isAdmin) {
-    showView(isAdmin ? "dashboard" : "login");
-    if (isAdmin) {
-      renderKeyMetrics();
-      loadAnalytics();
+    if (!isAdmin) {
+      window.location.replace(base + "login.html");
+      return;
     }
+    showView("dashboard");
+    renderKeyMetrics();
+    loadAnalytics();
   });
 
   if (form) {
@@ -585,9 +612,16 @@
       showError("");
       if (submitBtn) submitBtn.disabled = true;
 
-      window.YinscentAuth.signIn(passwordInput ? passwordInput.value : "")
+      window.YinscentAuth.signIn(
+        passwordInput ? passwordInput.value : "",
+        document.getElementById("adminUsername") ? document.getElementById("adminUsername").value : ""
+      )
         .then(function () {
           if (passwordInput) passwordInput.value = "";
+          if (window.YinscentAuth.isSuper && window.YinscentAuth.isSuper()) {
+            window.location.href = (window.YINSCENT_BASE || "/") + "index.html";
+            return;
+          }
           showView("dashboard");
           renderKeyMetrics();
           loadAnalytics();
@@ -605,8 +639,7 @@
     signOutBtn.addEventListener("click", function () {
       signOutBtn.disabled = true;
       window.YinscentAuth.signOut().then(function () {
-        signOutBtn.disabled = false;
-        showView("login");
+        window.location.href = base + "login.html";
       });
     });
   }

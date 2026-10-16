@@ -48,12 +48,44 @@ const mimeTypes = {
   ".woff2": "font/woff2",
 };
 
+function insideRoot(urlPath) {
+  const rel = String(urlPath || "").replace(/^\/+/, "");
+  const filePath = path.resolve(root, rel);
+  const relative = path.relative(root, filePath);
+  if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) return null;
+  return filePath;
+}
+
+const access = require(path.join(root, "api", "_lib", "access"));
+
+function productFileAllowed(req) {
+  if (access.session.readAdmin(req)) return true;
+  const member = access.currentUser(req);
+  return !!member;
+}
+
 const server = http.createServer(function (req, res) {
   const urlPath = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
 
+  if (urlPath === "/data" || urlPath.startsWith("/data/")) {
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    return res.end("Not found");
+  }
+
+  if (urlPath === "/js/products.js" && !productFileAllowed(req)) {
+    const referer = String(req.headers.referer || "");
+    if (referer.indexOf("/admin.html") !== -1) {
+      res.writeHead(200, { "Content-Type": "application/javascript; charset=utf-8" });
+      return res.end("window.YINSCENT_PRODUCTS=[];window.YINSCENT_CATEGORIES=[];");
+    }
+    res.writeHead(302, { Location: "/login.html?next=" + encodeURIComponent("/index.html") });
+    return res.end();
+  }
+
   if (urlPath.startsWith("/api/")) {
-    const handlerPath = path.join(root, urlPath.replace(/\/$/, "") + ".js");
-    if (!handlerPath.startsWith(path.join(root, "api")) || !fs.existsSync(handlerPath)) {
+    const handlerPath = insideRoot(urlPath.replace(/\/$/, "") + ".js");
+    const apiRoot = path.resolve(root, "api");
+    if (!handlerPath || !handlerPath.startsWith(apiRoot + path.sep) || !fs.existsSync(handlerPath)) {
       res.writeHead(404, { "Content-Type": "application/json" });
       return res.end(JSON.stringify({ error: "Not found" }));
     }
@@ -65,8 +97,8 @@ const server = http.createServer(function (req, res) {
     });
   }
 
-  let filePath = path.join(root, urlPath === "/" ? "index.html" : urlPath);
-  if (!filePath.startsWith(root) || !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+  const filePath = insideRoot(urlPath === "/" ? "index.html" : urlPath);
+  if (!filePath || !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
     res.writeHead(404, { "Content-Type": "text/plain" });
     return res.end("Not found");
   }
@@ -79,4 +111,9 @@ server.listen(port, function () {
   if (!process.env.ADMIN_PASSWORD) {
     console.warn("WARNING: ADMIN_PASSWORD is not set - admin login will return an error.");
   }
+  setInterval(function () {
+    try {
+      require("../api/_lib/notify").retryPending().catch(function () {});
+    } catch (e) {}
+  }, 60000);
 });

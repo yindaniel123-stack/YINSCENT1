@@ -245,7 +245,6 @@ const footer = [
   ['        <a href="#">My account</a>', '        <a href="#" data-i18n="account.mine">My account</a>'],
   ['        <a href="#">Orders</a>', '        <a href="#" data-i18n="account.orders">Orders</a>'],
   ['        <a href="#">Account details</a>', '        <a href="#" data-i18n="account.details">Account details</a>'],
-  ['        <a href="#">Cart</a>', '        <a href="#" data-i18n="account.cart">Cart</a>'],
   ['        <a href="#">Terms &amp; conditions</a>', '        <a href="#" data-i18n="footer.terms">Terms &amp; conditions</a>'],
   ['        <a href="#">Returns</a>', '        <a href="#" data-i18n="footer.returns">Returns</a>'],
   ['        <a href="#">Privacy policy</a>', '        <a href="#" data-i18n="footer.privacy">Privacy policy</a>'],

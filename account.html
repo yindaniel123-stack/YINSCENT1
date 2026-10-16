@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="acct.title">账户 — YINSCENT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css?v=73" />
+  </head>
+  <body class="page-checkout">
+    <header class="header header--checkout">
+      <a href="index.html" class="header__logo" aria-label="YINSCENT home">
+        <img src="assets/logo.png" alt="YINSCENT" width="200" height="154" />
+      </a>
+      <div class="header__aside">
+        <a href="index.html" class="checkout-back" data-i18n="acct.back">返回首页</a>
+        <a href="login.html" class="checkout-back" id="accountSignOut" data-i18n="acct.signout">退出</a>
+      </div>
+    </header>
+
+    <main class="account">
+      <section class="account-card" id="panelSetup" hidden>
+        <h1 data-i18n="acct.setup_title">完善资料</h1>
+        <p class="account-lead" data-i18n="acct.setup_lead">首次使用请填写姓名、电话，并绑定邮箱。邮箱验证完成后才能查看产品。</p>
+        <form class="account-form" id="setupForm">
+          <label>
+            <span data-i18n="acct.name">姓名</span>
+            <input type="text" id="setupName" name="name" required maxlength="80" />
+          </label>
+          <label>
+            <span data-i18n="acct.phone">电话</span>
+            <input type="tel" id="setupPhone" name="phone" required maxlength="24" />
+          </label>
+          <label>
+            <span data-i18n="acct.email">邮箱</span>
+            <input type="email" id="setupEmail" name="email" inputmode="email" autocomplete="email" required maxlength="254" />
+            <span class="login-field__hint" data-i18n="acct.email_hint">支持网易、QQ、Gmail、Outlook及企业邮箱</span>
+          </label>
+          <p class="account-form__error" id="setupError" hidden role="alert"></p>
+          <p class="account-form__note" id="setupNote" hidden></p>
+          <button type="submit" class="btn btn--gold" id="setupSubmit" data-i18n="acct.save">保存并发送验证邮件</button>
+        </form>
+      </section>
+
+      <section class="account-card" id="panelCenter" hidden>
+        <h1 data-i18n="acct.center">我的账户</h1>
+        <dl class="account-facts" id="accountFacts"></dl>
+        <p class="account-form__note" id="accessNote" hidden></p>
+        <p class="account-form__note" id="verifyNote" hidden></p>
+        <h2 data-i18n="acct.orders">订单</h2>
+        <div id="orderList" class="account-orders"></div>
+        <p class="login-extra"><a href="index.html" id="continueLink" data-i18n="acct.enter">进入产品页</a></p>
+      </section>
+    </main>
+
+    <script src="js/paths.js?v=4"></script>
+    <script src="js/i18n.js?v=12"></script>
+    <script src="js/auth.js?v=6"></script>
+    <script src="js/account.js?v=8"></script>
+    <script src="js/to-top.js?v=3"></script>
+  </body>
+</html>

@@ -19,7 +19,44 @@
     document.title = t("meta.contact", "YINSCENT — Contact");
   }
   setContactTitle();
-  window.addEventListener("yinscent:langchange", setContactTitle);
+  var contactCopy = null;
+  function contactText(value) {
+    var lang = window.YINSCENT_I18N && window.YINSCENT_I18N.getLang ? window.YINSCENT_I18N.getLang() : "zh";
+    if (lang === "zh-Hant" && window.YINSCENT_I18N && window.YINSCENT_I18N.toTraditional) {
+      return window.YINSCENT_I18N.toTraditional(value);
+    }
+    return value;
+  }
+  function applyContactCopy() {
+    if (!contactCopy) return;
+    var lang = window.YINSCENT_I18N && window.YINSCENT_I18N.getLang ? window.YINSCENT_I18N.getLang() : "zh";
+    if (lang !== "zh" && lang !== "zh-Hant") return;
+    var map = {
+      "contact.title": contactCopy.title,
+      "contact.intro": contactCopy.intro,
+      "contact.intro2": contactCopy.intro2,
+      "contact.form_title": contactCopy.formTitle,
+      "contact.thanks": contactCopy.thanks,
+      "contact.error": contactCopy.error,
+      "contact.crumb": contactCopy.crumb,
+      "contact.back": contactCopy.back,
+    };
+    Object.keys(map).forEach(function (key) {
+      if (!map[key]) return;
+      document.querySelectorAll('[data-i18n="' + key + '"]').forEach(function (node) {
+        node.textContent = contactText(map[key]);
+      });
+    });
+  }
+  window.addEventListener("yinscent:langchange", function () {
+    setContactTitle();
+    applyContactCopy();
+  });
+  document.addEventListener("DOMContentLoaded", applyContactCopy);
+  fetch((window.YINSCENT_BASE || "/") + "api/content").then(function (res) { return res.json(); }).then(function (data) {
+    contactCopy = data && data.contact;
+    applyContactCopy();
+  }).catch(function () {});
 
   var form = document.getElementById("contactForm");
   var thanks = document.getElementById("contactThanks");
@@ -40,6 +77,19 @@
   // Helps FormSubmit accept submissions (avoids "open through a web server" rejection).
   if (urlInput && !isFileProtocol) {
     urlInput.value = window.location.href;
+  }
+
+  function notifyPhone(payload) {
+    var base = window.YINSCENT_BASE || "/";
+    fetch(base + "api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name: payload.name,
+        email: payload.email,
+        message: payload.message,
+      }),
+    }).catch(function () {});
   }
 
   function mailtoHref(payload) {
@@ -185,6 +235,7 @@
         }
         form.reset();
         showThanks();
+        notifyPhone(payload);
       })
       .catch(function () {
         // Network / CORS failure: fall back to native FormSubmit POST.

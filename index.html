@@ -7,10 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css?v=79" />
     <script>
       (function () {
         var page = new URLSearchParams(window.location.search).get("page");
@@ -31,71 +31,111 @@
       <span></span><span></span><span></span>
     </button>
 
-    <a href="#" class="header__logo" aria-label="YINSCENT home">
+    <a href="index.html" class="header__logo" aria-label="YINSCENT home">
       <img src="assets/logo.png" alt="YINSCENT" width="200" height="154" />
     </a>
 
     <div class="header__tools">
-      <div class="lang-switch" role="group" aria-label="Language" data-i18n-attr="aria-label:lang.label">
-        <button type="button" class="lang-switch__btn is-active" data-lang="en" aria-pressed="true">EN</button>
-        <button type="button" class="lang-switch__btn" data-lang="zh" aria-pressed="false">中文</button>
-        <button type="button" class="lang-switch__btn" data-lang="es" aria-pressed="false">ES</button>
-        <button type="button" class="lang-switch__btn" data-lang="pt" aria-pressed="false">PT</button>
-      </div>
-      <button type="button" class="header__icon" aria-label="Search" data-i18n-attr="aria-label:nav.search">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="11" cy="11" r="6" />
-          <path d="M20 20l-4.5-4.5" stroke-linecap="round" />
-        </svg>
-      </button>
-      <div class="user-menu" id="userMenu">
-        <button
-          type="button"
-          class="header__icon"
-          id="userMenuToggle"
-          aria-label="Account"
-          data-i18n-attr="aria-label:nav.account"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="9" r="3.5" />
-            <path d="M5 20c1.5-4 12.5-4 14 0" stroke-linecap="round" />
-          </svg>
+      <div class="head-lang" id="headLang">
+        <button type="button" class="head-pill" id="headLangBtn" aria-haspopup="true" aria-expanded="false" aria-label="Language">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.4 2.7 2.4 13.3 0 16M12 4c-2.4 2.7-2.4 13.3 0 16"/></svg>
+          <span id="headLangLabel">简体中文</span>
+          <svg class="head-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg>
         </button>
-        <div class="user-menu__dropdown" id="userMenuDropdown" hidden>
-          <a href="#" class="user-menu__item" data-i18n="account.mine">My account</a>
-          <a href="#" class="user-menu__item" data-i18n="account.orders">Orders</a>
-          <a href="admin.html" class="user-menu__item user-menu__item--admin" id="userMenuAdmin" hidden data-i18n="account.admin">Admin</a>
+        <div class="head-menu" id="headLangMenu" hidden>
+          <button type="button" class="lang-switch__btn" data-lang="zh">简体中文</button>
+          <button type="button" class="lang-switch__btn" data-lang="zh-Hant">繁體中文</button>
+          <button type="button" class="lang-switch__btn" data-lang="en">English</button>
+          <button type="button" class="lang-switch__btn" data-lang="es">Español</button>
+          <button type="button" class="lang-switch__btn" data-lang="pt">Português</button>
         </div>
       </div>
-      <button
-        type="button"
-        class="header__icon header__cart-btn"
-        id="cartOpen"
-        aria-label="Open cart, 0 items"
-        data-i18n-attr="aria-label:nav.cart"
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M6 8h12l-1 14H7L6 8z" stroke-linejoin="round" />
-          <path d="M9 8V6a3 3 0 016 0v2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <span class="header__cart-count" id="cartCount">0</span>
-      </button>
+      <form class="head-search" id="headSearch" role="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.2-4.2"/></svg>
+        <input type="search" id="headSearchInput" placeholder="搜索产品" aria-label="搜索产品" />
+        <button type="submit" class="head-search__go" aria-label="搜索">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+      <div class="user-menu" id="userMenu">
+        <button type="button" class="head-user" id="userMenuToggle" aria-label="Account" aria-haspopup="true" aria-expanded="false">
+          <span class="head-user__avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.2"/><path d="M5.5 19.2a6.5 6.5 0 0 1 13 0"/></svg>
+          </span>
+          <span class="head-user__text">
+            <span class="head-user__name"><span id="headUserName">登录</span><svg class="head-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></span>
+            <span class="head-user__id" id="headUserId" hidden></span>
+          </span>
+        </button>
+        <div class="user-menu__dropdown" id="userMenuDropdown" hidden>
+          <a href="login.html" class="user-menu__item" id="userMenuSignIn" data-i18n="account.signin">Sign in</a>
+          <a href="account.html#orders" class="user-menu__item" id="userMenuOrders" hidden>我的订单</a>
+          <button type="button" class="user-menu__item" id="userMenuCart" hidden>购物车</button>
+          <button type="button" class="user-menu__item" id="userMenuSwitch" hidden>切换账号</button>
+          <button type="button" class="user-menu__item" id="userMenuSignOut" hidden>退出登录</button>
+        </div>
+      </div>
+      <div class="header__pages" id="headerPages" hidden></div>
+      <a href="admin.html" class="header__desk" id="headerDesk" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7M3 12h18"/></svg>
+        <span id="headerDeskLabel">工作台</span>
+      </a>
     </div>
 
     <nav class="header__nav" aria-label="Primary" data-i18n-attr="aria-label:nav.primary">
-      <a href="#tealights" data-i18n="nav.tealights">Tealights</a>
-      <a href="#scented-candles" data-i18n="nav.candles">Candles</a>
-      <a href="#reed-diffusers" data-i18n="nav.diffusers">Diffusers</a>
-      <a href="#tealight-holders" data-i18n="nav.holders">Holders</a>
-      <a href="#scented-sachets" data-i18n="nav.sachets">Sachets</a>
-      <a href="#essential-oils" data-i18n="nav.oils">Oils</a>
-      <a href="#smart-aroma-diffusers" data-i18n="nav.smart">Smart diffusers</a>
-      <a href="#smart-aroma-refills" data-i18n="nav.refills">Refills</a>
-      <a href="#top-sellers" data-i18n="nav.bestsellers">Bestsellers</a>
+      <div class="nav-group">
+        <a href="index.html#tealights" data-i18n="nav.tealights">Tealights</a>
+        <div class="nav-group__menu">
+          <a href="index.html#tealight-series-6" data-i18n="tealights.series.6">茶蜡-6pcs</a>
+          <a href="index.html#tealight-series-9" data-i18n="tealights.series.9">茶蜡-9pcs</a>
+          <a href="index.html#tealight-series-white" data-i18n="tealights.series.white">无味茶蜡</a>
+        </div>
+      </div>
+      <div class="nav-group">
+        <a href="index.html#scented-candles" data-i18n="nav.candles">Candles</a>
+        <div class="nav-group__menu">
+          <a href="index.html#candle-series-jar" data-i18n="candles.series.jar">蘑菇瓶香薰蜡烛</a>
+          <a href="index.html#candle-series-cup" data-i18n="candles.series.cup">直身杯蜡烛-150g</a>
+        </div>
+      </div>
+      <div class="nav-group">
+        <a href="index.html#reed-diffusers" data-i18n="nav.diffusers">Diffusers</a>
+        <div class="nav-group__menu">
+          <a href="index.html#diffuser-series-35" data-i18n="diffusers.series.35">35 ml</a>
+          <a href="index.html#diffuser-series-100" data-i18n="diffusers.series.100">藤条香薰白色底款-100ml</a>
+          <a href="index.html#diffuser-series-beige" data-i18n="diffusers.series.beige">藤条香薰米色款-100ml</a>
+          <a href="index.html#diffuser-series-animal" data-i18n="diffusers.series.animal">藤条香薰动物款-100ml</a>
+          <a href="index.html#diffuser-series-zodiac" data-i18n="diffusers.series.zodiac">藤条香薰12星座款-100ml</a>
+          <a href="index.html#diffuser-series-christmas" data-i18n="diffusers.series.christmas">藤条香薰圣诞款-100ml</a>
+          <a href="index.html#diffuser-series-mexico" data-i18n="diffusers.series.mexico">藤条香薰墨西哥城市款-100ml</a>
+          <a href="index.html#diffuser-series-fiber" data-i18n="diffusers.series.fiber">扩香纤维棒-3色</a>
+        </div>
+      </div>
+      <a href="index.html#scented-sachets" data-i18n="nav.sachets">Sachets</a>
+      <a href="index.html#scented-wooden-balls" data-i18n="nav.woods">Wood balls</a>
+      <a href="index.html#deodorizing-balls" data-i18n="nav.balls">Deo balls</a>
+      <a href="index.html#scented-gels" data-i18n="nav.gels">Gel</a>
+      <a href="index.html#essential-oils" data-i18n="nav.oils">Oils</a>
+      <a href="index.html#smart-aroma-diffusers" data-i18n="nav.smart">Smart diffusers</a>
+      <div class="nav-group">
+        <a href="index.html#smart-aroma-refills" data-i18n="nav.refills">Refills</a>
+        <div class="nav-group__menu">
+          <a href="index.html#refill-series-100" data-i18n="refills.series.100">100ml香薰机补充液</a>
+          <a href="index.html#refill-series-300" data-i18n="refills.series.300">300ml香薰机补充液</a>
+          <a href="index.html#diffuser-series-refill" data-i18n="diffusers.series.refill">藤条香薰补充液-500ml</a>
+        </div>
+      </div>
+      <div class="nav-group">
+        <a href="index.html#tealight-holders" data-i18n="nav.holders">Holders</a>
+        <div class="nav-group__menu">
+          <a href="index.html#holder-series" data-i18n="holders.title">茶蜡烛台</a>
+          <a href="index.html#ceramic-burners" data-i18n="burners.title">陶瓷香炉</a>
+          <a href="index.html#tealight-cup" data-i18n="holders.cup">茶蜡烛杯</a>
+        </div>
+      </div>
+      <a href="index.html#incense-holders" data-i18n="nav.incense">Incense board</a>
+      <a href="index.html#top-sellers" data-i18n="nav.bestsellers">Bestsellers</a>
       <a href="?page=story" data-i18n="nav.story">Our story</a>
-      <a href="#top-sellers" data-i18n="nav.offers">Offers</a>
       <a href="?page=contact" data-i18n="nav.contact">Contact</a>
     </nav>
   </header>
@@ -104,7 +144,7 @@
   <div class="overlay" id="menuOverlay" aria-hidden="true">
     <aside class="drawer drawer--menu" id="menuDrawer" aria-label="Site menu">
       <div class="drawer__head">
-        <a href="#" class="drawer__logo">
+        <a href="index.html" class="drawer__logo">
           <img src="assets/logo.png" alt="YINSCENT" width="160" height="123" />
         </a>
         <button type="button" class="drawer__close" id="menuClose" aria-label="Close menu" data-i18n-attr="aria-label:nav.close">
@@ -112,65 +152,86 @@
         </button>
       </div>
       <nav class="drawer__nav">
-        <a href="#tealights" data-i18n="nav.tealights">Tealights</a>
-        <a href="#scented-candles" data-i18n="nav.candles">Candles</a>
-        <a href="#reed-diffusers" data-i18n="nav.diffusers">Diffusers</a>
-        <a href="#tealight-holders" data-i18n="nav.holders">Holders</a>
-        <a href="#scented-sachets" data-i18n="nav.sachets">Sachets</a>
-        <a href="#essential-oils" data-i18n="nav.oils">Oils</a>
-        <a href="#smart-aroma-diffusers" data-i18n="nav.smart">Smart diffusers</a>
-        <a href="#smart-aroma-refills" data-i18n="nav.refills">Refills</a>
-        <a href="#top-sellers" data-i18n="nav.bestsellers">Bestsellers</a>
+        <a href="index.html#tealights" data-i18n="nav.tealights">Tealights</a>
+        <a href="index.html#scented-candles" data-i18n="nav.candles">Candles</a>
+        <a href="index.html#reed-diffusers" data-i18n="nav.diffusers">Diffusers</a>
+        <a href="index.html#scented-sachets" data-i18n="nav.sachets">Sachets</a>
+        <a href="index.html#scented-wooden-balls" data-i18n="nav.woods">Wood balls</a>
+        <a href="index.html#deodorizing-balls" data-i18n="nav.balls">Deo balls</a>
+        <a href="index.html#scented-gels" data-i18n="nav.gels">Gel</a>
+        <a href="index.html#essential-oils" data-i18n="nav.oils">Oils</a>
+        <a href="index.html#smart-aroma-diffusers" data-i18n="nav.smart">Smart diffusers</a>
+        <a href="index.html#smart-aroma-refills" data-i18n="nav.refills">Refills</a>
+        <a href="index.html#tealight-holders" data-i18n="nav.holders">Holders</a>
+        <a href="index.html#incense-holders" data-i18n="nav.incense">Incense board</a>
+        <a href="index.html#top-sellers" data-i18n="nav.bestsellers">Bestsellers</a>
         <a href="?page=story" data-i18n="nav.story">Our story</a>
-        <a href="#top-sellers" data-i18n="nav.offers">Offers</a>
         <a href="?page=contact" data-i18n="nav.contact">Contact</a>
       </nav>
       <div class="drawer__sub">
+        <h3 data-i18n="nav.tealights">Tealights</h3>
+        <ul>
+          <li><a href="index.html#tealight-series-6" data-i18n="tealights.series.6">茶蜡-6pcs</a></li>
+          <li><a href="index.html#tealight-series-9" data-i18n="tealights.series.9">茶蜡-9pcs</a></li>
+          <li><a href="index.html#tealight-series-white" data-i18n="tealights.series.white">无味茶蜡</a></li>
+        </ul>
+        <h3 data-i18n="nav.candles">Candles</h3>
+        <ul>
+          <li><a href="index.html#candle-series-jar" data-i18n="candles.series.jar">蘑菇瓶香薰蜡烛</a></li>
+          <li><a href="index.html#candle-series-cup" data-i18n="candles.series.cup">直身杯蜡烛-150g</a></li>
+        </ul>
+        <h3 data-i18n="nav.diffusers">Diffusers</h3>
+        <ul>
+          <li><a href="index.html#diffuser-series-35" data-i18n="diffusers.series.35">35 ml</a></li>
+          <li><a href="index.html#diffuser-series-100" data-i18n="diffusers.series.100">藤条香薰白色底款-100ml</a></li>
+          <li><a href="index.html#diffuser-series-beige" data-i18n="diffusers.series.beige">藤条香薰米色款-100ml</a></li>
+          <li><a href="index.html#diffuser-series-animal" data-i18n="diffusers.series.animal">藤条香薰动物款-100ml</a></li>
+          <li><a href="index.html#diffuser-series-zodiac" data-i18n="diffusers.series.zodiac">藤条香薰12星座款-100ml</a></li>
+          <li><a href="index.html#diffuser-series-christmas" data-i18n="diffusers.series.christmas">藤条香薰圣诞款-100ml</a></li>
+          <li><a href="index.html#diffuser-series-mexico" data-i18n="diffusers.series.mexico">藤条香薰墨西哥城市款-100ml</a></li>
+          <li><a href="index.html#diffuser-series-fiber" data-i18n="diffusers.series.fiber">扩香纤维棒-3色</a></li>
+        </ul>
         <h3 data-i18n="nav.products">Products</h3>
         <ul>
-          <li><a href="#tealights" data-i18n="nav.tealights_full">Scented tealight candles</a></li>
-          <li><a href="#scented-candles" data-i18n="nav.candles_full">Scented candles</a></li>
-          <li><a href="#reed-diffusers" data-i18n="nav.diffusers_full">Reed diffusers</a></li>
-          <li><a href="#tealight-holders" data-i18n="nav.holders_full">Tealight holders</a></li>
-          <li><a href="#scented-sachets" data-i18n="nav.sachets_full">Scented sachets</a></li>
-          <li><a href="#essential-oils" data-i18n="nav.oils_full">Essential oils</a></li>
-          <li><a href="#smart-aroma-diffusers" data-i18n="nav.smart_full">Smart aroma diffuser</a></li>
-          <li><a href="#smart-aroma-refills" data-i18n="nav.refills_full">Smart aroma diffuser refill</a></li>
+          <li><a href="index.html#scented-sachets" data-i18n="nav.sachets_full">Scented sachets</a></li>
+          <li><a href="index.html#scented-wooden-balls" data-i18n="nav.woods_full">Scented wooden balls</a></li>
+          <li><a href="index.html#deodorizing-balls" data-i18n="nav.balls_full">Deodorizing balls 4 pcs</a></li>
+          <li><a href="index.html#scented-gels" data-i18n="nav.gels_full">Scented gel</a></li>
+          <li><a href="index.html#essential-oils" data-i18n="nav.oils_full">Essential oils</a></li>
+          <li><a href="index.html#smart-aroma-diffusers" data-i18n="nav.smart_full">Smart aroma diffuser</a></li>
+        </ul>
+        <h3 data-i18n="nav.refills">Refills</h3>
+        <ul>
+          <li><a href="index.html#refill-series-100" data-i18n="refills.series.100">100ml香薰机补充液</a></li>
+          <li><a href="index.html#refill-series-300" data-i18n="refills.series.300">300ml香薰机补充液</a></li>
+          <li><a href="index.html#diffuser-series-refill" data-i18n="diffusers.series.refill">藤条香薰补充液-500ml</a></li>
+        </ul>
+        <h3 data-i18n="nav.holders">Holders</h3>
+        <ul>
+          <li><a href="index.html#holder-series" data-i18n="holders.title">茶蜡烛台</a></li>
+          <li><a href="index.html#ceramic-burners" data-i18n="burners.title">陶瓷香炉</a></li>
+          <li><a href="index.html#tealight-cup" data-i18n="holders.cup">茶蜡烛杯</a></li>
         </ul>
       </div>
     </aside>
   </div>
 
-  <!-- Cart drawer -->
   <div class="overlay" id="cartOverlay" aria-hidden="true">
-    <aside class="drawer drawer--cart" id="cartDrawer" aria-label="Shopping cart" data-i18n-attr="aria-label:cart.aria">
+    <aside class="drawer drawer--cart" aria-label="购物车" data-i18n-attr="aria-label:cart.title">
       <div class="drawer__head">
-        <h2><span data-i18n="cart.title">Cart</span> (<span id="cartDrawerCount">0</span>)</h2>
-        <button type="button" class="drawer__close" id="cartClose" aria-label="Close cart" data-i18n-attr="aria-label:cart.close">
-          ×
-        </button>
+        <h2 data-i18n="cart.title">购物车</h2>
+        <button type="button" class="drawer__close" id="cartClose" aria-label="关闭" data-i18n-attr="aria-label:cart.close">×</button>
       </div>
       <div class="cart-empty" id="cartEmpty">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M6 8h12l-1 14H7L6 8z" stroke-linejoin="round" />
-          <path d="M9 8V6a3 3 0 016 0v2" stroke-linecap="round" />
-        </svg>
-        <p data-i18n="cart.empty">Your cart is empty</p>
-        <a href="#top-sellers" class="btn btn--gold" id="cartContinue" data-i18n="cart.continue">Continue shopping</a>
+        <p data-i18n="cart.empty">购物车是空的</p>
       </div>
       <ul class="cart-list" id="cartList" hidden></ul>
       <div class="cart-summary" id="cartSummary" hidden>
         <div class="cart-summary__row">
           <span data-i18n="cart.subtotal">Subtotal</span>
-          <strong id="cartSubtotal">$0.00</strong>
+          <strong id="cartSubtotal"></strong>
         </div>
-        <p data-i18n="cart.shipping">Shipping and taxes calculated at checkout.</p>
-        <button type="button" class="btn btn--gold cart-summary__checkout" id="cartCheckout" data-i18n="cart.checkout">
-          Checkout
-        </button>
-        <button type="button" class="cart-summary__clear" id="cartClear" data-i18n="cart.clear">Clear cart</button>
       </div>
-      <p class="visually-hidden" id="cartStatus" role="status" aria-live="polite"></p>
     </aside>
   </div>
 
@@ -187,57 +248,10 @@
         <figure class="story-gallery__main">
           <img
             id="storyMainImage"
-            src="assets/story-building.jpg"
-            alt="YINSCENT company building in Yiwu"
+            src="assets/story-building.jpg?v=3"
+            alt="YINSCENT large factory campus"
           />
         </figure>
-        <div class="story-gallery__thumbs" role="tablist" aria-label="Story images" data-i18n-attr="aria-label:story.images">
-          <button
-            type="button"
-            class="story-gallery__thumb is-active"
-            data-src="assets/story-building.jpg"
-            data-alt="YINSCENT company building in Yiwu"
-            aria-label="View image 1 of 5"
-          >
-            <img src="assets/story-building.jpg" alt="" width="96" height="96" />
-          </button>
-          <button
-            type="button"
-            class="story-gallery__thumb"
-            data-src="assets/story-facility.jpg"
-            data-alt="YINSCENT manufacturing facility entrance in Yiwu"
-            aria-label="View image 2 of 5"
-          >
-            <img src="assets/story-facility.jpg" alt="" width="96" height="96" />
-          </button>
-          <button
-            type="button"
-            class="story-gallery__thumb"
-            data-src="assets/story-workshop.jpg"
-            data-alt="YINSCENT fragrance production workshop"
-            aria-label="View image 3 of 5"
-          >
-            <img src="assets/story-workshop.jpg" alt="" width="96" height="96" />
-          </button>
-          <button
-            type="button"
-            class="story-gallery__thumb"
-            data-src="assets/story-production.jpg"
-            data-alt="YINSCENT production line filling fragrance products"
-            aria-label="View image 4 of 5"
-          >
-            <img src="assets/story-production.jpg" alt="" width="96" height="96" />
-          </button>
-          <button
-            type="button"
-            class="story-gallery__thumb"
-            data-src="assets/story-packaging.jpg"
-            data-alt="YINSCENT team packaging fragrance products"
-            aria-label="View image 5 of 5"
-          >
-            <img src="assets/story-packaging.jpg" alt="" width="96" height="96" />
-          </button>
-        </div>
       </div>
       <div class="story-content">
         <p class="story-content__eyebrow">YINSCENT</p>
@@ -284,6 +298,7 @@
           When requesting a quotation, please provide your required quantity, delivery address, and contact number
           so we can prepare an accurate quote for you.
         </p>
+        <div class="contact-facts" id="contactFacts" hidden></div>
         <form
           class="contact-form"
           id="contactForm"
@@ -461,7 +476,20 @@
           <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="tealights.f4">Perfect for any space</span></li>
         </ul>
       </div>
-      <div class="product-grid" id="productGrid"></div>
+      <div class="series-stack" id="tealightStack">
+        <section class="series-block" id="tealight-series-6">
+          <h3 class="series-block__title" data-i18n="tealights.series.6">茶蜡-6pcs</h3>
+          <div class="product-grid" id="productGrid"></div>
+        </section>
+        <section class="series-block" id="tealight-series-9">
+          <h3 class="series-block__title" data-i18n="tealights.series.9">茶蜡-9pcs</h3>
+          <div class="product-grid" id="tealightGrid9"></div>
+        </section>
+        <section class="series-block" id="tealight-series-white">
+          <h3 class="series-block__title" data-i18n="tealights.series.white">无味茶蜡</h3>
+          <div class="product-grid" id="tealightGridWhite"></div>
+        </section>
+      </div>
     </section>
 
     <!-- Scented Candles -->
@@ -479,7 +507,13 @@
           <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="tealights.f4">Perfect for any space</span></li>
         </ul>
       </div>
-      <div class="product-grid product-grid--candles" id="candleGrid"></div>
+      <div class="series-stack" id="candleStack">
+        <section class="series-block" id="candle-series-jar">
+          <h3 class="series-block__title" data-i18n="candles.series.jar">蘑菇瓶香薰蜡烛</h3>
+          <div class="product-grid product-grid--candles" id="candleGrid"></div>
+        </section>
+        <div id="candleSeries"></div>
+      </div>
     </section>
 
     <!-- Reed Diffusers -->
@@ -497,25 +531,7 @@
           <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="tealights.f4">Perfect for any space</span></li>
         </ul>
       </div>
-      <div class="product-grid product-grid--candles" id="diffuserGrid"></div>
-    </section>
-
-    <!-- Tealight Holders -->
-    <section class="section section--category" id="tealight-holders">
-      <div class="category-intro">
-        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
-        <h2 data-i18n="holders.title">Tealight holders</h2>
-        <p class="category-intro__lede" data-i18n="holders.lede">
-          Elegant crystal clear glass holders in four beautiful shapes — sturdy, reusable, and perfect for home, parties, and weddings.
-        </p>
-        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
-          <li><span class="category-features__icon" aria-hidden="true">◇</span> <span data-i18n="holders.f1">Crystal clear glass</span></li>
-          <li><span class="category-features__icon" aria-hidden="true">⛨</span> <span data-i18n="holders.f2">Sturdy & durable</span></li>
-          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="holders.f3">12 pcs value pack</span></li>
-          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="holders.f4">Fits standard tealights</span></li>
-        </ul>
-      </div>
-      <div class="product-grid product-grid--candles" id="holderGrid"></div>
+      <div class="series-stack" id="diffuserGrid"></div>
     </section>
 
     <!-- Scented Sachets -->
@@ -534,6 +550,60 @@
         </ul>
       </div>
       <div class="product-grid product-grid--candles" id="sachetGrid"></div>
+    </section>
+
+    <!-- Scented Wooden Balls -->
+    <section class="section section--category" id="scented-wooden-balls">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="woods.title">Scented wooden balls</h2>
+        <p class="category-intro__lede" data-i18n="woods.lede">
+          Natural scented wooden balls in a 6 pcs pack — long-lasting aroma for closets, drawers, and small spaces.
+        </p>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="woods.f1">Natural wood</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="woods.f2">Long-lasting aroma</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="woods.f3">6 pcs pack</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="woods.f4">Ideal for any space</span></li>
+        </ul>
+      </div>
+      <div class="product-grid" id="woodGrid"></div>
+    </section>
+
+    <!-- Deodorizing balls -->
+    <section class="section section--category" id="deodorizing-balls">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="balls.title">Deodorizing balls 4 pcs</h2>
+        <p class="category-intro__lede" data-i18n="balls.lede">
+          Deodorizing balls in a 4 pcs pack — lasting fragrance for shoes, closets, and drawers.
+        </p>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="balls.f1">Deodorizing balls</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="balls.f2">Long-lasting fragrance</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="balls.f3">4 pcs pack</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="balls.f4">Shoes, closets and drawers</span></li>
+        </ul>
+      </div>
+      <div class="product-grid product-grid--candles" id="deoGrid"></div>
+    </section>
+
+    <!-- Scented gels -->
+    <section class="section section--category" id="scented-gels">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="gels.title">Scented gel</h2>
+        <p class="category-intro__lede" data-i18n="gels.lede">
+          Scented gel for rooms, closets, and cars — long-lasting fragrance in a 12 pcs display box.
+        </p>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="gels.f1">Scented gel</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="gels.f2">Long-lasting aroma</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="gels.f3">12 pcs pack</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="gels.f4">Ideal for any space</span></li>
+        </ul>
+      </div>
+      <div class="product-grid product-grid--candles" id="gelGrid"></div>
     </section>
 
     <!-- Essential Oils -->
@@ -587,7 +657,66 @@
           <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="refills.f4">12 pcs display pack</span></li>
         </ul>
       </div>
-      <div class="product-grid product-grid--candles" id="refillGrid"></div>
+      <div class="series-stack" id="refillStack">
+        <section class="series-block" id="refill-series-100">
+          <h3 class="series-block__title" data-i18n="refills.series.100">100ml香薰机补充液</h3>
+          <div class="product-grid product-grid--candles" id="refillGrid"></div>
+        </section>
+        <section class="series-block" id="refill-series-300">
+          <h3 class="series-block__title" data-i18n="refills.series.300">300ml香薰机补充液</h3>
+          <div class="product-grid product-grid--candles" id="refillGrid300"></div>
+        </section>
+      </div>
+      <div class="series-stack" id="refillSeries"></div>
+    </section>
+
+    <!-- Holders: tealight holders, ceramic burner, tealight cup -->
+    <section class="section section--category" id="tealight-holders">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="nav.holders">Holders</h2>
+        <p class="category-intro__lede" data-i18n="holders.lede">
+          Crystal clear glass tealight holders — sturdy, reusable, and perfect for home, parties, and weddings.
+        </p>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">◇</span> <span data-i18n="holders.f1">Crystal clear glass</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⛨</span> <span data-i18n="holders.f2">Sturdy & durable</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="holders.f3">12 pcs value pack</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="holders.f4">Fits standard tealights</span></li>
+        </ul>
+      </div>
+      <div class="series-stack" id="holderStack">
+        <section class="series-block" id="holder-series">
+          <h3 class="series-block__title" data-i18n="holders.title">茶蜡烛台</h3>
+          <div class="product-grid product-grid--candles" id="holderGrid"></div>
+        </section>
+        <section class="series-block" id="ceramic-burners">
+          <h3 class="series-block__title" data-i18n="burners.title">陶瓷香炉</h3>
+          <div class="product-grid product-grid--candles" id="burnerGrid"></div>
+        </section>
+        <section class="series-block" id="tealight-cup">
+          <h3 class="series-block__title" data-i18n="holders.cup">茶蜡烛杯</h3>
+          <div class="product-grid product-grid--candles" id="cupGrid"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- India incense board -->
+    <section class="section section--category" id="incense-holders">
+      <div class="category-intro">
+        <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
+        <h2 data-i18n="incense.title">India incense board</h2>
+        <p class="category-intro__lede" data-i18n="incense.lede">
+          Wooden incense boards in five mixed designs — an exotic touch for home.
+        </p>
+        <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
+          <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="incense.f1">Wooden board</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="incense.f2">5 mixed designs</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="incense.f3">24 pcs pack</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="incense.f4">Exotic touch</span></li>
+        </ul>
+      </div>
+      <div class="product-grid product-grid--candles" id="incenseGrid"></div>
     </section>
 
     <!-- Press -->
@@ -616,17 +745,16 @@
 
   <footer class="footer" id="contact">
     <div class="footer__top">
-      <a href="#" class="footer__logo">
+      <a href="index.html" class="footer__logo">
         <img src="assets/logo.png" alt="YINSCENT" width="180" height="139" />
       </a>
     </div>
     <div class="footer__grid">
       <div class="footer__col">
         <h4 data-i18n="footer.account">Your account</h4>
-        <a href="#" data-i18n="account.mine">My account</a>
-        <a href="#" data-i18n="account.orders">Orders</a>
-        <a href="#" data-i18n="account.details">Account details</a>
-        <a href="#" data-i18n="account.cart">Cart</a>
+        <a href="account.html" data-i18n="account.mine">My account</a>
+        <a href="account.html#orders" data-i18n="account.orders">Orders</a>
+        <a href="account.html" data-i18n="account.details">Account details</a>
       </div>
       <div class="footer__col">
         <h4 data-i18n="footer.legal">Legal</h4>
@@ -658,13 +786,14 @@
     <p class="footer__copy" data-i18n="footer.copy" data-i18n-html="true">© {year} YINSCENT. All rights reserved.</p>
   </footer>
 
-  <script src="js/paths.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/products.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/product.js"></script>
-  <script src="js/story.js"></script>
-  <script src="js/contact.js"></script>
+  <script src="js/paths.js?v=4"></script>
+  <script src="js/i18n.js?v=51"></script>
+  <script src="js/auth.js?v=7"></script>
+  <script src="js/catalog.js?v=1"></script>
+  <script src="js/main.js?v=72"></script>
+  <script src="js/product.js?v=31"></script>
+  <script src="js/story.js?v=5"></script>
+  <script src="js/contact.js?v=2"></script>
+  <script src="js/to-top.js?v=3"></script>
   </body>
 </html>

@@ -6,20 +6,22 @@
   var shopMain = document.getElementById("shopMain");
   if (!root) return;
 
-  if (shopMain) shopMain.hidden = true;
-  root.hidden = false;
-  document.body.classList.add("page-product");
-
-  var products = window.YINSCENT_PRODUCTS || [];
-  var categories = window.YINSCENT_CATEGORIES || [];
+  var products = [];
+  var categories = [];
   var categoryById = {};
-  categories.forEach(function (c) {
-    categoryById[c.id] = c;
-  });
+  var product = null;
 
-  var product = products.find(function (p) {
-    return p.id === id;
-  });
+  function bindCatalog() {
+    products = window.YINSCENT_PRODUCTS || [];
+    categories = window.YINSCENT_CATEGORIES || [];
+    categoryById = {};
+    categories.forEach(function (c) {
+      categoryById[c.id] = c;
+    });
+    product = products.find(function (p) {
+      return p.id === id;
+    });
+  }
 
   var base = window.YINSCENT_BASE || "/";
 
@@ -33,6 +35,13 @@
 
   function tr(key, vars) {
     return i18n() && i18n().t ? i18n().t(key, vars) : key;
+  }
+
+  function formatMoney(amount) {
+    if (window.YINSCENT_MONEY) return window.YINSCENT_MONEY(amount);
+    var n = Number(amount);
+    if (!isFinite(n)) n = 0;
+    return "¥" + n.toFixed(2);
   }
 
   function locProduct(p) {
@@ -53,7 +62,22 @@
   }
 
   function productImage(slug) {
-    return base + "assets/products/" + slug + ".png";
+    var url = base + "assets/products/" + slug + ".png";
+    if (/^(apple|mango|cinnamon|cotton|cherry|ocean|jasmine|lavender|orange-blossom|coconut|vanilla|rose)-diffuser$/.test(slug)) url += "?v=2";
+    if (/^(apple|mango|cinnamon|cotton|cherry|ocean|jasmine|lavender|orange-blossom|coconut|vanilla|rose)-diffuser-35$/.test(slug)) url += "?v=3";
+    if (/^(vanilla|cotton|cherry|cinnamon|rose|mango|lavender|ocean|jasmine|apple|coconut|orange-blossom|strawberry-cream)-cozy$/.test(slug)) url += "?v=4";
+    if (/^(lavender|cotton|ocean|rose|cherry|jasmine)-refill$/.test(slug)) url += "?v=5";
+    if (/^(lavender|cotton|ocean|rose|cherry|jasmine)-refill-300$/.test(slug)) url += "?v=6";
+    if (/^smart-diffuser-(aurora|halo|kitty)$/.test(slug)) url += "?v=7";
+    if (/^(lavender|cotton|cherry|apple|rose|jasmine|coconut|cinnamon|mango|vanilla|ocean|orange-blossom)-pack$/.test(slug)) url += "?v=8";
+    if (/^(eucalyptus|agarwood|amber-rose|red-berries|coconut|pinecone|vanilla|sandalwood|gardenia)-wood$/.test(slug)) url += "?v=10";
+    if (/^(square|star|heart|plum-blossom)-tealight-holder$/.test(slug)) url += "?v=11";
+    if (/^(passion-fruit-palo-santo|mango-sandalwood|pear-amber|sandalwood-ocean|freesia-amber|lavender-cotton)-diffuser$/.test(slug)) url += "?v=12";
+    if (/^[a-z]+-zodiac-diffuser$/.test(slug)) url += "?v=13";
+    if (/-reed-refill$/.test(slug)) url += "?v=14";
+    if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
+    if (/-cup-candle$/.test(slug)) url += "?v=16";
+    return url;
   }
 
   function productImages(p) {
@@ -76,19 +100,18 @@
   function renderNotFound() {
     root.innerHTML =
       '<div class="pdp-not-found">' +
-      "<h1>Product not found</h1>" +
-      "<p>We could not find that item. Browse our collection on the homepage.</p>" +
-      '<a href="' + base + 'index.html" class="btn btn--gold">Back to shop</a>' +
+      "<h1>" + tr("pdp.missing") + "</h1>" +
+      "<p>" + tr("pdp.missing_body") + "</p>" +
+      '<a href="' + base + 'index.html" class="btn btn--gold">' + tr("pdp.back_shop") + "</a>" +
       "</div>";
-    document.title = "YINSCENT — Product not found";
-  }
-
-  if (!product) {
-    renderNotFound();
-    return;
+    document.title = "YINSCENT — " + tr("pdp.missing");
   }
 
   function renderPdp() {
+    if (!product) {
+      renderNotFound();
+      return;
+    }
     var lp = locProduct(product);
     var imgs = productImages(product);
     var hasGallery = imgs.length > 1;
@@ -122,10 +145,8 @@
           (i === 0 ? " is-active" : "") +
           '" data-index="' +
           i +
-          '" aria-label="View image ' +
-          (i + 1) +
-          " of " +
-          imgs.length +
+          '" aria-label="' +
+          tr("pdp.image", { n: i + 1, total: imgs.length }) +
           '">' +
           '<img src="' +
           productImage(slug) +
@@ -149,7 +170,7 @@
       '<img id="pdpMainImage" src="' + productImage(imgs[0]) + '" alt="' + productAlt(product, 0) + '" />' +
       "</figure>" +
       (hasGallery
-        ? '<div class="pdp-gallery__thumbs" role="tablist" aria-label="Product images">' + thumbsHtml + "</div>"
+        ? '<div class="pdp-gallery__thumbs" role="tablist" aria-label="' + tr("pdp.images") + '">' + thumbsHtml + "</div>"
         : "") +
       "</div>" +
       '<article class="pdp-info product" data-id="' + product.id + '" data-name="' + productFullName(product) + '" data-price="' + product.price + '">' +
@@ -158,12 +179,28 @@
       (lp.tagline ? '<p class="pdp-info__tagline">' + lp.tagline + "</p>" : "") +
       '<p class="pdp-info__desc">' + lp.desc + "</p>" +
       featuresHtml +
-      '<p class="pdp-info__price product__price">$' + product.price + "</p>" +
-      '<button type="button" class="btn btn--cart add-to-cart pdp-info__cart">' + tr("pdp.add") + "</button>" +
+      '<div class="pdp-price-row"><p class="pdp-info__price product__price">' +
+      formatMoney(product.price) +
+      '</p><button type="button" class="pdp-add" id="pdpAdd">' +
+      tr("btn.add") +
+      "</button></div>" +
+      '<a href="' + base + 'index.html?page=contact" class="btn btn--cart pdp-info__enquire">' + tr("nav.contact") + "</a>" +
       '<a href="' + categoryBackHref(product) + '" class="pdp-info__back">' + tr("pdp.continue") + "</a>" +
       "</article></div>";
 
     document.title = "YINSCENT — " + lp.name;
+
+    var addBtn = document.getElementById("pdpAdd");
+    if (addBtn && window.YinscentCart) {
+      addBtn.addEventListener("click", function () {
+        window.YinscentCart.add({
+          id: product.id,
+          name: productFullName(product),
+          price: product.price,
+          image: productImage(imgs[0]),
+        });
+      });
+    }
 
     if (!hasGallery) return;
 
@@ -187,6 +224,31 @@
     });
   }
 
-  renderPdp();
-  window.addEventListener("yinscent:langchange", renderPdp);
+  function showProduct() {
+    if (shopMain) shopMain.hidden = true;
+    root.hidden = false;
+    document.body.classList.add("page-product");
+    document.documentElement.classList.add("is-member");
+    renderPdp();
+  }
+
+  if (window.YinscentAuth && window.YinscentAuth.whenReady) {
+    window.YinscentAuth.whenReady().then(function () {
+      var member = window.YinscentAuth.getMember() || (window.YinscentAuth.isAdmin && window.YinscentAuth.isAdmin());
+      var next = "index.html" + window.location.search;
+      if (!member) {
+        window.location.replace(base + "login.html?next=" + encodeURIComponent(next));
+        return;
+      }
+      var ready = window.YinscentCatalog && window.YinscentCatalog.load
+        ? window.YinscentCatalog.load()
+        : Promise.resolve(true);
+      ready.then(function (ok) {
+        if (!ok) return;
+        bindCatalog();
+        showProduct();
+        window.addEventListener("yinscent:langchange", renderPdp);
+      });
+    });
+  }
 })();
