@@ -3,11 +3,20 @@ const path = require("path");
 
 const routesRoot = path.resolve(__dirname, "_routes");
 
+function splitRoute(value) {
+  const raw = Array.isArray(value) ? value.join("/") : String(value || "");
+  try {
+    return decodeURIComponent(raw).split("/").filter(Boolean);
+  } catch (e) {
+    return raw.split("/").filter(Boolean);
+  }
+}
+
 function partsFrom(req) {
-  const query = req.query && req.query.path;
-  if (Array.isArray(query)) return query;
-  if (typeof query === "string" && query) return [query];
-  return String(req.url || "")
+  const query = (req && req.query) || {};
+  if (query.route) return splitRoute(query.route);
+  if (query.path) return splitRoute(query.path);
+  return String((req && req.url) || "")
     .split("?")[0]
     .replace(/^\/api\/?/, "")
     .split("/")

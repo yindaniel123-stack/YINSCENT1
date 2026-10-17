@@ -60,6 +60,7 @@
       sent: "验证码已发送到邮箱。",
       devCode: "本地未配置发信，验证码是 ",
       invalid: "账号或密码不正确",
+      down: "登录服务暂时不可用，请稍后再试",
       pending: "申请正在审核，暂时不能登录",
       rejected: "申请未通过，暂时不能登录",
       disabled: "账号已停用",
@@ -128,6 +129,7 @@
       sent: "The code was sent to your email.",
       devCode: "Mail is not configured locally. Code: ",
       invalid: "Incorrect account or password",
+      down: "Sign-in is temporarily unavailable. Please try again.",
       pending: "This application is still waiting for review.",
       rejected: "This application was not approved.",
       disabled: "This account is disabled",
@@ -196,6 +198,7 @@
       sent: "El código se envió al correo.",
       devCode: "El correo no está configurado en local. Código: ",
       invalid: "Cuenta o contraseña incorrecta",
+      down: "El inicio de sesión no está disponible temporalmente. Inténtalo de nuevo.",
       pending: "La solicitud está en revisión y todavía no permite iniciar sesión.",
       rejected: "La solicitud no fue aprobada y no permite iniciar sesión.",
       disabled: "La cuenta está desactivada",
@@ -264,6 +267,7 @@
       sent: "O código foi enviado para o e-mail.",
       devCode: "O e-mail não está configurado localmente. Código: ",
       invalid: "Conta ou palavra-passe incorreta",
+      down: "O início de sessão está temporariamente indisponível. Tente novamente.",
       pending: "O pedido está em análise e ainda não permite entrar.",
       rejected: "O pedido não foi aprovado e não permite entrar.",
       disabled: "A conta está desativada",
@@ -431,7 +435,8 @@
     })
       .then(function (res) {
         if (!res.ok) {
-          showError("loginError", errorText(copy, res.data && res.data.error));
+          var unavailable = res.status === 404 || res.status >= 500;
+          showError("loginError", unavailable ? copy.down : errorText(copy, res.data && res.data.error));
           button.disabled = false;
           return;
         }

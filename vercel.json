@@ -1,5 +1,11 @@
 {
+  "functions": {
+    "api/**/*.js": {
+      "includeFiles": "api/_routes/**"
+    }
+  },
   "rewrites": [
+    { "source": "/api/:section/:rest*", "destination": "/api/gate?route=:section/:rest*" },
     { "source": "/product.html", "destination": "/index.html" },
     { "source": "/story.html", "destination": "/index.html" },
     { "source": "/story", "destination": "/index.html" },
