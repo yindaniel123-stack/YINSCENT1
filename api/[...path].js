@@ -3,6 +3,12 @@ const path = require("path");
 
 const routesRoot = path.resolve(__dirname, "_routes");
 
+// Read these here so the published function keeps the shop catalog files.
+try {
+  fs.readFileSync(path.join(__dirname, "..", "js", "products.js"));
+  fs.readFileSync(path.join(__dirname, "..", "js", "i18n.js"));
+} catch (e) {}
+
 function splitRoute(value) {
   const raw = Array.isArray(value) ? value.join("/") : String(value || "");
   try {
