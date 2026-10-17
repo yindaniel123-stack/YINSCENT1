@@ -1,24 +1,10 @@
-const fs = require("fs");
-const path = require("path");
-const vm = require("vm");
 const catalogStore = require("../_lib/catalog-store");
+const productSource = require("../_lib/product-source");
 const trade = require("../_lib/trade-products");
 const { currentUser, session } = require("../_lib/access");
 
-let cache = null;
-
 function catalog() {
-  if (cache) return cache;
-  const file = path.join(__dirname, "..", "js", "products.js");
-  const code = fs.readFileSync(file, "utf8");
-  const sandbox = { window: {} };
-  vm.createContext(sandbox);
-  vm.runInContext(code, sandbox, { filename: "products.js" });
-  cache = {
-    products: sandbox.window.YINSCENT_PRODUCTS || [],
-    categories: sandbox.window.YINSCENT_CATEGORIES || [],
-  };
-  return cache;
+  return productSource.load();
 }
 
 module.exports = function handler(req, res) {

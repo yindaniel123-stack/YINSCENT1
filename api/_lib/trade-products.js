@@ -29,12 +29,7 @@ function write(data) {
 }
 
 function catalog() {
-  const file = path.join(__dirname, "..", "..", "js", "products.js");
-  const code = fs.readFileSync(file, "utf8");
-  const sandbox = { window: {} };
-  vm.createContext(sandbox);
-  vm.runInContext(code, sandbox, { filename: "products.js" });
-  return sandbox.window.YINSCENT_PRODUCTS || [];
+  return require("./product-source").load().products;
 }
 
 function text(value, max) {
@@ -132,7 +127,13 @@ let scentZh = null;
 function zhScentMap() {
   if (scentZh) return scentZh;
   const file = path.join(__dirname, "..", "..", "js", "i18n.js");
-  const code = fs.readFileSync(file, "utf8");
+  let code = "";
+  try {
+    code = fs.readFileSync(file, "utf8");
+  } catch (e) {
+    scentZh = Object.assign({}, extraZh);
+    return scentZh;
+  }
   const start = code.indexOf("var SCENTS = ");
   const end = code.indexOf(";\n  var PHRASES");
   const sandbox = {};
@@ -147,7 +148,13 @@ let phraseZh = null;
 function zhPhrases() {
   if (phraseZh) return phraseZh;
   const file = path.join(__dirname, "..", "..", "js", "i18n.js");
-  const code = fs.readFileSync(file, "utf8");
+  let code = "";
+  try {
+    code = fs.readFileSync(file, "utf8");
+  } catch (e) {
+    phraseZh = [];
+    return phraseZh;
+  }
   const token = "var PHRASES = ";
   const brace = code.indexOf("{", code.indexOf(token));
   let depth = 0;

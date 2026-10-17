@@ -35,12 +35,18 @@ module.exports = function handler(req, res) {
     res.end(JSON.stringify({ error: "Not found" }));
     return;
   }
-  return Promise.resolve(require(file)(req, res)).catch(function (err) {
+  try {
+    return Promise.resolve(require(file)(req, res)).catch(fail);
+  } catch (err) {
+    return fail(err);
+  }
+
+  function fail(err) {
     console.error(err);
     if (!res.headersSent) {
       res.statusCode = 500;
       res.setHeader("Content-Type", "application/json");
     }
-    res.end(JSON.stringify({ error: "Internal server error" }));
-  });
+    if (!res.writableEnded) res.end(JSON.stringify({ error: "Internal server error" }));
+  }
 };
