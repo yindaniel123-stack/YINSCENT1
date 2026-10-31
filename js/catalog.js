@@ -7,11 +7,6 @@ window.YinscentCatalog = (function () {
     var base = window.YINSCENT_BASE || "/";
     pending = fetch(base + "api/catalog", { credentials: "same-origin" })
       .then(function (res) {
-        if (res.status === 401) {
-          var next = "index.html" + window.location.search + window.location.hash;
-          window.location.replace(base + "login.html?next=" + encodeURIComponent(next));
-          return null;
-        }
         if (!res.ok) throw new Error("catalog");
         return res.json();
       })

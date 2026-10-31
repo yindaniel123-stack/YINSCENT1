@@ -72,6 +72,15 @@
     return base + "index.html?id=" + encodeURIComponent(p.id);
   }
 
+  function loginNext(p) {
+    var next = p ? "index.html?id=" + encodeURIComponent(p.id) : "index.html";
+    return base + "login.html?next=" + encodeURIComponent(next);
+  }
+
+  function browseUrl(p) {
+    return signedInForShop() ? productUrl(p) : loginNext(p);
+  }
+
   function productThumb(p) {
     var imgs = p.images && p.images.length ? p.images : [p.slug];
     return productImage(imgs[0]);
@@ -228,6 +237,7 @@
   }
 
   function priceLine(p) {
+    if (!signedInForShop()) return "";
     var site = window.YINSCENT_SITE;
     if (site && site.showPrice === false) return "";
     return '<p class="product__price">' + formatMoney(p.price) + "</p>";
@@ -248,17 +258,18 @@
       (isLandscapeProduct(catId) ? " product--landscape" : "");
     article.setAttribute("data-id", p.id);
     article.setAttribute("data-name", productFullName(p));
-    article.setAttribute("data-price", p.price);
+    if (signedInForShop()) article.setAttribute("data-price", p.price);
 
     var cardName = catId === "deodorizing-balls" ? lp.name + "-4pcs" : lp.name;
+    var href = browseUrl(p);
 
     article.innerHTML =
-      '<a href="' + productUrl(p) + '" class="product__img-wrap">' +
+      '<a href="' + href + '" class="product__img-wrap">' +
       '<img class="product__img" src="' + productThumb(p) + '" alt="' + productAlt(p) + '" loading="lazy" />' +
       '<button type="button" class="product__wish" aria-label="' + tr("btn.wish") + '">♡</button>' +
       "</a>" +
       '<p class="product__cat">' + categoryLabel(p) + "</p>" +
-      '<h3 class="product__name"><a href="' + productUrl(p) + '">' + cardName + "</a></h3>" +
+      '<h3 class="product__name"><a href="' + href + '">' + cardName + "</a></h3>" +
       (grid ? '<p class="product__desc">' + lp.desc + "</p>" : "") +
       priceLine(p) + stockLine(p);
 
@@ -365,7 +376,8 @@
       sortedProducts.forEach(function (p, i) {
         var lp = locProduct(p);
         var a = document.createElement("a");
-        a.href = productUrl(p);
+        a.href = browseUrl(p);
+        a.setAttribute("data-id", p.id);
         a.className = "category-pill" + (i === 0 ? " is-active" : "");
         a.innerHTML =
           '<img class="category-pill__img" src="' + productThumb(p) + '" alt="" width="72" height="72" />' +
@@ -519,8 +531,68 @@
     if (isDetailView) return;
     bindCatalog();
     document.documentElement.classList.add("is-member");
+    document.documentElement.classList.remove("is-preview");
     clearCatalog();
     renderCatalog();
+  }
+
+  function openPreview() {
+    if (isDetailView) return;
+    bindCatalog();
+    document.documentElement.classList.remove("is-member");
+    document.documentElement.classList.add("is-preview");
+    clearCatalog();
+    renderCatalog();
+  }
+
+  function closeLoginPopup() {
+    var pop = document.getElementById("loginPop");
+    if (pop) pop.hidden = true;
+    document.body.classList.remove("is-login-open");
+  }
+
+  function openLoginPopup(next) {
+    var url = base + "login.html?next=" + encodeURIComponent(next || "index.html");
+    var pop = document.getElementById("loginPop");
+    if (!pop) {
+      pop = document.createElement("div");
+      pop.id = "loginPop";
+      pop.className = "login-pop";
+      pop.innerHTML =
+        '<button type="button" class="login-pop__close" aria-label="关闭">×</button>' +
+        '<iframe class="login-pop__frame" title="登录"></iframe>';
+      document.body.appendChild(pop);
+      pop.querySelector(".login-pop__close").addEventListener("click", closeLoginPopup);
+      pop.querySelector("iframe").addEventListener("load", function () {
+        var frame = pop.querySelector("iframe");
+        try {
+          var loc = frame.contentWindow.location;
+          if (!loc || loc.href === "about:blank") return;
+          if (loc.pathname.indexOf("login.html") !== -1) return;
+          window.location.href = loc.href;
+        } catch (e) {}
+      });
+    }
+    pop.hidden = false;
+    pop.querySelector("iframe").src = url;
+    document.body.classList.add("is-login-open");
+  }
+
+  var shopMainEl = document.getElementById("shopMain");
+  if (shopMainEl) {
+    shopMainEl.addEventListener("click", function (event) {
+      if (signedInForShop()) return;
+      var link = event.target.closest("a.product__img-wrap, .product__name a, a.category-pill");
+      if (!link || !shopMainEl.contains(link)) return;
+      if (event.target.closest(".product__wish")) return;
+      event.preventDefault();
+      var id = link.getAttribute("data-id");
+      if (!id) {
+        var card = link.closest("[data-id]");
+        id = card ? card.getAttribute("data-id") : "";
+      }
+      openLoginPopup(id ? "index.html?id=" + encodeURIComponent(id) : "index.html");
+    });
   }
 
   function signedInForShop() {
@@ -533,10 +605,13 @@
   function requireMember() {
     var page = pageParams.get("page");
     var member = signedInForShop();
-    var next = "index.html" + window.location.search + window.location.hash;
     if (!member) {
-      if (page === "story" || page === "contact") return;
-      window.location.replace(base + "login.html?next=" + encodeURIComponent(next));
+      if (page === "story" || page === "contact" || pageParams.get("id")) return;
+      if (window.YinscentCatalog && window.YinscentCatalog.load) {
+        window.YinscentCatalog.load().then(function (ok) {
+          if (ok) openPreview();
+        });
+      }
       return;
     }
     if (page === "story" || page === "contact") return;
@@ -554,7 +629,7 @@
   }
 
   window.addEventListener("yinscent:langchange", function () {
-    if (!isDetailView && document.documentElement.classList.contains("is-member")) {
+    if (!isDetailView && (document.documentElement.classList.contains("is-member") || document.documentElement.classList.contains("is-preview"))) {
       clearCatalog();
       renderCatalog();
     }
@@ -610,7 +685,15 @@
     var switchAccount = document.getElementById("userMenuSwitch");
     var signOut = document.getElementById("userMenuSignOut");
     var adminMenu = !!(admin && !user);
-    if (signIn) signIn.hidden = signedIn;
+    if (signIn) {
+      signIn.hidden = signedIn;
+      signIn.onclick = function (event) {
+        if (signedInForShop()) return;
+        event.preventDefault();
+        setUserMenuOpen(false);
+        openLoginPopup("index.html" + window.location.search + window.location.hash);
+      };
+    }
     if (orders) orders.hidden = !user;
     if (cart) cart.hidden = !user;
     if (switchAccount) switchAccount.hidden = !adminMenu;
@@ -1118,7 +1201,7 @@
       if (!stored) window.YINSCENT_I18N.setLang(site.defaultLanguage || "zh", { silent: true });
       else if (!langEnabled(window.YINSCENT_I18N.getLang())) window.YINSCENT_I18N.setLang(site.defaultLanguage || site.languages[0]);
     }
-    if (!isDetailView && document.documentElement.classList.contains("is-member")) {
+    if (!isDetailView && (document.documentElement.classList.contains("is-member") || document.documentElement.classList.contains("is-preview"))) {
       clearCatalog();
       renderCatalog();
     }

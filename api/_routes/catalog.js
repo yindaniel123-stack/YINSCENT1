@@ -11,9 +11,6 @@ module.exports = function handler(req, res) {
   if (req.method !== "GET") return session.sendJson(res, 405, { error: "method" });
   const admin = session.readAdmin(req);
   const member = currentUser(req);
-  if (!admin && !member) {
-    return session.sendJson(res, 401, { error: "unauthorized", login: "/login.html" });
-  }
   const data = catalog();
   const overrides = catalogStore.read();
   const saved = {};
@@ -31,6 +28,10 @@ module.exports = function handler(req, res) {
     next.stock = overrides.stock[product.id] == null ? null : overrides.stock[product.id];
     if (row && row.stock) next.stock = row.stock;
     if (row && row.name) next.tradeName = row.name;
+    if (!admin && !member) {
+      delete next.price;
+      delete next.stock;
+    }
     return next;
   });
   return session.sendJson(res, 200, { products: products, categories: data.categories });
