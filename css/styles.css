@@ -3800,8 +3800,14 @@ html:not(.is-member):not(.is-preview) #productDetail {
   display: none;
 }
 
-html.is-preview .product__price {
+html.is-preview .product__price,
+html.is-preview .pdp-price-row {
   display: none;
+}
+
+html.is-preview #pdpMainImage,
+html.is-preview .pdp-info__title {
+  cursor: pointer;
 }
 
 .login-pop {

@@ -173,17 +173,19 @@
         ? '<div class="pdp-gallery__thumbs" role="tablist" aria-label="' + tr("pdp.images") + '">' + thumbsHtml + "</div>"
         : "") +
       "</div>" +
-      '<article class="pdp-info product" data-id="' + product.id + '" data-name="' + productFullName(product) + '" data-price="' + product.price + '">' +
+      '<article class="pdp-info product" data-id="' + product.id + '" data-name="' + productFullName(product) + '"' + (signedIn() ? ' data-price="' + product.price + '"' : "") + ">" +
       '<p class="product__cat">' + categoryLabel(product) + "</p>" +
       '<h1 class="pdp-info__title">' + lp.name + "</h1>" +
       (lp.tagline ? '<p class="pdp-info__tagline">' + lp.tagline + "</p>" : "") +
       '<p class="pdp-info__desc">' + lp.desc + "</p>" +
       featuresHtml +
-      '<div class="pdp-price-row"><p class="pdp-info__price product__price">' +
-      formatMoney(product.price) +
-      '</p><button type="button" class="pdp-add" id="pdpAdd">' +
-      tr("btn.add") +
-      "</button></div>" +
+      (signedIn()
+        ? '<div class="pdp-price-row"><p class="pdp-info__price product__price">' +
+          formatMoney(product.price) +
+          '</p><button type="button" class="pdp-add" id="pdpAdd">' +
+          tr("btn.add") +
+          "</button></div>"
+        : "") +
       '<a href="' + base + 'index.html?page=contact" class="btn btn--cart pdp-info__enquire">' + tr("nav.contact") + "</a>" +
       '<a href="' + categoryBackHref(product) + '" class="pdp-info__back">' + tr("pdp.continue") + "</a>" +
       "</article></div>";
@@ -224,30 +226,43 @@
     });
   }
 
+  function signedIn() {
+    var auth = window.YinscentAuth;
+    if (!auth) return false;
+    if (auth.getMember && auth.getMember()) return true;
+    return !!(auth.isAdmin && auth.isAdmin());
+  }
+
   function showProduct() {
     if (shopMain) shopMain.hidden = true;
     root.hidden = false;
     document.body.classList.add("page-product");
-    document.documentElement.classList.add("is-member");
+    var member = signedIn();
+    document.documentElement.classList.toggle("is-member", member);
+    document.documentElement.classList.toggle("is-preview", !member);
     renderPdp();
+    if (member) return;
+    function openLogin(event) {
+      event.preventDefault();
+      if (window.YinscentLogin) window.YinscentLogin.open("index.html?id=" + encodeURIComponent(id));
+    }
+    var image = document.getElementById("pdpMainImage");
+    var title = root.querySelector(".pdp-info__title");
+    if (image) image.addEventListener("click", openLogin);
+    if (title) title.addEventListener("click", openLogin);
   }
 
   if (window.YinscentAuth && window.YinscentAuth.whenReady) {
     window.YinscentAuth.whenReady().then(function () {
-      var member = window.YinscentAuth.getMember() || (window.YinscentAuth.isAdmin && window.YinscentAuth.isAdmin());
-      var next = "index.html" + window.location.search;
-      if (!member) {
-        window.location.replace(base + "login.html?next=" + encodeURIComponent(next));
-        return;
-      }
       var ready = window.YinscentCatalog && window.YinscentCatalog.load
         ? window.YinscentCatalog.load()
         : Promise.resolve(true);
       ready.then(function (ok) {
         if (!ok) return;
         bindCatalog();
+        if (!product) return;
         showProduct();
-        window.addEventListener("yinscent:langchange", renderPdp);
+        window.addEventListener("yinscent:langchange", showProduct);
       });
     });
   }

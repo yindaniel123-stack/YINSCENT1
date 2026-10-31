@@ -204,22 +204,6 @@
     return sorted;
   }
 
-  function isLandscapeProduct(catId) {
-    return (
-      catId === "scented-candles" ||
-      catId === "reed-diffusers" ||
-      catId === "tealight-holders" ||
-      catId === "ceramic-burners" ||
-      catId === "incense-holders" ||
-      catId === "scented-sachets" ||
-      catId === "deodorizing-balls" ||
-      catId === "scented-gels" ||
-      catId === "essential-oils" ||
-      catId === "smart-aroma-refills" ||
-      catId === "smart-aroma-diffusers"
-    );
-  }
-
   function catSuffix(catId) {
     if (catId === "scented-candles") return tr("suffix.candle");
     if (catId === "reed-diffusers") return tr("suffix.diffuser");
@@ -252,10 +236,7 @@
     var lp = locProduct(p);
     var article = document.createElement("article");
     var catId = productCategory(p);
-    article.className =
-      "product" +
-      (grid ? " product--grid" : "") +
-      (isLandscapeProduct(catId) ? " product--landscape" : "");
+    article.className = "product" + (grid ? " product--grid" : "");
     article.setAttribute("data-id", p.id);
     article.setAttribute("data-name", productFullName(p));
     if (signedInForShop()) article.setAttribute("data-price", p.price);
@@ -323,7 +304,7 @@
     heading.className = "series-block__title";
     heading.textContent = title;
     var grid = document.createElement("div");
-    grid.className = "product-grid product-grid--candles";
+    grid.className = "product-grid";
     items.forEach(function (product) { grid.appendChild(renderProductCard(product, true)); });
     block.appendChild(heading);
     block.appendChild(grid);
@@ -441,7 +422,7 @@
           title.className = "series-block__title";
           setSeriesHeading(title, seriesTitle(cups, tr("candles.series.cup")));
           var inner = document.createElement("div");
-          inner.className = "product-grid product-grid--candles";
+          inner.className = "product-grid";
           cups.forEach(function (product) { inner.appendChild(renderProductCard(product, true)); });
           block.appendChild(title);
           block.appendChild(inner);
@@ -577,6 +558,8 @@
     pop.querySelector("iframe").src = url;
     document.body.classList.add("is-login-open");
   }
+
+  window.YinscentLogin = { open: openLoginPopup };
 
   var shopMainEl = document.getElementById("shopMain");
   if (shopMainEl) {
