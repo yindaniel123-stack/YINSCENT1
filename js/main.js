@@ -64,6 +64,7 @@
     if (/^[a-z]+-zodiac-diffuser$/.test(slug)) url += "?v=13";
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
+    if (/-zodiac-candle$/.test(slug)) url += "?v=24";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
     if (/-deo-ball-6$/.test(slug)) url += "?v=23";
     else if (/-deo-ball-2$/.test(slug)) url += "?v=22";
@@ -435,26 +436,28 @@
         return;
       }
       if (cat.id === "scented-candles") {
-        var jars = sortBySku(items.filter(function (product) { return product.series !== "cup"; }));
+        var jars = sortBySku(items.filter(function (product) { return product.series !== "cup" && product.series !== "zodiac"; }));
         jars.forEach(function (product) { grid.appendChild(renderProductCard(product, true)); });
         var jarHead = document.querySelector("#candle-series-jar h3");
         if (jarHead) jarHead.textContent = seriesTitle(jars, tr("candles.series.jar"));
         var stack = document.getElementById("candleSeries");
-        var cups = sortBySku(items.filter(function (product) { return product.series === "cup"; }));
-        if (stack && cups.length) {
+        function addCandleSeries(id, list, fallbackKey) {
+          if (!stack || !list.length) return;
           var block = document.createElement("section");
           block.className = "series-block";
-          block.id = "candle-series-cup";
+          block.id = id;
           var title = document.createElement("h3");
           title.className = "series-block__title";
-          setSeriesHeading(title, seriesTitle(cups, tr("candles.series.cup")));
+          setSeriesHeading(title, seriesTitle(list, tr(fallbackKey)));
           var inner = document.createElement("div");
           inner.className = "product-grid";
-          cups.forEach(function (product) { inner.appendChild(renderProductCard(product, true)); });
+          list.forEach(function (product) { inner.appendChild(renderProductCard(product, true)); });
           block.appendChild(title);
           block.appendChild(inner);
           stack.appendChild(block);
         }
+        addCandleSeries("candle-series-cup", sortBySku(items.filter(function (product) { return product.series === "cup"; })), "candles.series.cup");
+        addCandleSeries("candle-series-zodiac", sortBySku(items.filter(function (product) { return product.series === "zodiac"; })), "candles.series.zodiac");
         return;
       }
       if (cat.id === "reed-diffusers") {

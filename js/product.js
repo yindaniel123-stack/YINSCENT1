@@ -76,6 +76,7 @@
     if (/^[a-z]+-zodiac-diffuser$/.test(slug)) url += "?v=13";
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
+    if (/-zodiac-candle$/.test(slug)) url += "?v=24";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
     if (/-deo-ball-6$/.test(slug)) url += "?v=23";
     else if (/-deo-ball-2$/.test(slug)) url += "?v=22";
