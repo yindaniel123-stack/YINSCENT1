@@ -65,7 +65,8 @@
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
-    if (/-plug-refill$/.test(slug)) url += "?v=20";
+    if (/-solid-gel$/.test(slug)) url += "?v=21";
+    else if (/-plug-refill$/.test(slug)) url += "?v=20";
     else if (/-plug-freshener$/.test(slug)) url += "?v=19";
     else if (/-freshener-100$/.test(slug)) url += "?v=18";
     else if (/-freshener$/.test(slug)) url += "?v=17";
@@ -356,6 +357,8 @@
     if (freshenerGridPlug) freshenerGridPlug.innerHTML = "";
     var freshenerGridRefill = document.getElementById("freshenerGridRefill");
     if (freshenerGridRefill) freshenerGridRefill.innerHTML = "";
+    var gelGrid150 = document.getElementById("gelGrid150");
+    if (gelGrid150) gelGrid150.innerHTML = "";
     var cupGrid = document.getElementById("cupGrid");
     if (cupGrid) cupGrid.innerHTML = "";
     var refillSeries = document.getElementById("refillSeries");
@@ -487,8 +490,14 @@
       }
       var sortedItems = sortBySku(items);
       if (cat.id === "scented-gels") {
-        var gelHead = document.querySelector("#scented-gels h2");
-        if (gelHead) gelHead.textContent = seriesTitle(sortedItems, tr("gels.title"));
+        var packs = sortBySku(items.filter(function (product) { return product.series !== "150"; }));
+        var solid = sortBySku(items.filter(function (product) { return product.series === "150"; }));
+        var gridSolid = document.getElementById("gelGrid150");
+        packs.forEach(function (product) { grid.appendChild(renderProductCard(product, true)); });
+        if (gridSolid) solid.forEach(function (product) { gridSolid.appendChild(renderProductCard(product, true)); });
+        var headSolid = document.querySelector("#gel-series-150 h3");
+        if (headSolid) headSolid.textContent = seriesTitle(solid, tr("gels.series.150"));
+        return;
       }
       if (cat.id === "deodorizing-balls") {
         var deoHead = document.querySelector("#deodorizing-balls h2");

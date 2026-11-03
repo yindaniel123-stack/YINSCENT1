@@ -77,7 +77,8 @@
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
-    if (/-plug-refill$/.test(slug)) url += "?v=20";
+    if (/-solid-gel$/.test(slug)) url += "?v=21";
+    else if (/-plug-refill$/.test(slug)) url += "?v=20";
     else if (/-plug-freshener$/.test(slug)) url += "?v=19";
     else if (/-freshener-100$/.test(slug)) url += "?v=18";
     else if (/-freshener$/.test(slug)) url += "?v=17";

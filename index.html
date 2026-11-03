@@ -114,7 +114,13 @@
       <a href="index.html#scented-sachets" data-i18n="nav.sachets">Sachets</a>
       <a href="index.html#scented-wooden-balls" data-i18n="nav.woods">Wood balls</a>
       <a href="index.html#deodorizing-balls" data-i18n="nav.balls">Deo balls</a>
-      <a href="index.html#scented-gels" data-i18n="nav.gels">Gel</a>
+      <div class="nav-group">
+        <a href="index.html#scented-gels" data-i18n="nav.gels">Gel</a>
+        <div class="nav-group__menu">
+          <a href="index.html#scented-gels" data-i18n="gels.title">香膏</a>
+          <a href="index.html#gel-series-150" data-i18n="gels.series.150">固体香膏-150g</a>
+        </div>
+      </div>
       <a href="index.html#essential-oils" data-i18n="nav.oils">Oils</a>
       <a href="index.html#smart-aroma-diffusers" data-i18n="nav.smart">Smart diffusers</a>
       <div class="nav-group">
@@ -208,6 +214,7 @@
           <li><a href="index.html#scented-wooden-balls" data-i18n="nav.woods_full">Scented wooden balls</a></li>
           <li><a href="index.html#deodorizing-balls" data-i18n="nav.balls_full">Deodorizing balls 4 pcs</a></li>
           <li><a href="index.html#scented-gels" data-i18n="nav.gels_full">Scented gel</a></li>
+          <li><a href="index.html#gel-series-150" data-i18n="gels.series.150">固体香膏-150g</a></li>
           <li><a href="index.html#essential-oils" data-i18n="nav.oils_full">Essential oils</a></li>
           <li><a href="index.html#freshener-series-100" data-i18n="freshener.series.100">空气清新剂-100ml</a></li>
           <li><a href="index.html#freshener-series-247" data-i18n="freshener.series.247">空气清新剂-247ml</a></li>
@@ -610,16 +617,22 @@
         <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
         <h2 data-i18n="gels.title">Scented gel</h2>
         <p class="category-intro__lede" data-i18n="gels.lede">
-          Scented gel for rooms, closets, and cars — long-lasting fragrance in a 12 pcs display box.
+          Scented gel for rooms, closets, and cars, plus a 150 g solid gel.
         </p>
         <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
           <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="gels.f1">Scented gel</span></li>
           <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="gels.f2">Long-lasting aroma</span></li>
-          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="gels.f3">12 pcs pack</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="gels.f3">12 pcs and 150 g</span></li>
           <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="gels.f4">Ideal for any space</span></li>
         </ul>
       </div>
-      <div class="product-grid" id="gelGrid"></div>
+      <div class="series-stack" id="gelStack">
+        <div class="product-grid" id="gelGrid"></div>
+        <section class="series-block" id="gel-series-150">
+          <h3 class="series-block__title" data-i18n="gels.series.150">固体香膏-150g</h3>
+          <div class="product-grid" id="gelGrid150"></div>
+        </section>
+      </div>
     </section>
 
     <!-- Essential Oils -->
@@ -838,11 +851,11 @@
   </footer>
 
   <script src="js/paths.js?v=4"></script>
-  <script src="js/i18n.js?v=55"></script>
+  <script src="js/i18n.js?v=56"></script>
   <script src="js/auth.js?v=7"></script>
   <script src="js/catalog.js?v=2"></script>
-  <script src="js/main.js?v=79"></script>
-  <script src="js/product.js?v=37"></script>
+  <script src="js/main.js?v=80"></script>
+  <script src="js/product.js?v=38"></script>
   <script src="js/story.js?v=5"></script>
   <script src="js/contact.js?v=2"></script>
   <script src="js/to-top.js?v=3"></script>
