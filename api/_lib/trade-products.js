@@ -106,6 +106,7 @@ function categoryLabel(product) {
     "essential-oils": "精油",
     "smart-aroma-diffusers": "智能香薰机",
     "smart-aroma-refills": "智能香薰机补充液",
+    "air-fresheners": "空气清新剂",
   };
   if (product.category && map[product.category]) return map[product.category];
   if (/-pack$/.test(product.id || "") || /-cozy$/.test(product.id || "") || /^white-tealight-/.test(product.id || "")) return "香薰茶蜡";
@@ -213,16 +214,19 @@ function catalogSku(product) {
 function catalogDefaults(product) {
   return {
     sku: catalogSku(product),
-    name: product.name || "",
+    name: product.tradeName || product.name || "",
     image: imageOf(product),
     category: categoryLabel(product),
     brand: "YINSCENT",
-    barcode: "",
-    innerPack: "",
-    carton: "",
-    size: "",
-    weight: "",
-    price: "",
+    barcode: product.barcode || "",
+    innerPack: product.innerPack || "",
+    carton: product.carton || "",
+    length: product.length || "",
+    width: product.width || "",
+    height: product.height || "",
+    size: product.size || "",
+    weight: product.weight || "",
+    price: product.price != null ? String(product.price) : "",
     stock: "",
     status: "enabled",
     removed: false,
@@ -246,13 +250,16 @@ function list() {
       id: product.id,
       catalog: true,
       sku: catalogSku(product),
-      name: product.name || "",
+      name: product.tradeName || product.name || "",
       image: imageOf(product),
-      barcode: "",
-      innerPack: "",
-      carton: "",
-      size: "",
-      weight: "",
+      barcode: product.barcode || "",
+      innerPack: product.innerPack || "",
+      carton: product.carton || "",
+      length: product.length || "",
+      width: product.width || "",
+      height: product.height || "",
+      size: product.size || "",
+      weight: product.weight || "",
       category: categoryLabel(product),
       brand: "YINSCENT",
       series: product.series || "",
@@ -269,7 +276,7 @@ function list() {
     if (!row.category) row.category = categoryLabel(product);
     if (!row.sku) row.sku = catalogSku(product);
     if (!row.name) row.name = product.name || "";
-    if (!extra || extra.name == null || extra.name === "" || extra.name === product.name) row.name = chineseName(product.name || "");
+    if (!extra || extra.name == null || extra.name === "" || extra.name === product.name) row.name = product.tradeName || chineseName(product.name || "");
     if (!row.series) row.series = product.series || "";
     rows.push(row);
     seen[product.id] = true;

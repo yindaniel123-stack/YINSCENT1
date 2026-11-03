@@ -77,6 +77,7 @@
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
+    if (/-freshener$/.test(slug)) url += "?v=17";
     return url;
   }
 

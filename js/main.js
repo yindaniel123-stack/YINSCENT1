@@ -65,6 +65,7 @@
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
+    if (/-freshener$/.test(slug)) url += "?v=17";
     return url;
   }
 
@@ -125,6 +126,9 @@
     }
     if (productCategory(p) === "smart-aroma-diffusers") {
       return tr("cat.smart-aroma-diffusers") + " — " + name;
+    }
+    if (productCategory(p) === "air-fresheners") {
+      return tr("cat.air-fresheners") + " — " + name;
     }
     return tr("cat.tealights") + " — " + name;
   }
@@ -217,6 +221,7 @@
     if (catId === "essential-oils") return tr("suffix.oil");
     if (catId === "smart-aroma-refills") return tr("suffix.refill");
     if (catId === "smart-aroma-diffusers") return tr("suffix.smart");
+    if (catId === "air-fresheners") return tr("suffix.freshener");
     return "";
   }
 

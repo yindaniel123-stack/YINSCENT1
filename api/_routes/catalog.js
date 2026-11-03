@@ -28,6 +28,14 @@ module.exports = function handler(req, res) {
     next.stock = overrides.stock[product.id] == null ? null : overrides.stock[product.id];
     if (row && row.stock) next.stock = row.stock;
     if (row && row.name) next.tradeName = row.name;
+    delete next.innerPack;
+    delete next.carton;
+    delete next.length;
+    delete next.width;
+    delete next.height;
+    delete next.size;
+    delete next.weight;
+    delete next.barcode;
     if (!admin && !member) {
       delete next.price;
       delete next.stock;

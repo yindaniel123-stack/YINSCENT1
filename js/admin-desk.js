@@ -2706,7 +2706,7 @@
     var blank = el("option", "", "请选择产品分类");
     blank.value = "";
     category.appendChild(blank);
-    ["香薰茶蜡", "香薰蜡烛", "藤条香薰", "藤条香薰补充液", "茶蜡烛台", "香包", "留香木珠", "精油", "智能香薰机", "智能香薰机补充液"].forEach(function (label) {
+    ["香薰茶蜡", "香薰蜡烛", "藤条香薰", "藤条香薰补充液", "茶蜡烛台", "香包", "留香木珠", "精油", "智能香薰机", "智能香薰机补充液", "空气清新剂"].forEach(function (label) {
       var option = el("option", "", label);
       option.value = label;
       category.appendChild(option);
@@ -2924,7 +2924,7 @@
     var pageSize = 10;
     var selected = {};
     var editing = "";
-    var categories = ["香薰茶蜡", "香薰蜡烛", "藤条香薰", "藤条香薰补充液", "茶蜡烛台", "香包", "留香木珠", "精油", "智能香薰机", "智能香薰机补充液"];
+    var categories = ["香薰茶蜡", "香薰蜡烛", "藤条香薰", "藤条香薰补充液", "茶蜡烛台", "香包", "留香木珠", "精油", "智能香薰机", "智能香薰机补充液", "空气清新剂"];
 
     function fillCategories() {
       var current = categoryInput.value;
