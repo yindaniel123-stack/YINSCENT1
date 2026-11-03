@@ -65,7 +65,8 @@
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
-    if (/-deo-ball-2$/.test(slug)) url += "?v=22";
+    if (/-deo-ball-6$/.test(slug)) url += "?v=23";
+    else if (/-deo-ball-2$/.test(slug)) url += "?v=22";
     else if (/-solid-gel$/.test(slug)) url += "?v=21";
     else if (/-plug-refill$/.test(slug)) url += "?v=20";
     else if (/-plug-freshener$/.test(slug)) url += "?v=19";
@@ -252,7 +253,10 @@
     if (signedInForShop()) article.setAttribute("data-price", p.price);
 
     var cardName = lp.name;
-    if (catId === "deodorizing-balls") cardName = lp.name + (p.series === "2" ? "-2pcs" : "-4pcs");
+    if (catId === "deodorizing-balls") {
+      var pack = p.series === "6" ? "-6pcs" : p.series === "2" ? "-2pcs" : "-4pcs";
+      cardName = lp.name + pack;
+    }
     var href = browseUrl(p);
 
     article.innerHTML =
@@ -363,6 +367,8 @@
     if (gelGrid150) gelGrid150.innerHTML = "";
     var deoGrid2 = document.getElementById("deoGrid2");
     if (deoGrid2) deoGrid2.innerHTML = "";
+    var deoGrid6 = document.getElementById("deoGrid6");
+    if (deoGrid6) deoGrid6.innerHTML = "";
     var cupGrid = document.getElementById("cupGrid");
     if (cupGrid) cupGrid.innerHTML = "";
     var refillSeries = document.getElementById("refillSeries");
@@ -504,15 +510,20 @@
         return;
       }
       if (cat.id === "deodorizing-balls") {
-        var four = sortBySku(items.filter(function (product) { return product.series !== "2"; }));
+        var four = sortBySku(items.filter(function (product) { return product.series !== "2" && product.series !== "6"; }));
         var two = sortBySku(items.filter(function (product) { return product.series === "2"; }));
+        var six = sortBySku(items.filter(function (product) { return product.series === "6"; }));
         var grid2 = document.getElementById("deoGrid2");
+        var grid6 = document.getElementById("deoGrid6");
         four.forEach(function (product) { grid.appendChild(renderProductCard(product, true)); });
         if (grid2) two.forEach(function (product) { grid2.appendChild(renderProductCard(product, true)); });
+        if (grid6) six.forEach(function (product) { grid6.appendChild(renderProductCard(product, true)); });
         var deoHead = document.querySelector("#deodorizing-balls h2");
         if (deoHead) deoHead.textContent = seriesTitle(four, tr("balls.title"));
         var head2 = document.querySelector("#deo-series-2 h3");
+        var head6 = document.querySelector("#deo-series-6 h3");
         if (head2) head2.textContent = seriesTitle(two, tr("balls.series.2"));
+        if (head6) head6.textContent = seriesTitle(six, tr("balls.series.6"));
         return;
       }
       if (cat.id === "incense-holders") {
