@@ -65,8 +65,9 @@
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
-    if (/-freshener$/.test(slug)) url += "?v=17";
-    if (/-freshener-100$/.test(slug)) url += "?v=18";
+    if (/-plug-freshener$/.test(slug)) url += "?v=19";
+    else if (/-freshener-100$/.test(slug)) url += "?v=18";
+    else if (/-freshener$/.test(slug)) url += "?v=17";
     return url;
   }
 
@@ -350,6 +351,8 @@
     if (refillGrid300) refillGrid300.innerHTML = "";
     var freshenerGrid100 = document.getElementById("freshenerGrid100");
     if (freshenerGrid100) freshenerGrid100.innerHTML = "";
+    var freshenerGridPlug = document.getElementById("freshenerGridPlug");
+    if (freshenerGridPlug) freshenerGridPlug.innerHTML = "";
     var cupGrid = document.getElementById("cupGrid");
     if (cupGrid) cupGrid.innerHTML = "";
     var refillSeries = document.getElementById("refillSeries");
@@ -494,14 +497,19 @@
       }
       if (cat.id === "air-fresheners") {
         var small = sortBySku(items.filter(function (product) { return product.series === "100"; }));
-        var large = sortBySku(items.filter(function (product) { return product.series !== "100"; }));
+        var large = sortBySku(items.filter(function (product) { return product.series === "247"; }));
+        var plug = sortBySku(items.filter(function (product) { return product.series === "plug"; }));
         var grid100 = document.getElementById("freshenerGrid100");
+        var gridPlug = document.getElementById("freshenerGridPlug");
         if (grid100) small.forEach(function (product) { grid100.appendChild(renderProductCard(product, true)); });
+        if (gridPlug) plug.forEach(function (product) { gridPlug.appendChild(renderProductCard(product, true)); });
         large.forEach(function (product) { grid.appendChild(renderProductCard(product, true)); });
         var head100 = document.querySelector("#freshener-series-100 h3");
         var head247 = document.querySelector("#freshener-series-247 h3");
+        var headPlug = document.querySelector("#freshener-series-plug h3");
         if (head100) head100.textContent = seriesTitle(small, tr("freshener.series.100"));
         if (head247) head247.textContent = seriesTitle(large, tr("freshener.series.247"));
+        if (headPlug) headPlug.textContent = seriesTitle(plug, tr("freshener.series.plug"));
         return;
       }
       sortedItems.forEach(function (p) {
