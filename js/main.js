@@ -66,6 +66,7 @@
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
     if (/-freshener$/.test(slug)) url += "?v=17";
+    if (/-freshener-100$/.test(slug)) url += "?v=18";
     return url;
   }
 
@@ -347,6 +348,8 @@
     if (tealightGridWhite) tealightGridWhite.innerHTML = "";
     var refillGrid300 = document.getElementById("refillGrid300");
     if (refillGrid300) refillGrid300.innerHTML = "";
+    var freshenerGrid100 = document.getElementById("freshenerGrid100");
+    if (freshenerGrid100) freshenerGrid100.innerHTML = "";
     var cupGrid = document.getElementById("cupGrid");
     if (cupGrid) cupGrid.innerHTML = "";
     var refillSeries = document.getElementById("refillSeries");
@@ -488,6 +491,18 @@
       if (cat.id === "incense-holders") {
         var incenseHead = document.querySelector("#incense-holders h2");
         if (incenseHead) incenseHead.textContent = seriesTitle(sortedItems, tr("incense.title"));
+      }
+      if (cat.id === "air-fresheners") {
+        var small = sortBySku(items.filter(function (product) { return product.series === "100"; }));
+        var large = sortBySku(items.filter(function (product) { return product.series !== "100"; }));
+        var grid100 = document.getElementById("freshenerGrid100");
+        if (grid100) small.forEach(function (product) { grid100.appendChild(renderProductCard(product, true)); });
+        large.forEach(function (product) { grid.appendChild(renderProductCard(product, true)); });
+        var head100 = document.querySelector("#freshener-series-100 h3");
+        var head247 = document.querySelector("#freshener-series-247 h3");
+        if (head100) head100.textContent = seriesTitle(small, tr("freshener.series.100"));
+        if (head247) head247.textContent = seriesTitle(large, tr("freshener.series.247"));
+        return;
       }
       sortedItems.forEach(function (p) {
         grid.appendChild(renderProductCard(p, true));

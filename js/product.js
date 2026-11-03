@@ -78,6 +78,7 @@
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
     if (/-freshener$/.test(slug)) url += "?v=17";
+    if (/-freshener-100$/.test(slug)) url += "?v=18";
     return url;
   }
 
