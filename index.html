@@ -113,7 +113,13 @@
       </div>
       <a href="index.html#scented-sachets" data-i18n="nav.sachets">Sachets</a>
       <a href="index.html#scented-wooden-balls" data-i18n="nav.woods">Wood balls</a>
-      <a href="index.html#deodorizing-balls" data-i18n="nav.balls">Deo balls</a>
+      <div class="nav-group">
+        <a href="index.html#deodorizing-balls" data-i18n="nav.balls">Deo balls</a>
+        <div class="nav-group__menu">
+          <a href="index.html#deodorizing-balls" data-i18n="balls.title">除臭球-4pcs</a>
+          <a href="index.html#deo-series-2" data-i18n="balls.series.2">除味球-2pcs</a>
+        </div>
+      </div>
       <div class="nav-group">
         <a href="index.html#scented-gels" data-i18n="nav.gels">Gel</a>
         <div class="nav-group__menu">
@@ -213,6 +219,7 @@
           <li><a href="index.html#scented-sachets" data-i18n="nav.sachets_full">Scented sachets</a></li>
           <li><a href="index.html#scented-wooden-balls" data-i18n="nav.woods_full">Scented wooden balls</a></li>
           <li><a href="index.html#deodorizing-balls" data-i18n="nav.balls_full">Deodorizing balls 4 pcs</a></li>
+          <li><a href="index.html#deo-series-2" data-i18n="balls.series.2">除味球-2pcs</a></li>
           <li><a href="index.html#scented-gels" data-i18n="nav.gels_full">Scented gel</a></li>
           <li><a href="index.html#gel-series-150" data-i18n="gels.series.150">固体香膏-150g</a></li>
           <li><a href="index.html#essential-oils" data-i18n="nav.oils_full">Essential oils</a></li>
@@ -599,16 +606,22 @@
         <p class="category-intro__eyebrow" data-i18n="cat.new">New collection</p>
         <h2 data-i18n="balls.title">Deodorizing balls 4 pcs</h2>
         <p class="category-intro__lede" data-i18n="balls.lede">
-          Deodorizing balls in a 4 pcs pack — lasting fragrance for shoes, closets, and drawers.
+          Deodorizing balls in 4 pcs and 2 pcs packs — lasting fragrance for shoes, closets, and drawers.
         </p>
         <ul class="category-features" aria-label="Product features" data-i18n-attr="aria-label:cat.features">
           <li><span class="category-features__icon" aria-hidden="true">❧</span> <span data-i18n="balls.f1">Deodorizing balls</span></li>
           <li><span class="category-features__icon" aria-hidden="true">◷</span> <span data-i18n="balls.f2">Long-lasting fragrance</span></li>
-          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="balls.f3">4 pcs pack</span></li>
+          <li><span class="category-features__icon" aria-hidden="true">✦</span> <span data-i18n="balls.f3">2 pcs and 4 pcs</span></li>
           <li><span class="category-features__icon" aria-hidden="true">⌂</span> <span data-i18n="balls.f4">Shoes, closets and drawers</span></li>
         </ul>
       </div>
-      <div class="product-grid" id="deoGrid"></div>
+      <div class="series-stack" id="deoStack">
+        <div class="product-grid" id="deoGrid"></div>
+        <section class="series-block" id="deo-series-2">
+          <h3 class="series-block__title" data-i18n="balls.series.2">除味球-2pcs</h3>
+          <div class="product-grid" id="deoGrid2"></div>
+        </section>
+      </div>
     </section>
 
     <!-- Scented gels -->
@@ -851,11 +864,11 @@
   </footer>
 
   <script src="js/paths.js?v=4"></script>
-  <script src="js/i18n.js?v=56"></script>
+  <script src="js/i18n.js?v=57"></script>
   <script src="js/auth.js?v=7"></script>
   <script src="js/catalog.js?v=2"></script>
-  <script src="js/main.js?v=80"></script>
-  <script src="js/product.js?v=38"></script>
+  <script src="js/main.js?v=81"></script>
+  <script src="js/product.js?v=39"></script>
   <script src="js/story.js?v=5"></script>
   <script src="js/contact.js?v=2"></script>
   <script src="js/to-top.js?v=3"></script>

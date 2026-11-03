@@ -65,7 +65,8 @@
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
-    if (/-solid-gel$/.test(slug)) url += "?v=21";
+    if (/-deo-ball-2$/.test(slug)) url += "?v=22";
+    else if (/-solid-gel$/.test(slug)) url += "?v=21";
     else if (/-plug-refill$/.test(slug)) url += "?v=20";
     else if (/-plug-freshener$/.test(slug)) url += "?v=19";
     else if (/-freshener-100$/.test(slug)) url += "?v=18";
@@ -250,7 +251,8 @@
     article.setAttribute("data-name", productFullName(p));
     if (signedInForShop()) article.setAttribute("data-price", p.price);
 
-    var cardName = catId === "deodorizing-balls" ? lp.name + "-4pcs" : lp.name;
+    var cardName = lp.name;
+    if (catId === "deodorizing-balls") cardName = lp.name + (p.series === "2" ? "-2pcs" : "-4pcs");
     var href = browseUrl(p);
 
     article.innerHTML =
@@ -359,6 +361,8 @@
     if (freshenerGridRefill) freshenerGridRefill.innerHTML = "";
     var gelGrid150 = document.getElementById("gelGrid150");
     if (gelGrid150) gelGrid150.innerHTML = "";
+    var deoGrid2 = document.getElementById("deoGrid2");
+    if (deoGrid2) deoGrid2.innerHTML = "";
     var cupGrid = document.getElementById("cupGrid");
     if (cupGrid) cupGrid.innerHTML = "";
     var refillSeries = document.getElementById("refillSeries");
@@ -500,8 +504,16 @@
         return;
       }
       if (cat.id === "deodorizing-balls") {
+        var four = sortBySku(items.filter(function (product) { return product.series !== "2"; }));
+        var two = sortBySku(items.filter(function (product) { return product.series === "2"; }));
+        var grid2 = document.getElementById("deoGrid2");
+        four.forEach(function (product) { grid.appendChild(renderProductCard(product, true)); });
+        if (grid2) two.forEach(function (product) { grid2.appendChild(renderProductCard(product, true)); });
         var deoHead = document.querySelector("#deodorizing-balls h2");
-        if (deoHead) deoHead.textContent = seriesTitle(sortedItems, tr("balls.title"));
+        if (deoHead) deoHead.textContent = seriesTitle(four, tr("balls.title"));
+        var head2 = document.querySelector("#deo-series-2 h3");
+        if (head2) head2.textContent = seriesTitle(two, tr("balls.series.2"));
+        return;
       }
       if (cat.id === "incense-holders") {
         var incenseHead = document.querySelector("#incense-holders h2");
