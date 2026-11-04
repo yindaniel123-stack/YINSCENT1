@@ -2,6 +2,7 @@
   "name": "yinscent",
   "private": true,
   "dependencies": {
+    "@vercel/blob": "^2.8.2",
     "google-libphonenumber": "^3.2.40",
     "hash-wasm": "^4.12.0"
   }

@@ -64,6 +64,7 @@ module.exports = async function handler(req, res) {
     return session.sendJson(res, 200, { ok: true, role: "admin", super: false });
   }
 
+  await users.ensure();
   const user = users.findByUsername(username);
   const passwordOk = user && (await users.verifyPassword(password, user.passwordHash));
 

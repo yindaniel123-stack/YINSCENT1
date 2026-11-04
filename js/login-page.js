@@ -411,6 +411,7 @@
     if (code === "invalid_country") return copy.badCountry;
     if (code === "username_taken") return copy.usernameTaken;
     if (code === "register_closed") return copy.closed;
+    if (code === "unavailable") return copy.down;
     return copy.invalid;
   }
 

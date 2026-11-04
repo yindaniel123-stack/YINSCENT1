@@ -38,7 +38,8 @@ function authReady() {
   return !!(process.env.AUTH_SECRET || process.env.ADMIN_PASSWORD);
 }
 
-function currentUser(req) {
+async function currentUser(req) {
+  await users.ensure();
   const payload = session.readMember(req);
   if (!payload) return null;
   const user = users.findById(payload.sub);

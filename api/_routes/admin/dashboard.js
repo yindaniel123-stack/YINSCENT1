@@ -5,6 +5,7 @@ const { session, users } = require("../../_lib/access");
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") return session.sendJson(res, 405, { error: "method" });
   if (!allow(req, res, "dashboard")) return;
+  await users.ensure();
   const list = users.listUsers();
   const soon = Date.now() + 30 * 24 * 60 * 60 * 1000;
   const counts = {

@@ -1,7 +1,10 @@
 /*
- * Member store. Writes data/users.json when the disk is writable.
- * Passwords are Argon2id hashes only. Plaintext passwords are never stored.
- * Email tokens are stored as hashes. Role is never accepted from the client.
+ * Member store. Local dev writes data/users.json. Production writes the
+ * private Blob object members/users.json, because the serverless disk
+ * does not keep files. Call ensure() before any read so a new instance
+ * sees applications saved by another instance.
+ * Passwords are Argon2id hashes only. Email tokens are stored as hashes.
+ * Role is never accepted from the client.
  */
 const crypto = require("crypto");
 const fs = require("fs");
@@ -10,6 +13,7 @@ const path = require("path");
 const dataDir = path.join(__dirname, "..", "..", "data");
 const dataFile = path.join(dataDir, "users.json");
 const packedFile = path.join(__dirname, "..", "_routes", "users.enc");
+const blobPath = "members/users.json";
 
 let memoryUsers = null;
 let writeChain = Promise.resolve();
@@ -55,6 +59,18 @@ function readUsers() {
   return [];
 }
 
+function readMutable() {
+  if (memoryUsers) return memoryUsers.map(copyUser);
+  try {
+    const users = JSON.parse(fs.readFileSync(dataFile, "utf8"));
+    if (Array.isArray(users)) return users.map(copyUser);
+  } catch (e) {
+    if (!e || e.code !== "ENOENT") throw e;
+  }
+  const packed = publishedUsers();
+  return packed ? packed.map(copyUser) : [];
+}
+
 function saveUsers(users) {
   try {
     fs.mkdirSync(dataDir, { recursive: true });
@@ -62,9 +78,46 @@ function saveUsers(users) {
     fs.writeFileSync(tmp, JSON.stringify(users, null, 2));
     fs.renameSync(tmp, dataFile);
     memoryUsers = null;
+    return true;
   } catch (e) {
     memoryUsers = users.map(copyUser);
+    return false;
   }
+}
+
+function blobOn() {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+}
+
+async function readShared() {
+  if (!blobOn()) return null;
+  try {
+    const { get } = require("@vercel/blob");
+    const blob = await get(blobPath, { access: "private", useCache: false });
+    if (!blob || blob.statusCode !== 200 || !blob.stream) return null;
+    const users = JSON.parse(await new Response(blob.stream).text());
+    return Array.isArray(users) ? users : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function writeShared(users) {
+  if (!blobOn()) return false;
+  const { put } = require("@vercel/blob");
+  await put(blobPath, JSON.stringify(users), {
+    access: "private",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    contentType: "application/json",
+    cacheControlMaxAge: 60,
+  });
+  return true;
+}
+
+async function ensure() {
+  const remote = await readShared();
+  if (remote) memoryUsers = remote.map(copyUser);
 }
 
 function copyUser(user) {
@@ -72,10 +125,22 @@ function copyUser(user) {
 }
 
 function update(mutator) {
-  const run = writeChain.then(function () {
-    const users = readUsers();
+  const run = writeChain.then(async function () {
+    await ensure();
+    const users = readMutable();
     const result = mutator(users);
-    saveUsers(users);
+    const onDisk = saveUsers(users);
+    let shared = false;
+    try {
+      shared = await writeShared(users);
+    } catch (e) {
+      shared = false;
+    }
+    if (!onDisk && !shared) {
+      const error = new Error("store_unavailable");
+      error.code = "store_unavailable";
+      throw error;
+    }
     return result;
   });
   writeChain = run.then(
@@ -281,6 +346,7 @@ function blankSecrets() {
 }
 
 module.exports = {
+  ensure,
   update,
   hashPassword,
   verifyPassword,

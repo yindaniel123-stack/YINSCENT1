@@ -7,10 +7,10 @@ function catalog() {
   return productSource.load();
 }
 
-module.exports = function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== "GET") return session.sendJson(res, 405, { error: "method" });
   const admin = session.readAdmin(req);
-  const member = currentUser(req);
+  const member = await currentUser(req);
   const data = catalog();
   const overrides = catalogStore.read();
   const saved = {};

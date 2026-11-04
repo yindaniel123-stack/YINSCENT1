@@ -16,6 +16,7 @@ module.exports = async function handler(req, res) {
 
   const username = users.normalizeUsername(body.username);
   const email = users.normalizeEmail(body.email);
+  await users.ensure();
   const user = username ? users.findByUsername(username) : null;
   const matched = user && email && user.email === email && users.accountStatus(user) === "active";
   if (!matched) return session.sendJson(res, 200, { ok: true });

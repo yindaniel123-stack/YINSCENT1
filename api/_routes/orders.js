@@ -21,7 +21,7 @@ module.exports = async function handler(req, res) {
     return session.sendJson(res, 405, { error: "Method not allowed" });
   }
 
-  const member = currentUser(req);
+  const member = await currentUser(req);
   if (!member) return session.sendJson(res, 401, { error: "unauthorized", login: "/login.html" });
 
   let body;

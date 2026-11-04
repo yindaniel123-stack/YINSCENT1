@@ -52,6 +52,7 @@ module.exports = async function handler(req, res) {
   if (action === "create") {
     const username = users.normalizeUsername(body.username);
     if (!username || username === "admin") return session.sendJson(res, 400, { error: "invalid_username" });
+    await users.ensure();
     if (admins.findByUsername(username) || users.findByUsername(username)) {
       return session.sendJson(res, 409, { error: "username_taken" });
     }

@@ -53,6 +53,7 @@ module.exports = async function handler(req, res) {
   if (!email) return session.sendJson(res, 400, { error: "invalid_email" });
   if (!country) return session.sendJson(res, 400, { error: "invalid_country" });
 
+  await users.ensure();
   const existing = users.findByEmail(email);
   if (existing && existing.status !== "rejected") {
     return session.sendJson(res, 409, {
@@ -89,22 +90,26 @@ module.exports = async function handler(req, res) {
     productAccess: approved,
   };
 
-  if (existing) {
-    await users.update(function (list) {
-      const row = list.find(function (item) { return item.id === existing.id; });
-      if (!row) return;
-      Object.assign(row, fields);
-      delete row.passwordHistory;
-      row.sessionVersion = (Number(row.sessionVersion) || 0) + 1;
-    });
-  } else {
-    await users.update(function (list) {
-      list.push(Object.assign({
-        id: users.randomId(),
-        sessionVersion: 1,
-        createdAt: now,
-      }, fields, users.blankSecrets()));
-    });
+  try {
+    if (existing) {
+      await users.update(function (list) {
+        const row = list.find(function (item) { return item.id === existing.id; });
+        if (!row) return;
+        Object.assign(row, fields);
+        delete row.passwordHistory;
+        row.sessionVersion = (Number(row.sessionVersion) || 0) + 1;
+      });
+    } else {
+      await users.update(function (list) {
+        list.push(Object.assign({
+          id: users.randomId(),
+          sessionVersion: 1,
+          createdAt: now,
+        }, fields, users.blankSecrets()));
+      });
+    }
+  } catch (e) {
+    return session.sendJson(res, 503, { error: "unavailable" });
   }
 
   notices.register({

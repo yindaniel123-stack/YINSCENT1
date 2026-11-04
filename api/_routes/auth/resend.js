@@ -13,6 +13,7 @@ module.exports = async function handler(req, res) {
     return session.sendJson(res, 400, { error: "invalid_body" });
   }
   const email = users.normalizeEmail(body.email);
+  await users.ensure();
   const user = email ? users.findByEmail(email) : null;
   const payload = { ok: true };
   if (!user || user.emailVerified) return session.sendJson(res, 200, payload);

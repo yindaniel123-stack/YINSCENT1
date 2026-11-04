@@ -12,6 +12,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== "GET") return session.sendJson(res, 405, { error: "method" });
   const admin = session.readAdmin(req);
   if (!admin) return session.sendJson(res, 401, { error: "unauthorized" });
+  await users.ensure();
 
   let review = 0;
   let service = 0;

@@ -4,7 +4,7 @@ const { currentUser, session, users } = require("../../_lib/access");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") return session.sendJson(res, 405, { error: "method" });
-  const user = currentUser(req);
+  const user = await currentUser(req);
   if (!user) return session.sendJson(res, 401, { error: "unauthorized" });
 
   let body;

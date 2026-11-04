@@ -1,9 +1,9 @@
 const store = require("../../_lib/orders");
 const { currentUser, session } = require("../../_lib/access");
 
-module.exports = function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== "GET") return session.sendJson(res, 405, { error: "method" });
-  const user = currentUser(req);
+  const user = await currentUser(req);
   if (!user) return session.sendJson(res, 401, { error: "unauthorized" });
   const orders = store.readOrders().filter(function (order) {
     return order.userId === user.id;

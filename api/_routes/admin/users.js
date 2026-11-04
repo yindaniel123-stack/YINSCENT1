@@ -127,6 +127,7 @@ function allowAny(admin, names) {
 module.exports = async function handler(req, res) {
   const actor = session.readAdmin(req);
   if (!actor) return session.sendJson(res, 401, { error: "unauthorized" });
+  await users.ensure();
 
   if (req.method === "GET") {
     if (!allowAny(actor, ["users", "review", "password", "status", "membership", "access", "logins", "customers", "signup", "clients"])) {
