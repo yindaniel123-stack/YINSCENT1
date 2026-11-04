@@ -64,6 +64,7 @@
     if (/^[a-z]+-zodiac-diffuser$/.test(slug)) url += "?v=13";
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
+    if (/-city-diffuser$/.test(slug)) url += "?v=27";
     if (/-zodiac-candle$/.test(slug)) url += "?v=24";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
     if (/-deo-ball-6$/.test(slug)) url += "?v=23";
@@ -329,7 +330,7 @@
   }
 
   function renderDiffuserSeries(host, list) {
-    ["35", "100", "beige", "animal", "zodiac", "christmas", "mexico", "fiber"].forEach(function (key) {
+    ["35", "100", "beige", "animal", "zodiac", "christmas", "mexico", "city", "fiber"].forEach(function (key) {
       var items = sortBySku(list.filter(function (product) { return product.series === key; }));
       renderSeriesBlock(host, "diffuser-series-" + key, seriesTitle(items, tr("diffusers.series." + key)), items);
     });

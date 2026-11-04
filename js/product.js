@@ -76,6 +76,7 @@
     if (/^[a-z]+-zodiac-diffuser$/.test(slug)) url += "?v=13";
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
+    if (/-city-diffuser$/.test(slug)) url += "?v=27";
     if (/-zodiac-candle$/.test(slug)) url += "?v=24";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
     if (/-deo-ball-6$/.test(slug)) url += "?v=23";
@@ -181,13 +182,13 @@
         ? '<div class="pdp-gallery__thumbs" role="tablist" aria-label="' + tr("pdp.images") + '">' + thumbsHtml + "</div>"
         : "") +
       "</div>" +
-      '<article class="pdp-info product" data-id="' + product.id + '" data-name="' + productFullName(product) + '"' + (signedIn() ? ' data-price="' + product.price + '"' : "") + ">" +
+      '<article class="pdp-info product" data-id="' + product.id + '" data-name="' + productFullName(product) + '"' + (signedIn() && product.price != null && product.price !== "" ? ' data-price="' + product.price + '"' : "") + ">" +
       '<p class="product__cat">' + categoryLabel(product) + "</p>" +
       '<h1 class="pdp-info__title">' + lp.name + "</h1>" +
       (lp.tagline ? '<p class="pdp-info__tagline">' + lp.tagline + "</p>" : "") +
       '<p class="pdp-info__desc">' + lp.desc + "</p>" +
       featuresHtml +
-      (signedIn()
+      (signedIn() && product.price != null && product.price !== ""
         ? '<div class="pdp-price-row"><p class="pdp-info__price product__price">' +
           formatMoney(product.price) +
           '</p><button type="button" class="pdp-add" id="pdpAdd">' +
