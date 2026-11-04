@@ -1886,13 +1886,12 @@
       var features = card("网站功能设置", "settings");
       var featGrid = el("div", "set-toggles");
       toggle(featGrid, "允许新用户注册", "allowRegister");
-      toggle(featGrid, "需要管理员审核", "requireReview");
       toggle(featGrid, "显示产品库存数量", "showStock");
       toggle(featGrid, "启用在线下单", "enableOrder");
       toggle(featGrid, "显示价格（统一批发价）", "showPrice");
       toggle(featGrid, "启用询盘功能", "enableInquiry");
       features.appendChild(featGrid);
-      features.appendChild(el("p", "desk__hint", "关闭注册后，登录页不再显示新客户注册。审核保持打开时，申请通过前不能登录。库存只显示已经录入数量的产品。"));
+      features.appendChild(el("p", "desk__hint", "客户提交注册后会自动通过，登录密码发到客户填写的邮箱。关闭注册后，登录页不再显示新客户注册。库存只显示已经录入数量的产品。"));
       choose(features, "默认首页", "defaultHome", [["products", "产品列表页"], ["story", "品牌故事"], ["contact", "联系页"]], false);
       var pageSize = el("input", "desk-input set-narrow");
       pageSize.type = "number";

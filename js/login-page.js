@@ -54,7 +54,9 @@
       applySubmit: "提交注册申请",
       submitted: "已提交",
       applyOk: "已提交",
-      applyReady: "注册已完成，可以使用下方密码登录。",
+      applyReady: "注册已通过。登录密码已发送到您填写的邮箱。",
+      mailMiss: "注册已通过。邮件暂时没有发出，请使用下方密码登录。",
+      readyBtn: "注册完成",
       closed: "当前未开放新客户注册。",
       applyPass: "登录密码：",
       sent: "验证码已发送到邮箱。",
@@ -123,7 +125,9 @@
       applySubmit: "Submit application",
       submitted: "Submitted",
       applyOk: "Application sent. You can sign in after it is approved.",
-      applyReady: "Registration is complete. Sign in with the password below.",
+      applyReady: "Your account is ready. The password was sent to your email.",
+      mailMiss: "Your account is ready. The email could not be sent, so use the password below.",
+      readyBtn: "Registration complete",
       closed: "New registration is closed.",
       applyPass: "Password: ",
       sent: "The code was sent to your email.",
@@ -192,7 +196,9 @@
       applySubmit: "Enviar solicitud",
       submitted: "Enviado",
       applyOk: "Solicitud enviada. No podrás iniciar sesión hasta que sea aprobada.",
-      applyReady: "El registro está completo. Inicia sesión con la contraseña de abajo.",
+      applyReady: "El registro está aprobado. La contraseña se envió a su correo.",
+      mailMiss: "El registro está aprobado. El correo no se envió; use la contraseña de abajo.",
+      readyBtn: "Registro completo",
       closed: "El registro de nuevos clientes está cerrado.",
       applyPass: "Contraseña: ",
       sent: "El código se envió al correo.",
@@ -261,7 +267,9 @@
       applySubmit: "Enviar pedido",
       submitted: "Enviado",
       applyOk: "Pedido enviado. Não é possível entrar até a aprovação.",
-      applyReady: "O registo está concluído. Entre com a palavra-passe abaixo.",
+      applyReady: "O registo foi aprovado. A palavra-passe foi enviada para o seu e-mail.",
+      mailMiss: "O registo foi aprovado. O e-mail não foi enviado; use a palavra-passe abaixo.",
+      readyBtn: "Registo concluído",
       closed: "O registo de novos clientes está fechado.",
       applyPass: "Palavra-passe: ",
       sent: "O código foi enviado para o e-mail.",
@@ -517,11 +525,16 @@
       var note = document.getElementById("applyNote");
       submitted = true;
       button.disabled = true;
-      button.textContent = localize(copy.submitted || "已提交");
       note.hidden = false;
       note.classList.add("is-submitted");
-      note.textContent = localize(copy.submitted || "已提交");
-      if (res.data && res.data.status === "active" && res.data.password) note.textContent += " " + copy.applyPass + res.data.password;
+      if (res.data && res.data.status === "active") {
+        button.textContent = localize(copy.readyBtn || "注册完成");
+        note.textContent = res.data.mailed ? copy.applyReady : (copy.mailMiss || copy.applyReady);
+        if (res.data.password) note.textContent += " " + copy.applyPass + res.data.password;
+      } else {
+        button.textContent = localize(copy.submitted || "已提交");
+        note.textContent = localize(copy.submitted || "已提交");
+      }
     }).catch(function () {
       button.disabled = false;
       showError("applyError", copy.invalid);

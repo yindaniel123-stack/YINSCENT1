@@ -381,7 +381,9 @@ module.exports = async function handler(req, res) {
       会员到期: expires,
       时间: now,
     });
-    if (action === "approve") notices.review(Object.assign({}, before, { username: username }), true).catch(function () {});
+    if (action === "approve") {
+      await notices.review(Object.assign({}, before, { username: username, password: plain }), true).catch(function () {});
+    }
     return session.sendJson(res, 200, { ok: true, username: username, password: plain });
   }
 

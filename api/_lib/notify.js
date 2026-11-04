@@ -132,18 +132,24 @@ function brandHtml(inner) {
     "</td></tr></table></td></tr></table></body></html>";
 }
 
-function fill(template, fields, html) {
-  const safe = safeFields(fields);
+function fill(template, fields, html, keepSecret) {
+  const safe = keepSecret ? Object.assign({}, fields || {}) : safeFields(fields);
   let text = String(template || "");
   if (html) text = esc(text);
   Object.keys(safe).forEach(function (key) {
-    const raw = String(safe[key]);
+    const raw = String(safe[key] == null ? "" : safe[key]);
     const value = html ? (key === "订单明细" ? raw : esc(raw).replace(/\n/g, "<br>")) : raw;
     text = text.split("{{" + key + "}}").join(value);
   });
-  text = text.replace(/\{\{[^}]+\}\}/g, "").replace(/^密码：.*$/gm, "");
+  text = text.replace(/\{\{[^}]+\}\}/g, "");
+  if (!keepSecret) text = text.replace(/^密码：.*$/gm, "");
   if (html) text = text.replace(/\n/g, "<br>");
   return text.trim();
+}
+
+function storedText(text, keepSecret) {
+  if (!keepSecret) return text;
+  return String(text || "").replace(/^.*密码[:：].*$/gm, "登录密码已写入邮件，不在这里显示").trim();
 }
 
 function delay(ms) {
@@ -193,6 +199,7 @@ async function emit(kind, options) {
   try {
     const spec = require("./settings").notice(kind);
     const fields = options.fields || {};
+    const keepSecret = !!options.keepSecret;
     const targets = (options.to || []).map(cleanEmail).filter(Boolean);
     const dedupe = String(options.dedupe || "");
     if (!spec || spec.enabled === false) {
@@ -222,7 +229,7 @@ async function emit(kind, options) {
         reason: "no_recipient",
         attempts: 0,
         dedupe: dedupe,
-        text: fill(spec.body, fields, false),
+        text: storedText(fill(spec.body, fields, false, keepSecret), keepSecret),
       });
       return { sent: false, reason: "no_recipient" };
     }
@@ -238,9 +245,9 @@ async function emit(kind, options) {
         last = { sent: false, reason: "unconfigured" };
         continue;
       }
-      const text = fill(spec.body, fields, false);
-      const html = brandHtml(fill(spec.body, options.htmlFields || fields, true));
-      const result = await trySend({ to: to, subject: fill(spec.subject, fields, false), text: text, html: html });
+      const text = fill(spec.body, fields, false, keepSecret);
+      const html = brandHtml(fill(spec.body, options.htmlFields || fields, true, keepSecret));
+      const result = await trySend({ to: to, subject: fill(spec.subject, fields, false, keepSecret), text: text, html: html });
       saveDelivery({
         at: new Date().toISOString(),
         event: spec.label,
@@ -250,8 +257,8 @@ async function emit(kind, options) {
         reason: result.reason || "",
         attempts: result.attempts || 1,
         dedupe: dedupe,
-        text: text,
-        subject: fill(spec.subject, fields, false),
+        text: storedText(text, keepSecret),
+        subject: fill(spec.subject, fields, false, keepSecret),
       });
       last = result;
     }

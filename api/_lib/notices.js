@@ -132,7 +132,13 @@ async function register(user) {
   };
   const id = user.id || user.email || user.username || "";
   await notify.emit("register_admin", { to: notify.recipients(), dedupe: "register_admin:" + id, fields: fields });
-  await notify.emit("register_customer", { to: [user.email || ""], dedupe: "register_customer:" + id, fields: fields });
+  const customer = Object.assign({}, fields, { 登录密码: user.password || "" });
+  return notify.emit("register_customer", {
+    to: [user.email || ""],
+    dedupe: "register_customer:" + id,
+    fields: customer,
+    keepSecret: true,
+  });
 }
 
 async function review(user, passed) {
@@ -141,8 +147,14 @@ async function review(user, passed) {
     账号: user.username || "",
     审核时间: when(new Date().toISOString()),
   };
+  if (passed && user.password) fields.登录密码 = user.password;
   const kind = passed ? "review_pass" : "review_reject";
-  await notify.emit(kind, { to: [user.email || ""], dedupe: kind + ":" + (user.id || user.email || ""), fields: fields });
+  return notify.emit(kind, {
+    to: [user.email || ""],
+    dedupe: kind + ":" + (user.id || user.email || ""),
+    fields: fields,
+    keepSecret: !!(passed && user.password),
+  });
 }
 
 async function orderCreated(order, origin) {

@@ -70,7 +70,8 @@ module.exports = async function handler(req, res) {
   const plain = generatePassword();
   const hash = await users.hashPassword(plain);
   const now = new Date().toISOString();
-  const approved = site.requireReview === false;
+  const approved = true;
+  const accountId = existing ? existing.id : users.randomId();
   const fields = {
     username: username,
     passwordHash: hash,
@@ -102,7 +103,7 @@ module.exports = async function handler(req, res) {
     } else {
       await users.update(function (list) {
         list.push(Object.assign({
-          id: users.randomId(),
+          id: accountId,
           sessionVersion: 1,
           createdAt: now,
         }, fields, users.blankSecrets()));
@@ -112,8 +113,8 @@ module.exports = async function handler(req, res) {
     return session.sendJson(res, 503, { error: "unavailable" });
   }
 
-  notices.register({
-    id: existing ? existing.id : "",
+  const mailed = await notices.register({
+    id: accountId,
     username: username,
     name: name,
     phone: phone,
@@ -121,6 +122,13 @@ module.exports = async function handler(req, res) {
     company: company,
     country: country,
     createdAt: now,
-  }).catch(function () {});
-  return session.sendJson(res, 201, { ok: true, status: approved ? "active" : "pending", username: username, password: plain });
+    password: plain,
+  }).catch(function () { return { sent: false }; });
+  return session.sendJson(res, 201, {
+    ok: true,
+    status: "active",
+    username: username,
+    password: plain,
+    mailed: !!(mailed && mailed.sent),
+  });
 };
