@@ -383,6 +383,9 @@
     document.getElementById("showForgot").hidden = name === "forgot";
     var copy = COPY[lang()] || COPY.zh;
     document.querySelector(".login-panel h1").textContent = localize(name === "forgot" ? copy.forgotTitle : copy.title);
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: "yinscent-login-size", mode: name === "apply" ? "apply" : "login" }, window.location.origin);
+    }
   }
 
   document.getElementById("showForgot").addEventListener("click", function (event) {

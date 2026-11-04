@@ -4,13 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>登录 — YINSCENT</title>
+    <script>
+      if (window.top === window.self) {
+        var params = new URLSearchParams(window.location.search);
+        var next = params.get("next") || "";
+        var url = "index.html?login=1";
+        if (next) url += "&next=" + encodeURIComponent(next);
+        window.location.replace(url);
+      } else {
+        document.documentElement.classList.add("is-login-frame");
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=73" />
+    <link rel="stylesheet" href="css/styles.css?v=83" />
   </head>
   <body class="login-page">
     <div class="login-lang lang-switch" role="group" aria-label="Language">
@@ -253,6 +264,6 @@
     <script src="js/paths.js?v=4"></script>
     <script src="js/i18n.js?v=12"></script>
     <script src="js/auth.js?v=7"></script>
-    <script src="js/login-page.js?v=22"></script>
+    <script src="js/login-page.js?v=23"></script>
   </body>
 </html>

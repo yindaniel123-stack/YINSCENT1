@@ -626,9 +626,19 @@
       });
     }
     pop.hidden = false;
-    pop.querySelector("iframe").src = url;
+    var frame = pop.querySelector("iframe");
+    frame.classList.remove("is-wide");
+    frame.src = url;
     document.body.classList.add("is-login-open");
   }
+
+  window.addEventListener("message", function (event) {
+    if (event.origin !== window.location.origin) return;
+    var data = event.data || {};
+    if (data.type !== "yinscent-login-size") return;
+    var frame = document.querySelector("#loginPop .login-pop__frame");
+    if (frame) frame.classList.toggle("is-wide", data.mode === "apply");
+  });
 
   window.YinscentLogin = { open: openLoginPopup };
 
@@ -636,17 +646,35 @@
   if (shopMainEl) {
     shopMainEl.addEventListener("click", function (event) {
       if (signedInForShop()) return;
-      var link = event.target.closest("a.product__img-wrap, .product__name a, a.category-pill");
-      if (!link || !shopMainEl.contains(link)) return;
-      if (event.target.closest(".product__wish")) return;
+      if (event.target.closest(".product__wish, .hero-poster__nav")) return;
+      var link = event.target.closest("a.product__img-wrap, .product__name a, a.category-pill, a.hero-poster__link");
+      var title = event.target.closest(".hero-intro h1, .category-intro h2, .section__head h2, .series-block__title");
+      if (link && !shopMainEl.contains(link)) link = null;
+      if (title && !shopMainEl.contains(title)) title = null;
+      if (!link && !title) return;
       event.preventDefault();
-      var id = link.getAttribute("data-id");
-      if (!id) {
-        var card = link.closest("[data-id]");
-        id = card ? card.getAttribute("data-id") : "";
+      var id = "";
+      if (link) {
+        id = link.getAttribute("data-id") || "";
+        if (!id) {
+          var card = link.closest("[data-id]");
+          id = card ? card.getAttribute("data-id") : "";
+        }
       }
       openLoginPopup(id ? "index.html?id=" + encodeURIComponent(id) : "index.html");
     });
+  }
+
+  function consumeLoginRequest() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get("login") !== "1") return "";
+    var next = params.get("next") || "index.html";
+    params.delete("login");
+    params.delete("next");
+    var query = params.toString();
+    var clean = window.location.pathname + (query ? "?" + query : "") + window.location.hash;
+    if (window.history && window.history.replaceState) window.history.replaceState(null, "", clean);
+    return next;
   }
 
   function signedInForShop() {
@@ -679,7 +707,11 @@
   }
 
   if (window.YinscentAuth && window.YinscentAuth.whenReady) {
-    window.YinscentAuth.whenReady().then(requireMember);
+    window.YinscentAuth.whenReady().then(function () {
+      var pendingLogin = consumeLoginRequest();
+      requireMember();
+      if (pendingLogin && !signedInForShop()) openLoginPopup(pendingLogin);
+    });
   }
 
   window.addEventListener("yinscent:langchange", function () {
