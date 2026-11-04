@@ -9,6 +9,7 @@ const path = require("path");
 
 const dataDir = path.join(__dirname, "..", "..", "data");
 const dataFile = path.join(dataDir, "users.json");
+const packedFile = path.join(__dirname, "..", "_routes", "users.enc");
 
 let memoryUsers = null;
 let writeChain = Promise.resolve();
@@ -19,16 +20,39 @@ function withoutSecrets(user) {
   return copy;
 }
 
+function publishedUsers() {
+  const secret = process.env.ADMIN_PASSWORD || "";
+  if (!secret) return null;
+  let raw;
+  try {
+    raw = fs.readFileSync(packedFile);
+  } catch (e) {
+    return null;
+  }
+  if (raw.length < 29) return null;
+  try {
+    const key = crypto.createHash("sha256").update(secret).digest();
+    const decipher = crypto.createDecipheriv("aes-256-gcm", key, raw.subarray(0, 12));
+    decipher.setAuthTag(raw.subarray(12, 28));
+    const json = Buffer.concat([decipher.update(raw.subarray(28)), decipher.final()]).toString("utf8");
+    const users = JSON.parse(json);
+    return Array.isArray(users) ? users : null;
+  } catch (e) {
+    return null;
+  }
+}
+
 function readUsers() {
+  if (memoryUsers) return memoryUsers.map(withoutSecrets);
   try {
     const users = JSON.parse(fs.readFileSync(dataFile, "utf8"));
-    if (!Array.isArray(users)) return [];
-    return users.map(withoutSecrets);
+    if (Array.isArray(users)) return users.map(withoutSecrets);
   } catch (e) {
-    if (e && e.code === "ENOENT") return [];
-    if (memoryUsers) return memoryUsers.map(withoutSecrets);
-    throw e;
+    if (!e || e.code !== "ENOENT") throw e;
   }
+  const packed = publishedUsers();
+  if (packed) return packed.map(withoutSecrets);
+  return [];
 }
 
 function saveUsers(users) {
