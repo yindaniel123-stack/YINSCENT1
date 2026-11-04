@@ -3800,6 +3800,7 @@ html:not(.is-member):not(.is-preview) #productDetail {
   display: none;
 }
 
+#shopMain .product__price,
 html.is-preview .product__price,
 html.is-preview .pdp-price-row {
   display: none;

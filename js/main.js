@@ -232,12 +232,6 @@
     return "";
   }
 
-  function priceLine(p) {
-    if (!signedInForShop()) return "";
-    var site = window.YINSCENT_SITE;
-    if (site && site.showPrice === false) return "";
-    return '<p class="product__price">' + formatMoney(p.price) + "</p>";
-  }
   function stockLine(p) {
     var site = window.YINSCENT_SITE;
     if (!site || !site.showStock || p.stock == null || p.stock === "" || !isFinite(Number(p.stock))) return "";
@@ -251,7 +245,6 @@
     article.className = "product" + (grid ? " product--grid" : "");
     article.setAttribute("data-id", p.id);
     article.setAttribute("data-name", productFullName(p));
-    if (signedInForShop()) article.setAttribute("data-price", p.price);
 
     var cardName = lp.name;
     if (catId === "deodorizing-balls") {
@@ -268,7 +261,7 @@
       '<p class="product__cat">' + categoryLabel(p) + "</p>" +
       '<h3 class="product__name"><a href="' + href + '">' + cardName + "</a></h3>" +
       (grid ? '<p class="product__desc">' + lp.desc + "</p>" : "") +
-      priceLine(p) + stockLine(p);
+      stockLine(p);
 
     return article;
   }
