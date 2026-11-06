@@ -2050,6 +2050,24 @@ button.user-menu__item {
   margin-right: 0.35rem;
 }
 
+.product__price--tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  align-items: center;
+}
+
+.product__tier {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.product__tier b {
+  font-weight: 600;
+}
+
 .product__desc {
   margin: 0 0 0.35rem;
   font-size: 0.75rem;

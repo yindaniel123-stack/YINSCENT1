@@ -38,6 +38,9 @@ module.exports = async function handler(req, res) {
     delete next.barcode;
     if (!admin && !member) {
       delete next.price;
+      delete next.price2;
+      delete next.price3;
+      delete next.price3Rule;
       delete next.stock;
     }
     return next;

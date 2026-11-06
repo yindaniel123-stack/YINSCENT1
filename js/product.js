@@ -44,6 +44,41 @@
     return "¥" + n.toFixed(2);
   }
 
+  function priceTierLabel(index, rule) {
+    var lang = window.YINSCENT_I18N && window.YINSCENT_I18N.getLang ? window.YINSCENT_I18N.getLang() : "zh";
+    var names = {
+      zh: ["价格1", "价格2", "价格3"],
+      en: ["Price 1", "Price 2", "Price 3"],
+      es: ["Precio 1", "Precio 2", "Precio 3"],
+      pt: ["Preço 1", "Preço 2", "Preço 3"],
+    };
+    var notes = {
+      zh: "10箱以上，混装",
+      en: "10 cartons or more, mixed",
+      es: "10 cajas o más, surtido",
+      pt: "10 caixas ou mais, sortido",
+    };
+    var label = (names[lang] || names.zh)[index] || names.zh[index];
+    if (lang === "zh-Hant") label = ["價格1", "價格2", "價格3"][index] || label;
+    if (rule === "mixed10") label += " · " + (lang === "zh-Hant" ? "10箱以上，混裝" : (notes[lang] || notes.zh));
+    return label;
+  }
+
+  function priceMarkup(product) {
+    if (!signedIn()) return "";
+    var site = window.YINSCENT_SITE;
+    if (site && site.showPrice === false) return "";
+    var tiers = [];
+    if (product.price != null && product.price !== "") tiers.push({ index: 0, amount: product.price, rule: "" });
+    if (product.price2 != null && product.price2 !== "") tiers.push({ index: 1, amount: product.price2, rule: "" });
+    if (product.price3 != null && product.price3 !== "") tiers.push({ index: 2, amount: product.price3, rule: product.price3Rule || "" });
+    if (!tiers.length) return "";
+    if (tiers.length === 1) return '<p class="pdp-info__price product__price">' + formatMoney(tiers[0].amount) + "</p>";
+    return '<div class="pdp-info__price product__price product__price--tiers">' + tiers.map(function (tier) {
+      return '<span class="product__tier"><span>' + priceTierLabel(tier.index, tier.rule) + '</span> <b>' + formatMoney(tier.amount) + "</b></span>";
+    }).join("") + "</div>";
+  }
+
   function locProduct(p) {
     return i18n() && i18n().localizeProduct ? i18n().localizeProduct(p) : p;
   }
@@ -189,10 +224,9 @@
       (lp.tagline ? '<p class="pdp-info__tagline">' + lp.tagline + "</p>" : "") +
       '<p class="pdp-info__desc">' + lp.desc + "</p>" +
       featuresHtml +
-      (signedIn() && product.price != null && product.price !== ""
-        ? '<div class="pdp-price-row"><p class="pdp-info__price product__price">' +
-          formatMoney(product.price) +
-          '</p><button type="button" class="pdp-add" id="pdpAdd">' +
+      (priceMarkup(product)
+        ? '<div class="pdp-price-row">' + priceMarkup(product) +
+          '<button type="button" class="pdp-add" id="pdpAdd">' +
           tr("btn.add") +
           "</button></div>"
         : "") +

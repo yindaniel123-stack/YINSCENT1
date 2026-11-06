@@ -234,12 +234,41 @@
     return "";
   }
 
+  function priceTierLabel(index, rule) {
+    var lang = window.YINSCENT_I18N && window.YINSCENT_I18N.getLang ? window.YINSCENT_I18N.getLang() : "zh";
+    var names = {
+      zh: ["价格1", "价格2", "价格3"],
+      en: ["Price 1", "Price 2", "Price 3"],
+      es: ["Precio 1", "Precio 2", "Precio 3"],
+      pt: ["Preço 1", "Preço 2", "Preço 3"],
+    };
+    var notes = {
+      zh: "10箱以上，混装",
+      en: "10 cartons or more, mixed",
+      es: "10 cajas o más, surtido",
+      pt: "10 caixas ou mais, sortido",
+    };
+    var label = (names[lang] || names.zh)[index] || names.zh[index];
+    if (lang === "zh-Hant") {
+      label = ["價格1", "價格2", "價格3"][index] || label;
+    }
+    if (rule === "mixed10") label += " · " + (lang === "zh-Hant" ? "10箱以上，混裝" : (notes[lang] || notes.zh));
+    return label;
+  }
+
   function priceLine(p) {
     if (!signedInForShop()) return "";
     var site = window.YINSCENT_SITE;
     if (site && site.showPrice === false) return "";
-    if (p.price == null || p.price === "") return "";
-    return '<p class="product__price">' + formatMoney(p.price) + "</p>";
+    var tiers = [];
+    if (p.price != null && p.price !== "") tiers.push({ index: 0, amount: p.price, rule: "" });
+    if (p.price2 != null && p.price2 !== "") tiers.push({ index: 1, amount: p.price2, rule: "" });
+    if (p.price3 != null && p.price3 !== "") tiers.push({ index: 2, amount: p.price3, rule: p.price3Rule || "" });
+    if (!tiers.length) return "";
+    if (tiers.length === 1) return '<p class="product__price">' + formatMoney(tiers[0].amount) + "</p>";
+    return '<p class="product__price product__price--tiers">' + tiers.map(function (tier) {
+      return '<span class="product__tier"><span>' + priceTierLabel(tier.index, tier.rule) + '</span> <b>' + formatMoney(tier.amount) + "</b></span>";
+    }).join("") + "</p>";
   }
   function stockLine(p) {
     var site = window.YINSCENT_SITE;
