@@ -77,6 +77,7 @@
     if (/-reed-refill$/.test(slug)) url += "?v=14";
     if (/-christmas-diffuser$/.test(slug)) url += "?v=15";
     if (/-city-diffuser$/.test(slug)) url += "?v=27";
+    if (/-sachet$/.test(slug)) url += "?v=28";
     if (/-zodiac-candle$/.test(slug)) url += "?v=24";
     if (/-cup-candle$/.test(slug)) url += "?v=16";
     if (/-deo-ball-6$/.test(slug)) url += "?v=23";
