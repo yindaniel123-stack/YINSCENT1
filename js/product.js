@@ -53,14 +53,17 @@
       pt: ["Preço 1", "Preço 2", "Preço 3"],
     };
     var notes = {
-      zh: "10箱以上，混装",
-      en: "10 cartons or more, mixed",
-      es: "10 cajas o más, surtido",
-      pt: "10 caixas ou mais, sortido",
+      carton10: { zh: "10箱以上", en: "10 cartons or more", es: "10 cajas o más", pt: "10 caixas ou mais" },
+      mixed: { zh: "混装", en: "mixed", es: "surtido", pt: "sortido" },
     };
     var label = (names[lang] || names.zh)[index] || names.zh[index];
     if (lang === "zh-Hant") label = ["價格1", "價格2", "價格3"][index] || label;
-    if (rule === "mixed10") label += " · " + (lang === "zh-Hant" ? "10箱以上，混裝" : (notes[lang] || notes.zh));
+    var note = notes[rule];
+    if (note) {
+      var text = note[lang] || note.zh;
+      if (lang === "zh-Hant" && rule === "mixed") text = "混裝";
+      label += " · " + text;
+    }
     return label;
   }
 
@@ -70,7 +73,7 @@
     if (site && site.showPrice === false) return "";
     var tiers = [];
     if (product.price != null && product.price !== "") tiers.push({ index: 0, amount: product.price, rule: "" });
-    if (product.price2 != null && product.price2 !== "") tiers.push({ index: 1, amount: product.price2, rule: "" });
+    if (product.price2 != null && product.price2 !== "") tiers.push({ index: 1, amount: product.price2, rule: product.price2Rule || "" });
     if (product.price3 != null && product.price3 !== "") tiers.push({ index: 2, amount: product.price3, rule: product.price3Rule || "" });
     if (!tiers.length) return "";
     if (tiers.length === 1) return '<p class="pdp-info__price product__price">' + formatMoney(tiers[0].amount) + "</p>";
