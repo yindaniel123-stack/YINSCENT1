@@ -245,6 +245,7 @@
     var notes = {
       carton10: { zh: "10箱以上", en: "10 cartons or more", es: "10 cajas o más", pt: "10 caixas ou mais" },
       mixed: { zh: "混装", en: "mixed", es: "surtido", pt: "sortido" },
+      mixed1: { zh: "混装，1箱就可以", "zh-Hant": "混裝，1箱就可以", en: "mixed, 1 carton", es: "surtido, 1 caja", pt: "sortido, 1 caixa" },
     };
     var label = (names[lang] || names.zh)[index] || names.zh[index];
     if (lang === "zh-Hant") label = ["價格1", "價格2", "價格3"][index] || label;
