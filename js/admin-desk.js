@@ -1303,7 +1303,7 @@
       line(intro, "标题", story, "title", 60, false);
       line(intro, "选购按钮", story, "shopLabel", 20, false);
       block(intro, "正文", story, "body", 4000, 16);
-      picture(intro, "配图", story, "sideImage", "assets/products/apple-candle-display.png");
+      picture(intro, "配图", story, "sideImage", "assets/story-showroom.jpg");
       var features = card("特点");
       block(features, "", story, "featuresText", 4000, 16);
       var stats = card("四项数据");

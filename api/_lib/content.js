@@ -26,7 +26,7 @@ function defaults() {
       "我们的使命是将香氛带进每一个家庭，让品香成为一种普遍的生活方式。凭借可靠的制造能力、用心的产品研发与始终如一的品质，我们致力为您创造美好的香氛体验，并服务全球顾客。",
       "我们诚挚欢迎批发询盘及长期合作机会。欢迎立即联系我们的团队，索取报价，并为您的市场找到合适的香氛产品。",
     ],
-    sideImage: "assets/products/apple-candle-display.png",
+    sideImage: "assets/story-showroom.jpg",
     shopLabel: "选购产品",
     features: [
       { title: "高品质产品", text: "100+ 款香氛产品\n满足不同场景需求" },
