@@ -2,7 +2,7 @@
   if (new URLSearchParams(window.location.search).get("page") !== "contact") return;
 
   /** Public inbox for FormSubmit delivery (no secret required). */
-  var CONTACT_EMAIL = "yindaniel123@gmail.com";
+  var CONTACT_EMAIL = "yinscent@gmail.com";
   var FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/" + CONTACT_EMAIL;
   var isFileProtocol = window.location.protocol === "file:";
 

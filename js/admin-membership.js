@@ -372,7 +372,7 @@
         }, "系统设置已保存");
       });
       root.appendChild(form);
-      line(root, "通知邮箱留空时，使用服务器上的 NOTIFY_EMAIL，默认 yindaniel123@gmail.com。用户资料和发放的密码会发到这个邮箱保存。");
+      line(root, "通知邮箱留空时，使用服务器上的 NOTIFY_EMAIL，默认 yinscent@gmail.com。用户资料和发放的密码会发到这个邮箱保存。");
     });
   }
 
