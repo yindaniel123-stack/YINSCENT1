@@ -28,14 +28,9 @@ module.exports = async function handler(req, res) {
     next.stock = overrides.stock[product.id] == null ? null : overrides.stock[product.id];
     if (row && row.stock) next.stock = row.stock;
     if (row && row.name) next.tradeName = row.name;
-    delete next.innerPack;
-    delete next.carton;
-    delete next.length;
-    delete next.width;
-    delete next.height;
-    delete next.size;
-    delete next.weight;
-    delete next.barcode;
+    ["barcode", "innerPack", "carton", "length", "width", "height", "size", "weight"].forEach(function (key) {
+      if (row && row[key] != null && String(row[key]) !== "") next[key] = String(row[key]);
+    });
     if (!admin && !member) {
       delete next.price;
       delete next.price2;
@@ -43,6 +38,14 @@ module.exports = async function handler(req, res) {
       delete next.price3;
       delete next.price3Rule;
       delete next.stock;
+      delete next.innerPack;
+      delete next.carton;
+      delete next.length;
+      delete next.width;
+      delete next.height;
+      delete next.size;
+      delete next.weight;
+      delete next.barcode;
     }
     return next;
   });

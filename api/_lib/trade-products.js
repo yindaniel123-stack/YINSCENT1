@@ -101,7 +101,7 @@ function categoryLabel(product) {
     "incense-holders": "印度香板",
     "scented-sachets": "香包",
     "scented-wooden-balls": "留香木珠",
-    "deodorizing-balls": "除臭球",
+    "deodorizing-balls": "除味球",
     "scented-gels": "香膏",
     "essential-oils": "精油",
     "smart-aroma-diffusers": "智能香薰机",

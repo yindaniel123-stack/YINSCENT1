@@ -68,6 +68,33 @@
     return label;
   }
 
+  function esc(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function specMarkup(product) {
+    if (!signedIn()) return "";
+    var rows = [
+      [tr("pdp.sku"), product.sku || product.ref],
+      [tr("pdp.trade"), product.tradeName],
+      [tr("pdp.scent"), product.barcode],
+      [tr("pdp.inner"), product.innerPack],
+      [tr("pdp.carton_qty"), product.carton],
+      [tr("pdp.size"), product.size],
+      [tr("pdp.weight"), product.weight],
+    ].filter(function (row) {
+      return row[1] != null && String(row[1]) !== "";
+    });
+    if (!rows.length) return "";
+    return '<section class="pdp-specs"><h2>' + esc(tr("pdp.specs")) + "</h2><dl>" + rows.map(function (row) {
+      return "<div><dt>" + esc(row[0]) + "</dt><dd>" + esc(row[1]) + "</dd></div>";
+    }).join("") + "</dl></section>";
+  }
+
   function priceMarkup(product) {
     if (!signedIn()) return "";
     var site = window.YINSCENT_SITE;
@@ -227,6 +254,7 @@
       '<h1 class="pdp-info__title">' + lp.name + "</h1>" +
       (lp.tagline ? '<p class="pdp-info__tagline">' + lp.tagline + "</p>" : "") +
       '<p class="pdp-info__desc">' + lp.desc + "</p>" +
+      specMarkup(product) +
       featuresHtml +
       (priceMarkup(product)
         ? '<div class="pdp-price-row">' + priceMarkup(product) +

@@ -2597,6 +2597,49 @@ button.user-menu__item {
   line-height: 1.65;
 }
 
+.pdp-specs {
+  margin: 0 0 1.35rem;
+  padding: 0.95rem 1rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  background: #fff;
+}
+
+.pdp-specs h2 {
+  margin: 0 0 0.7rem;
+  color: #654c2b;
+  font-family: "Noto Serif SC", "Songti SC", serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.pdp-specs dl {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.pdp-specs div {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.pdp-specs dt,
+.pdp-specs dd {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.pdp-specs dt {
+  color: var(--ink-muted);
+}
+
+.pdp-specs dd {
+  color: var(--ink);
+}
+
 .pdp-features {
   list-style: none;
   margin: 0 0 1.5rem;
@@ -3172,6 +3215,18 @@ html.is-contact-page #contactDetail {
 
 .contact-content__intro:last-of-type {
   margin-bottom: 1.75rem;
+}
+
+.contact-wechat {
+  margin: 0 0 1.75rem;
+}
+
+.contact-wechat img {
+  display: block;
+  width: min(100%, 18rem);
+  height: auto;
+  border-radius: 0.85rem;
+  background: #fff;
 }
 
 .contact-form {
