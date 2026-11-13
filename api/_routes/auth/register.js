@@ -52,6 +52,7 @@ module.exports = async function handler(req, res) {
   if (!name || !phone) return session.sendJson(res, 400, { error: "invalid_application" });
   if (!email) return session.sendJson(res, 400, { error: "invalid_email" });
   if (!country) return session.sendJson(res, 400, { error: "invalid_country" });
+  if (!company) return session.sendJson(res, 400, { error: "invalid_company" });
 
   await users.ensure();
   const existing = users.findByEmail(email);

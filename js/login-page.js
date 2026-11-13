@@ -26,7 +26,7 @@
       phonePh: "请输入联系电话",
       applyEmailLabel: "邮箱",
       applyEmailPh: "请输入邮箱地址",
-      companyLabel: "公司名称（选填）",
+      companyLabel: "公司名称",
       companyPh: "请输入公司名称",
       countryLabel: "国家/地区",
       addressLabel: "详细地址（选填）",
@@ -46,6 +46,7 @@
       badEmail: "请输入有效邮箱。支持网易、QQ、Gmail、Outlook及企业邮箱。",
       badUser: "账号需为 4-20 位字母或数字",
       badCountry: "请选择国家/地区",
+      badCompany: "请填写公司名称",
       needAgree: "请先阅读并同意《网站使用条款》和《隐私政策》",
       usernameTaken: "这个账号已被使用",
       codeLabel: "邮箱验证码",
@@ -97,7 +98,7 @@
       phonePh: "Phone number",
       applyEmailLabel: "Email",
       applyEmailPh: "Email address",
-      companyLabel: "Company (optional)",
+      companyLabel: "Company",
       companyPh: "Company name",
       countryLabel: "Country / region",
       addressLabel: "Address (optional)",
@@ -117,6 +118,7 @@
       badEmail: "Enter a valid email. NetEase, QQ, Gmail, Outlook, and company mail all work.",
       badUser: "Use 4-20 letters or numbers.",
       badCountry: "Choose a country or region.",
+      badCompany: "Enter the company name.",
       needAgree: "Please agree to the terms and privacy policy.",
       usernameTaken: "This account is already in use.",
       codeLabel: "Email code",
@@ -168,7 +170,7 @@
       phonePh: "Número de teléfono",
       applyEmailLabel: "Correo",
       applyEmailPh: "Dirección de correo",
-      companyLabel: "Empresa (opcional)",
+      companyLabel: "Empresa",
       companyPh: "Nombre de la empresa",
       countryLabel: "País / región",
       addressLabel: "Dirección (opcional)",
@@ -188,6 +190,7 @@
       badEmail: "Introduce un correo válido. Sirven NetEase, QQ, Gmail, Outlook y el correo de empresa.",
       badUser: "La cuenta debe tener de 4 a 20 letras o números.",
       badCountry: "Elige un país o región.",
+      badCompany: "Indique el nombre de la empresa.",
       needAgree: "Lee y acepta los términos de uso y la política de privacidad.",
       usernameTaken: "Esta cuenta ya está en uso.",
       codeLabel: "Código de correo",
@@ -239,7 +242,7 @@
       phonePh: "Número de telefone",
       applyEmailLabel: "E-mail",
       applyEmailPh: "Endereço de e-mail",
-      companyLabel: "Empresa (opcional)",
+      companyLabel: "Empresa",
       companyPh: "Nome da empresa",
       countryLabel: "País / região",
       addressLabel: "Morada (opcional)",
@@ -259,6 +262,7 @@
       badEmail: "Introduza um e-mail válido. NetEase, QQ, Gmail, Outlook e e-mail de empresa são aceites.",
       badUser: "A conta deve ter 4 a 20 letras ou números.",
       badCountry: "Escolha um país ou região.",
+      badCompany: "Indique o nome da empresa.",
       needAgree: "Leia e aceite os termos de utilização e a política de privacidade.",
       usernameTaken: "Esta conta já está a ser usada.",
       codeLabel: "Código de e-mail",
@@ -420,6 +424,7 @@
     if (code === "invalid_email") return copy.badEmail;
     if (code === "invalid_username") return copy.badUser;
     if (code === "invalid_country") return copy.badCountry;
+    if (code === "invalid_company") return copy.badCompany;
     if (code === "username_taken") return copy.usernameTaken;
     if (code === "register_closed") return copy.closed;
     if (code === "unavailable") return copy.down;
@@ -501,6 +506,10 @@
     }
     if (!document.getElementById("applyCountry").value) {
       showError("applyError", copy.badCountry);
+      return;
+    }
+    if (!document.getElementById("applyCompany").value.trim()) {
+      showError("applyError", copy.badCompany);
       return;
     }
     if (!document.getElementById("applyAgree").checked) {
