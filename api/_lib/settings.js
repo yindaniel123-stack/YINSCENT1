@@ -24,8 +24,8 @@ const DEFAULT_TEMPLATES = {
 };
 
 const NOTICE_DEFAULTS = [
-  ["register_admin", "新客户注册（管理员）", "admin", "YINSCENT 新客户注册", "收到新的客户注册，已自动通过。\n账号：{{账号}}\n联系人：{{联系人}}\n联系电话：{{联系电话}}\n邮箱：{{邮箱}}\n公司名称：{{公司名称}}\n国家/地区：{{国家地区}}\n申请时间：{{申请时间}}"],
-  ["register_customer", "新客户注册（客户）", "customer", "YINSCENT 登录密码", "{{联系人}}，您好。\n您的注册已通过，现在可以登录。\n账号：{{账号}}\n登录密码：{{登录密码}}\n请保存这封邮件。"],
+  ["register_admin", "新客户注册（管理员）", "admin", "YINSCENT 新客户注册", "收到新的客户注册，等待管理员审核。\n账号：{{账号}}\n联系人：{{联系人}}\n联系电话：{{联系电话}}\n邮箱：{{邮箱}}\n公司名称：{{公司名称}}\n国家/地区：{{国家地区}}\n申请时间：{{申请时间}}"],
+  ["register_customer", "新客户注册（客户）", "customer", "YINSCENT 注册申请已提交", "{{联系人}}，您好。\n您的注册申请已提交，需要管理员审核。\n通过后，登录密码会发到这个邮箱，之后才能查看价格。\n账号：{{账号}}"],
   ["review_pass", "注册审核通过", "customer", "YINSCENT 登录密码", "{{联系人}}，您好。\n您的注册已通过，现在可以登录。\n账号：{{账号}}\n登录密码：{{登录密码}}\n审核时间：{{审核时间}}"],
   ["review_reject", "注册审核未通过", "customer", "YINSCENT 注册审核未通过", "{{联系人}}，您好。\n您的注册申请未通过。\n审核时间：{{审核时间}}"],
   ["order_admin", "新订单（管理员）", "admin", "YINSCENT 新订单 {{订单号}}", "收到新订单。\n订单号：{{订单号}}\n客户名称：{{客户名称}}\n订单状态：{{订单状态}}\n总金额：{{总金额}}\n收货信息：{{收货信息}}\n{{订单明细}}"],
@@ -84,7 +84,7 @@ function siteDefaults() {
     dateFormat: "YYYY-MM-DD",
     timeFormat: "24",
     allowRegister: true,
-    requireReview: false,
+    requireReview: true,
     showStock: false,
     enableOrder: true,
     showPrice: true,
@@ -147,7 +147,7 @@ function normalizeSite(input, previous) {
     dateFormat: src.dateFormat === "DD/MM/YYYY" || src.dateFormat === "MM/DD/YYYY" ? src.dateFormat : "YYYY-MM-DD",
     timeFormat: src.timeFormat === "12" ? "12" : "24",
     allowRegister: flag("allowRegister", true),
-    requireReview: false,
+    requireReview: true,
     showStock: flag("showStock", false),
     enableOrder: flag("enableOrder", true),
     showPrice: flag("showPrice", true),

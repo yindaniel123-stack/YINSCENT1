@@ -132,12 +132,10 @@ async function register(user) {
   };
   const id = user.id || user.email || user.username || "";
   await notify.emit("register_admin", { to: notify.recipients(), dedupe: "register_admin:" + id, fields: fields });
-  const customer = Object.assign({}, fields, { 登录密码: user.password || "" });
   return notify.emit("register_customer", {
     to: [user.email || ""],
     dedupe: "register_customer:" + id,
-    fields: customer,
-    keepSecret: true,
+    fields: fields,
   });
 }
 

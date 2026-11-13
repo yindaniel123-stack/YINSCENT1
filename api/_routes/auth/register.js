@@ -70,7 +70,7 @@ module.exports = async function handler(req, res) {
   const plain = generatePassword();
   const hash = await users.hashPassword(plain);
   const now = new Date().toISOString();
-  const approved = true;
+  const approved = false;
   const accountId = existing ? existing.id : users.randomId();
   const fields = {
     username: username,
@@ -122,13 +122,11 @@ module.exports = async function handler(req, res) {
     company: company,
     country: country,
     createdAt: now,
-    password: plain,
   }).catch(function () { return { sent: false }; });
   return session.sendJson(res, 201, {
     ok: true,
-    status: "active",
+    status: "pending",
     username: username,
-    password: plain,
     mailed: !!(mailed && mailed.sent),
   });
 };

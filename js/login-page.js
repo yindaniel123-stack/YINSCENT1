@@ -53,7 +53,7 @@
       sendCode: "获取验证码",
       applySubmit: "提交注册申请",
       submitted: "已提交",
-      applyOk: "已提交",
+      applyOk: "申请已提交。管理员审核通过后，会把登录密码发到您的邮箱。通过之前不能查看价格。",
       applyReady: "注册已通过。登录密码已发送到您填写的邮箱。",
       mailMiss: "注册已通过。邮件暂时没有发出，请使用下方密码登录。",
       readyBtn: "注册完成",
@@ -124,7 +124,7 @@
       sendCode: "Send code",
       applySubmit: "Submit application",
       submitted: "Submitted",
-      applyOk: "Application sent. You can sign in after it is approved.",
+      applyOk: "Application sent. After an admin approves it, the password is emailed to you. Prices stay hidden until then.",
       applyReady: "Your account is ready. The password was sent to your email.",
       mailMiss: "Your account is ready. The email could not be sent, so use the password below.",
       readyBtn: "Registration complete",
@@ -195,7 +195,7 @@
       sendCode: "Enviar código",
       applySubmit: "Enviar solicitud",
       submitted: "Enviado",
-      applyOk: "Solicitud enviada. No podrás iniciar sesión hasta que sea aprobada.",
+      applyOk: "Solicitud enviada. Tras la aprobación, el administrador enviará la contraseña a su correo. Los precios se muestran después de la aprobación.",
       applyReady: "El registro está aprobado. La contraseña se envió a su correo.",
       mailMiss: "El registro está aprobado. El correo no se envió; use la contraseña de abajo.",
       readyBtn: "Registro completo",
@@ -266,7 +266,7 @@
       sendCode: "Enviar código",
       applySubmit: "Enviar pedido",
       submitted: "Enviado",
-      applyOk: "Pedido enviado. Não é possível entrar até a aprovação.",
+      applyOk: "Pedido enviado. Após a aprovação, o administrador envia a palavra-passe para o seu e-mail. Os preços ficam visíveis depois da aprovação.",
       applyReady: "O registo foi aprovado. A palavra-passe foi enviada para o seu e-mail.",
       mailMiss: "O registo foi aprovado. O e-mail não foi enviado; use a palavra-passe abaixo.",
       readyBtn: "Registo concluído",
@@ -536,7 +536,7 @@
         if (res.data.password) note.textContent += " " + copy.applyPass + res.data.password;
       } else {
         button.textContent = localize(copy.submitted || "已提交");
-        note.textContent = localize(copy.submitted || "已提交");
+        note.textContent = localize(copy.applyOk || copy.submitted || "已提交");
       }
     }).catch(function () {
       button.disabled = false;

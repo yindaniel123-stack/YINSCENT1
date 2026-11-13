@@ -1891,7 +1891,7 @@
       toggle(featGrid, "显示价格（统一批发价）", "showPrice");
       toggle(featGrid, "启用询盘功能", "enableInquiry");
       features.appendChild(featGrid);
-      features.appendChild(el("p", "desk__hint", "客户提交注册后会自动通过，登录密码发到客户填写的邮箱。关闭注册后，登录页不再显示新客户注册。库存只显示已经录入数量的产品。"));
+      features.appendChild(el("p", "desk__hint", "新客户提交后进入待审核，通过之前不能查看价格。点击通过后，登录密码会发到客户邮箱，同时显示在审核详情里，请交给客户。关闭注册后，登录页不再显示新客户注册。库存只显示已经录入数量的产品。"));
       choose(features, "默认首页", "defaultHome", [["products", "产品列表页"], ["story", "品牌故事"], ["contact", "联系页"]], false);
       var pageSize = el("input", "desk-input set-narrow");
       pageSize.type = "number";
