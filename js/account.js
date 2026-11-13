@@ -117,6 +117,54 @@
     });
   });
 
+  document.getElementById("passwordForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    var error = document.getElementById("passError");
+    var note = document.getElementById("passNote");
+    var button = document.getElementById("passSubmit");
+    var current = document.getElementById("passCurrent").value;
+    var next = document.getElementById("passNext").value;
+    var again = document.getElementById("passAgain").value;
+    error.hidden = true;
+    note.hidden = true;
+    if (next.length < 8) {
+      error.hidden = false;
+      error.textContent = t("acct.pass_short");
+      return;
+    }
+    if (next !== again) {
+      error.hidden = false;
+      error.textContent = t("acct.pass_mismatch");
+      return;
+    }
+    if (next === current) {
+      error.hidden = false;
+      error.textContent = t("acct.pass_same");
+      return;
+    }
+    button.disabled = true;
+    post("password", { current: current, next: next }).then(function (res) {
+      button.disabled = false;
+      if (!res.ok) {
+        error.hidden = false;
+        var code = res.data && res.data.error;
+        error.textContent = code === "same_password"
+          ? t("acct.pass_same")
+          : code === "rate_limited"
+            ? t("acct.pass_rate")
+            : t("acct.pass_bad");
+        return;
+      }
+      document.getElementById("passwordForm").reset();
+      note.hidden = false;
+      note.textContent = t("acct.pass_ok");
+    }).catch(function () {
+      button.disabled = false;
+      error.hidden = false;
+      error.textContent = t("acct.pass_bad");
+    });
+  });
+
   document.getElementById("accountSignOut").addEventListener("click", function (event) {
     event.preventDefault();
     window.YinscentAuth.signOutMember().then(function () {
