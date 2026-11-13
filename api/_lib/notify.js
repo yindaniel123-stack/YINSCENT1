@@ -19,7 +19,7 @@ function recipients() {
     if (one) return [one];
   } catch (e) {}
   const env = cleanEmail(process.env.NOTIFY_EMAIL || "");
-  return env ? [env] : ["yindaniel123@gmail.com"];
+  return env ? [env] : ["yinscent.store@gmail.com"];
 }
 
 function cleanEmail(value) {
