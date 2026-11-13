@@ -1,7 +1,6 @@
 const crypto = require("crypto");
 const admins = require("../../_lib/admins");
 const loginLog = require("../../_lib/login-log");
-const notify = require("../../_lib/notify");
 const { clientIp, limited, issueSession, authReady, session, users } = require("../../_lib/access");
 
 module.exports = async function handler(req, res) {
@@ -81,14 +80,6 @@ module.exports = async function handler(req, res) {
     ip: ip,
     ok: true,
     reason: "",
-  });
-  await notify.send("用户登录", {
-    账号: user.username,
-    姓名: user.name || "",
-    电话: user.phone || "",
-    邮箱: user.email || "",
-    时间: new Date().toISOString(),
-    IP: ip,
   });
   if (!issueSession(req, res, user, [session.clearCookie(req)])) return session.sendJson(res, 500, { error: "unconfigured" });
   return session.sendJson(res, 200, { ok: true, user: users.publicUser(user) });
