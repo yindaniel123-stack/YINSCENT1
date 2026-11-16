@@ -459,6 +459,7 @@ button {
 
 .header-cart {
   position: relative;
+  flex: none;
 }
 
 .header__cart-count {
