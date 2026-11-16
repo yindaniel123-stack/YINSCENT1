@@ -2440,7 +2440,9 @@ button.user-menu__item {
 
 @media (min-width: 768px) {
   .footer__grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 14rem));
+    justify-content: center;
+    gap: 2rem 4rem;
   }
 }
 
@@ -2476,6 +2478,10 @@ button.user-menu__item {
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.footer__social[hidden] {
+  display: none;
 }
 
 .footer__social a:hover {

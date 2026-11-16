@@ -1276,21 +1276,24 @@
       copy.textContent = String(site.copyright).replace("{year}", String(new Date().getFullYear()));
     }
     var social = site.social || {};
-    var names = { Instagram: "instagram", Facebook: "facebook", Pinterest: "pinterest" };
-    document.querySelectorAll(".footer__social a").forEach(function (link) {
-      var key = names[link.getAttribute("aria-label") || ""];
-      if (key && social[key]) link.href = social[key];
-    });
-    if (social.youtube && !document.querySelector('.footer__social a[data-social="youtube"]')) {
-      var host = document.querySelector(".footer__social");
-      if (host) {
-        var youtube = document.createElement("a");
-        youtube.href = social.youtube;
-        youtube.setAttribute("aria-label", "YouTube");
-        youtube.setAttribute("data-social", "youtube");
-        youtube.textContent = "YouTube";
-        host.appendChild(youtube);
-      }
+    var socialHost = document.querySelector(".footer__social");
+    if (socialHost) {
+      var socialItems = [
+        ["Instagram", social.instagram],
+        ["Facebook", social.facebook],
+        ["Pinterest", social.pinterest],
+        ["YouTube", social.youtube],
+      ];
+      socialHost.innerHTML = "";
+      socialItems.forEach(function (item) {
+        if (!item[1]) return;
+        var link = document.createElement("a");
+        link.href = item[1];
+        link.setAttribute("aria-label", item[0]);
+        link.textContent = item[0];
+        socialHost.appendChild(link);
+      });
+      socialHost.hidden = !socialHost.children.length;
     }
     var facts = document.getElementById("contactFacts");
     if (facts) {
