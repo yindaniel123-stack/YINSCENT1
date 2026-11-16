@@ -1,4 +1,6 @@
 const session = require("../_lib/session");
+const mail = require("../_lib/mail");
+const notify = require("../_lib/notify");
 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
@@ -83,21 +85,36 @@ module.exports = async function handler(req, res) {
 
   const name = clip(body.name, 80);
   const email = clip(body.email, 120);
-  const message = clip(body.message, 400);
+  const message = clip(body.message, 2000);
   if (!name || !email || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return session.sendJson(res, 400, { error: "Name, email, and message are required." });
   }
 
-  const text = ("YINSCENT contact\n" + name + " <" + email + ">\n" + message).slice(0, 320);
+  const text = ["YINSCENT 询价", "姓名：" + name, "邮箱：" + email, "", message].join("\n");
+  const smsText = ("YINSCENT contact\n" + name + " <" + email + ">\n" + message).slice(0, 320);
+  let mailed = false;
+  try {
+    const targets = notify.recipients();
+    for (let i = 0; i < targets.length; i++) {
+      const result = await mail.sendMail({
+        to: targets[i],
+        replyTo: email,
+        subject: "YINSCENT 询价",
+        text: text,
+      });
+      if (result && result.sent) mailed = true;
+    }
+  } catch (err) {
+    mailed = false;
+  }
+
+  if (!mailed) {
+    return session.sendJson(res, 503, { error: "mail_unavailable" });
+  }
 
   try {
-    const result = await sendSms(text);
-    if (!result.configured) {
-      return session.sendJson(res, 503, { error: "SMS is not configured" });
-    }
-    return session.sendJson(res, 200, { ok: true });
-  } catch (err) {
-    console.error("Contact SMS failed");
-    return session.sendJson(res, 502, { error: "Could not send the text message" });
-  }
+    await sendSms(smsText);
+  } catch (err) {}
+
+  return session.sendJson(res, 200, { ok: true });
 };

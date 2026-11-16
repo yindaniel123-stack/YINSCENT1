@@ -119,6 +119,8 @@ function sendMail(message) {
   const pass = smtp.pass;
   const from = smtp.from;
   const fromHeader = formatFrom(smtp.fromName, from);
+  const replyTo = String(message.replyTo || "").trim();
+  const toLine = "To: " + message.to + (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyTo) ? "\r\nReply-To: " + replyTo : "");
   const secure = smtp.secure === "ssl" || port === 465;
   const subject = String(message.subject || "");
   const encodedSubject = /^[\x20-\x7e]*$/.test(subject)
@@ -134,7 +136,7 @@ function sendMail(message) {
   const body = message.html
     ? [
       "From: " + fromHeader,
-      "To: " + message.to,
+      toLine,
       "Subject: " + encodedSubject,
       "MIME-Version: 1.0",
       "Content-Type: multipart/alternative; boundary=\"" + boundary + "\"",
@@ -154,7 +156,7 @@ function sendMail(message) {
     ].join("\r\n")
     : [
       "From: " + fromHeader,
-      "To: " + message.to,
+      toLine,
       "Subject: " + encodedSubject,
       "MIME-Version: 1.0",
       "Content-Type: text/plain; charset=utf-8",

@@ -1,9 +1,7 @@
 (function () {
   if (new URLSearchParams(window.location.search).get("page") !== "contact") return;
 
-  /** Public inbox for FormSubmit delivery (no secret required). */
   var CONTACT_EMAIL = "yinscent.store@gmail.com";
-  var FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/" + CONTACT_EMAIL;
   var isFileProtocol = window.location.protocol === "file:";
 
   document.body.classList.add("page-contact");
@@ -79,19 +77,6 @@
     urlInput.value = window.location.href;
   }
 
-  function notifyPhone(payload) {
-    var base = window.YINSCENT_BASE || "/";
-    fetch(base + "api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({
-        name: payload.name,
-        email: payload.email,
-        message: payload.message,
-      }),
-    }).catch(function () {});
-  }
-
   function mailtoHref(payload) {
     var subject = encodeURIComponent(payload._subject || "YINSCENT contact");
     var body = encodeURIComponent(
@@ -105,22 +90,6 @@
     return "mailto:" + CONTACT_EMAIL + "?subject=" + subject + "&body=" + body;
   }
 
-  function friendlyDetail(raw) {
-    if (!raw) return "";
-    var lower = String(raw).toLowerCase();
-    if (lower.indexOf("activat") !== -1) {
-      return (
-        "FormSubmit still needs a one-time activation for " +
-        CONTACT_EMAIL +
-        ". Check that inbox for an “Activate Form” email, click the link, then try again."
-      );
-    }
-    if (lower.indexOf("web server") !== -1 || lower.indexOf("html files") !== -1) {
-      return "Open this site via a local web server (http://localhost…), not as a file:// page.";
-    }
-    return String(raw);
-  }
-
   function showThanks() {
     if (errorEl) errorEl.hidden = true;
     if (thanks) {
@@ -129,19 +98,17 @@
     }
   }
 
-  function showError(detail, payload) {
+  function showError(payload) {
     if (thanks) thanks.hidden = true;
     if (!errorEl) return;
 
-    var base = t(
-      "contact.error",
-      "Sorry — we could not send your message. Please try again."
-    );
-    var extra = friendlyDetail(detail);
     errorEl.textContent = "";
 
     var text = document.createElement("span");
-    text.textContent = extra ? base + " " + extra : base;
+    text.textContent = t(
+      "contact.error",
+      "Sorry — we could not send your message. Please try again."
+    );
     errorEl.appendChild(text);
 
     if (payload) {
@@ -179,71 +146,46 @@
       email: form.elements.namedItem("email").value.trim(),
       message: form.elements.namedItem("message").value.trim(),
       _subject: "YINSCENT contact",
-      _captcha: "false",
-      _template: "table",
     };
 
-    // file:// has no Origin FormSubmit accepts — skip AJAX and offer mailto.
     if (isFileProtocol) {
-      showError(
-        "Make sure you open this page through a web server, FormSubmit will not work in pages browsed as HTML files.",
-        payload
-      );
+      showError(payload);
       if (submitBtn) submitBtn.disabled = prevDisabled;
       return;
     }
 
-    payload._url = window.location.href;
-
-    function nativePostFallback() {
-      // form.submit() does not re-fire the submit event, so no infinite loop.
-      if (submitBtn) submitBtn.disabled = prevDisabled;
-      HTMLFormElement.prototype.submit.call(form);
-    }
-
-    fetch(FORMSUBMIT_ENDPOINT, {
+    fetch((window.YINSCENT_BASE || "/") + "api/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        name: payload.name,
+        email: payload.email,
+        message: payload.message,
+      }),
     })
       .then(function (res) {
         return res.json().then(
           function (data) {
-            return { ok: res.ok, data: data, networkOk: true };
+            return { ok: res.ok && data && data.ok === true };
           },
           function () {
-            return { ok: false, data: null, networkOk: false };
+            return { ok: false };
           }
         );
       })
       .then(function (result) {
-        if (!result.networkOk) {
-          nativePostFallback();
-          return;
-        }
-
-        var success =
-          result.ok &&
-          result.data &&
-          String(result.data.success) !== "false";
-        if (!success) {
-          showError((result.data && result.data.message) || "send failed", payload);
+        if (!result.ok) {
+          showError(payload);
           return;
         }
         form.reset();
         showThanks();
-        notifyPhone(payload);
       })
       .catch(function () {
-        // Network / CORS failure: fall back to native FormSubmit POST.
-        try {
-          nativePostFallback();
-        } catch (err) {
-          showError("", payload);
-        }
+        showError(payload);
       })
       .finally(function () {
         if (submitBtn) submitBtn.disabled = prevDisabled;
