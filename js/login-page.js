@@ -299,14 +299,14 @@
   };
 
   function lang() {
-    var stored = localStorage.getItem("yinscent-lang");
+    var stored = localStorage.getItem("yinscent-lang-choice");
     if (stored === "zh-Hant") return "zh";
-    return COPY[stored] ? stored : "zh";
+    return COPY[stored] ? stored : "en";
   }
 
   function localize(text) {
     try {
-      if (localStorage.getItem("yinscent-lang") === "zh-Hant" && window.YINSCENT_I18N && window.YINSCENT_I18N.toTraditional) {
+      if (localStorage.getItem("yinscent-lang-choice") === "zh-Hant" && window.YINSCENT_I18N && window.YINSCENT_I18N.toTraditional) {
         return window.YINSCENT_I18N.toTraditional(text);
       }
     } catch (e) {}

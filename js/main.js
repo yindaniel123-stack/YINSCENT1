@@ -1312,8 +1312,8 @@
         btn.hidden = !langEnabled(btn.getAttribute("data-lang"));
       });
       var stored = "";
-      try { stored = localStorage.getItem("yinscent-lang") || ""; } catch (e) {}
-      if (!stored) window.YINSCENT_I18N.setLang(site.defaultLanguage || "zh", { silent: true });
+      try { stored = localStorage.getItem("yinscent-lang-choice") || ""; } catch (e) {}
+      if (!stored) window.YINSCENT_I18N.setLang(site.defaultLanguage || "en", { silent: true });
       else if (!langEnabled(window.YINSCENT_I18N.getLang())) window.YINSCENT_I18N.setLang(site.defaultLanguage || site.languages[0]);
     }
     if (!isDetailView && (document.documentElement.classList.contains("is-member") || document.documentElement.classList.contains("is-preview"))) {

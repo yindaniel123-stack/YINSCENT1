@@ -77,7 +77,7 @@ function siteDefaults() {
     address: "",
     domain: "",
     logo: "",
-    defaultLanguage: "zh",
+    defaultLanguage: "en",
     languages: ["zh", "en", "es", "pt"],
     currency: "CNY",
     timezone: "Asia/Shanghai",

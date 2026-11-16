@@ -1,6 +1,7 @@
 /* YINSCENT i18n — en / zh / es / pt */
 (function () {
   var STORAGE_KEY = "yinscent-lang";
+  var CHOICE_KEY = "yinscent-lang-choice";
   var LANGS = ["en", "zh", "zh-Hant", "es", "pt"];
   var LANG_HTML = { en: "en", zh: "zh-CN", "zh-Hant": "zh-Hant", es: "es", pt: "pt" };
   var current = "en";
@@ -13,7 +14,7 @@
     try {
       var q = new URLSearchParams(window.location.search).get("lang");
       if (q && LANGS.indexOf(q) !== -1) return q;
-      var s = localStorage.getItem(STORAGE_KEY);
+      var s = localStorage.getItem(CHOICE_KEY);
       if (s && LANGS.indexOf(s) !== -1) return s;
     } catch (e) {}
     return "en";
@@ -580,6 +581,7 @@
     current = lang;
     try {
       localStorage.setItem(STORAGE_KEY, lang);
+      localStorage.setItem(CHOICE_KEY, lang);
     } catch (e) {}
     document.documentElement.lang = LANG_HTML[lang] || lang;
     apply();
