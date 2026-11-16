@@ -261,7 +261,7 @@
           '<button type="button" class="pdp-add" id="pdpAdd">' +
           tr("btn.add") +
           "</button></div>"
-        : "") +
+        : '<p class="product__login-price"><a href="' + base + "login.html?next=" + encodeURIComponent("index.html?id=" + id) + '">' + esc(tr("price.login")) + "</a></p>") +
       '<a href="' + base + 'index.html?page=contact" class="btn btn--cart pdp-info__enquire">' + tr("nav.contact") + "</a>" +
       '<a href="' + categoryBackHref(product) + '" class="pdp-info__back">' + tr("pdp.continue") + "</a>" +
       "</article></div>";
@@ -318,14 +318,6 @@
     document.documentElement.classList.toggle("is-preview", !member);
     renderPdp();
     if (member) return;
-    function openLogin(event) {
-      event.preventDefault();
-      if (window.YinscentLogin) window.YinscentLogin.open("index.html?id=" + encodeURIComponent(id));
-    }
-    var image = document.getElementById("pdpMainImage");
-    var title = root.querySelector(".pdp-info__title");
-    if (image) image.addEventListener("click", openLogin);
-    if (title) title.addEventListener("click", openLogin);
   }
 
   if (window.YinscentAuth && window.YinscentAuth.whenReady) {

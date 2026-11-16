@@ -88,7 +88,7 @@
   }
 
   function browseUrl(p) {
-    return signedInForShop() ? productUrl(p) : loginNext(p);
+    return productUrl(p);
   }
 
   function productThumb(p) {
@@ -299,12 +299,11 @@
     article.innerHTML =
       '<a href="' + href + '" class="product__img-wrap">' +
       '<img class="product__img" src="' + productThumb(p) + '" alt="' + productAlt(p) + '" loading="lazy" />' +
-      '<button type="button" class="product__wish" aria-label="' + tr("btn.wish") + '">♡</button>' +
       "</a>" +
       '<p class="product__cat">' + categoryLabel(p) + "</p>" +
       '<h3 class="product__name"><a href="' + href + '">' + cardName + "</a></h3>" +
       (grid ? '<p class="product__desc">' + lp.desc + "</p>" : "") +
-      priceLine(p, href) + stockLine(p);
+      priceLine(p, loginNext(p)) + stockLine(p);
 
     return article;
   }
@@ -677,29 +676,6 @@
   });
 
   window.YinscentLogin = { open: openLoginPopup };
-
-  var shopMainEl = document.getElementById("shopMain");
-  if (shopMainEl) {
-    shopMainEl.addEventListener("click", function (event) {
-      if (signedInForShop()) return;
-      if (event.target.closest(".product__wish, .hero-poster__nav")) return;
-      var link = event.target.closest("a.product__img-wrap, .product__name a, a.category-pill, a.hero-poster__link");
-      var title = event.target.closest(".hero-intro h1, .category-intro h2, .section__head h2, .series-block__title");
-      if (link && !shopMainEl.contains(link)) link = null;
-      if (title && !shopMainEl.contains(title)) title = null;
-      if (!link && !title) return;
-      event.preventDefault();
-      var id = "";
-      if (link) {
-        id = link.getAttribute("data-id") || "";
-        if (!id) {
-          var card = link.closest("[data-id]");
-          id = card ? card.getAttribute("data-id") : "";
-        }
-      }
-      openLoginPopup(id ? "index.html?id=" + encodeURIComponent(id) : "index.html");
-    });
-  }
 
   function consumeLoginRequest() {
     var params = new URLSearchParams(window.location.search);
@@ -1178,29 +1154,31 @@
     });
   }
 
-  document.body.addEventListener("click", function (e) {
-    var wishBtn = e.target.closest(".product__wish");
-    if (wishBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      var on = wishBtn.classList.toggle("is-active");
-      wishBtn.textContent = on ? "♥" : "♡";
-      wishBtn.setAttribute("aria-label", on ? tr("btn.unwish") : tr("btn.wish"));
+  var track = document.getElementById("productTrack");
+  var trackPrev = document.getElementById("productTrackPrev");
+  var trackNext = document.getElementById("productTrackNext");
+  if (track && trackPrev && trackNext) {
+    function trackStep() {
+      var card = track.querySelector(".product");
+      return card ? card.getBoundingClientRect().width + 16 : 240;
     }
-  });
-
-  document.getElementById("categoryTrack") &&
-    document.getElementById("categoryTrack").addEventListener("click", function (e) {
-      var pill = e.target.closest(".category-pill");
-      if (!pill) return;
-      e.preventDefault();
-      document.querySelectorAll(".category-pill").forEach(function (p) {
-        p.classList.remove("is-active");
-      });
-      pill.classList.add("is-active");
+    function paintTrack() {
+      var max = track.scrollWidth - track.clientWidth;
+      trackPrev.hidden = track.scrollLeft <= 4;
+      trackNext.hidden = max <= 4 || track.scrollLeft >= max - 4;
+    }
+    trackPrev.addEventListener("click", function () {
+      track.scrollBy({ left: -trackStep(), behavior: "smooth" });
     });
+    trackNext.addEventListener("click", function () {
+      track.scrollBy({ left: trackStep(), behavior: "smooth" });
+    });
+    track.addEventListener("scroll", paintTrack, { passive: true });
+    window.addEventListener("resize", paintTrack);
+    if (window.MutationObserver) new MutationObserver(paintTrack).observe(track, { childList: true });
+    paintTrack();
+  }
 
-  /* Hero poster carousel */
   var heroPoster = document.getElementById("heroPoster");
   if (heroPoster) {
     var heroSlides = heroPoster.querySelectorAll(".hero-poster__img");
