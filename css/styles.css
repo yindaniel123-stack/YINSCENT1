@@ -7957,6 +7957,26 @@ html.is-hide-price .product__price { display: none; }
   background: linear-gradient(180deg, #edd7a4 0%, #9a7030 100%);
 }
 
+@media (max-width: 1023px) {
+  .header {
+    grid-template-columns: auto 1fr;
+    row-gap: 0.45rem;
+  }
+
+  .header__logo {
+    --logo-w: min(11rem, 52vw);
+  }
+
+  .header__tools {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+
+  .head-search {
+    width: min(9rem, 46vw);
+  }
+}
+
 @media (max-width: 720px) {
   .header-cart {
     width: 2.3rem;
