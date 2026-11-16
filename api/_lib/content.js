@@ -49,7 +49,7 @@ function defaults() {
 
 function contactDefaults() {
   return {
-    title: "CONTACT",
+    title: "联系",
     intro: "我们期待您的来信。无论是产品咨询、批发合作还是伙伴关系，义乌团队都将乐意协助。",
     intro2: "询价时，请提供所需数量、收货地址和联系电话，以便我们为您准备准确的报价。",
     formTitle: "发送消息",
