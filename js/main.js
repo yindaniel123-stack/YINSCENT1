@@ -258,8 +258,10 @@
     return label;
   }
 
-  function priceLine(p) {
-    if (!signedInForShop()) return "";
+  function priceLine(p, href) {
+    if (!signedInForShop()) {
+      return '<p class="product__login-price"><a href="' + href + '">' + tr("price.login") + "</a></p>";
+    }
     var site = window.YINSCENT_SITE;
     if (site && site.showPrice === false) return "";
     var tiers = [];
@@ -302,7 +304,7 @@
       '<p class="product__cat">' + categoryLabel(p) + "</p>" +
       '<h3 class="product__name"><a href="' + href + '">' + cardName + "</a></h3>" +
       (grid ? '<p class="product__desc">' + lp.desc + "</p>" : "") +
-      priceLine(p) + stockLine(p);
+      priceLine(p, href) + stockLine(p);
 
     return article;
   }

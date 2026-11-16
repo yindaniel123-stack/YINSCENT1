@@ -2038,6 +2038,23 @@ button.user-menu__item {
   color: var(--gold);
 }
 
+.product__login-price {
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+}
+
+.product__login-price a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.product__login-price a:hover {
+  text-decoration: underline;
+}
+
 .product__price {
   margin: 0 0 0.75rem;
   font-size: 0.875rem;
