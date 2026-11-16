@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=94" />
+    <link rel="stylesheet" href="css/styles.css?v=95" />
     <script>
       (function () {
         var page = new URLSearchParams(window.location.search).get("page");
@@ -57,6 +57,11 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
         </button>
       </form>
+      <button type="button" class="head-pill header-cart" id="headerCart" aria-label="购物车" data-i18n-attr="aria-label:cart.title">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="19" r="1.25"></circle><circle cx="17" cy="19" r="1.25"></circle><path d="M4 5.5h2.1l1.35 9.1a1.35 1.35 0 0 0 1.33 1.15H17a1.35 1.35 0 0 0 1.32-1.08L19.7 8H7.2"></path></svg>
+        <span class="header-cart__label" data-i18n="cart.title">购物车</span>
+        <span class="header__cart-count" id="headerCartCount" data-count="0"></span>
+      </button>
       <div class="user-menu" id="userMenu">
         <button type="button" class="head-user" id="userMenuToggle" aria-label="Account" aria-haspopup="true" aria-expanded="false">
           <span class="head-user__avatar" aria-hidden="true">
@@ -868,10 +873,10 @@
   <script src="js/i18n.js?v=65"></script>
   <script src="js/auth.js?v=7"></script>
   <script src="js/catalog.js?v=2"></script>
-  <script src="js/main.js?v=98"></script>
+  <script src="js/main.js?v=99"></script>
   <script src="js/product.js?v=52"></script>
   <script src="js/story.js?v=5"></script>
   <script src="js/contact.js?v=6"></script>
-  <script src="js/to-top.js?v=3"></script>
+  <script src="js/to-top.js?v=4"></script>
   </body>
 </html>

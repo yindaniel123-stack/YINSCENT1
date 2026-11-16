@@ -1,14 +1,4 @@
 (function () {
-  function isHome() {
-    var path = String(location.pathname || "").replace(/\\/g, "/");
-    var file = path.split("/").pop() || "";
-    if (file && file !== "index.html") return false;
-    var params = new URLSearchParams(location.search);
-    if (params.get("id")) return false;
-    var page = params.get("page");
-    return !page || page === "home";
-  }
-
   function text(key, fallback) {
     var i18n = window.YINSCENT_I18N;
     if (i18n && i18n.t) {
@@ -26,7 +16,6 @@
   cart.type = "button";
   cart.className = "float-cart";
   cart.id = "floatCart";
-  cart.hidden = !isHome();
   cart.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="19" r="1.25" fill="currentColor"></circle><circle cx="17" cy="19" r="1.25" fill="currentColor"></circle><path d="M4 5.5h2.1l1.35 9.1a1.35 1.35 0 0 0 1.33 1.15H17a1.35 1.35 0 0 0 1.32-1.08L19.7 8H7.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
 
   var button = document.createElement("button");
@@ -42,7 +31,6 @@
   function paintLabel() {
     button.setAttribute("aria-label", text("top.up", "回到顶部"));
     cart.setAttribute("aria-label", text("cart.title", "购物车"));
-    cart.hidden = !isHome();
   }
 
   function offset() {
