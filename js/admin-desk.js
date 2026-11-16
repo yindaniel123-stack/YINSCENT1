@@ -3315,10 +3315,10 @@
   }
   function freshImage(src) {
     var url = String(src || "");
-    var match = url.match(/assets\/products\/([^/?#]+)\.png/);
+    var match = url.match(/assets\/products\/([^/?#]+)\.(?:png|jpe?g)/);
     if (!match) return url;
     var version = imageVersion(match[1]);
-    var clean = url.replace(/\?.*$/, "");
+    var clean = url.replace(/\?.*$/, "").replace(/\.png$/, ".jpg");
     return version ? clean + "?v=" + version : clean;
   }
     function orderImage(product) {
@@ -3326,11 +3326,11 @@
     var raw = product.image || "";
     if (!raw && product.images && product.images.length) {
       var first = String(product.images[0] || "");
-      raw = first.indexOf("/") === -1 ? "assets/products/" + first + ".png" : first;
+      raw = first.indexOf("/") === -1 ? "assets/products/" + first + ".jpg" : first.replace(/\.png(\?|$)/, ".jpg$1");
     }
     if (!raw) {
       var slug = product.slug || product.id || "";
-      if (slug) raw = "assets/products/" + slug + ".png";
+      if (slug) raw = "assets/products/" + slug + ".jpg";
     }
     return raw ? freshImage(raw) : "";
   }

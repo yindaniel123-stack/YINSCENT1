@@ -38,7 +38,7 @@ function text(value, max) {
 
 function imageOf(product) {
   const slug = (product.images && product.images[0]) || product.slug || product.id || "";
-  return slug ? "assets/products/" + slug + ".png" : "";
+  return slug ? "assets/products/" + slug + ".jpg" : "";
 }
 
 function imagesOf(body, base) {

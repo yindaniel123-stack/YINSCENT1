@@ -27,7 +27,7 @@
 
   function productImage(product) {
     var images = product.images && product.images.length ? product.images : [product.slug];
-    var url = base + "assets/products/" + images[0] + ".png";
+    var url = base + "assets/products/" + images[0] + ".jpg";
     if (/^(apple|mango|cinnamon|cotton|cherry|ocean|jasmine|lavender|orange-blossom|coconut|vanilla|rose)-diffuser$/.test(images[0])) url += "?v=2";
     if (/^(apple|mango|cinnamon|cotton|cherry|ocean|jasmine|lavender|orange-blossom|coconut|vanilla|rose)-diffuser-35$/.test(images[0])) url += "?v=3";
     if (/^(vanilla|cotton|cherry|cinnamon|rose|mango|lavender|ocean|jasmine|apple|coconut|orange-blossom|strawberry-cream)-cozy$/.test(images[0])) url += "?v=4";

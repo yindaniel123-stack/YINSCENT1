@@ -128,7 +128,7 @@
   }
 
   function productImage(slug) {
-    var url = base + "assets/products/" + slug + ".png";
+    var url = base + "assets/products/" + slug + ".jpg";
     if (/^(apple|mango|cinnamon|cotton|cherry|ocean|jasmine|lavender|orange-blossom|coconut|vanilla|rose)-diffuser$/.test(slug)) url += "?v=2";
     if (/^(apple|mango|cinnamon|cotton|cherry|ocean|jasmine|lavender|orange-blossom|coconut|vanilla|rose)-diffuser-35$/.test(slug)) url += "?v=3";
     if (/^(vanilla|cotton|cherry|cinnamon|rose|mango|lavender|ocean|jasmine|apple|coconut|orange-blossom|strawberry-cream)-cozy$/.test(slug)) url += "?v=4";
