@@ -14,7 +14,7 @@ function clipBlock(value, max) {
 
 function defaults() {
   return {
-    heroEyebrow: "ABOUT YINSCENT",
+    heroEyebrow: "关于我们",
     heroTitle: "公司简介",
     heroLine: "让普通家庭买得起香氛",
     heroEn: "MAKE FRAGRANCE A PART OF EVERY HOME",

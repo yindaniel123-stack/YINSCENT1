@@ -98,7 +98,7 @@
       "acct.pass_mismatch": "两次输入的新密码不一致",
       "acct.pass_same": "新密码不能和当前密码一样",
       "acct.pass_rate": "尝试次数过多，请稍后再试",
-      "story.hero_eyebrow": "ABOUT YINSCENT",
+      "story.hero_eyebrow": "关于我们",
       "story.hero_title": "公司简介",
       "story.hero_line": "让普通家庭买得起香氛",
       "story.hero_en": "MAKE FRAGRANCE A PART OF EVERY HOME",
