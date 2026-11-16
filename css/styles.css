@@ -97,22 +97,22 @@ button {
 }
 
 .header__logo {
-  --logo-w: min(17.32rem, calc(100vw - 9rem));
+  --logo-w: min(16.5rem, calc(100vw - 9rem));
   justify-self: center;
   align-self: center;
   display: block;
   width: var(--logo-w);
-  height: calc(var(--logo-w) * 128 / 719);
-  overflow: hidden;
+  height: auto;
+  line-height: 0;
 }
 
 .header__logo img {
-  width: calc(var(--logo-w) * 1024 / 719);
-  height: calc(var(--logo-w) * 789 / 719);
+  display: block;
+  width: 100%;
+  height: auto;
   max-width: none;
-  max-height: none;
-  margin: calc(var(--logo-w) * -320 / 719) 0 0 calc(var(--logo-w) * -161 / 719);
-  object-fit: fill;
+  margin: 0;
+  object-fit: contain;
 }
 
 .header__tools {
@@ -1137,7 +1137,7 @@ button.user-menu__item {
   }
 
   .header__logo {
-    --logo-w: 17.32rem;
+    --logo-w: 16.5rem;
     grid-column: 2;
     grid-row: 1;
     align-self: start;
@@ -4059,14 +4059,11 @@ body.is-login-open {
 
 .login-panel__logo {
   display: block;
-  width: 108%;
-  height: 6.3rem;
-  object-fit: cover;
-  object-position: center;
-  margin: 0.15rem 0 0.2rem -4%;
+  width: min(100%, 16rem);
+  height: auto;
+  object-fit: contain;
+  margin: 0.4rem auto 0.7rem;
   background: transparent;
-  transform: scale(1.13);
-  transform-origin: center center;
 }
 
 .login-panel h1 {
@@ -8018,3 +8015,4 @@ html.is-hide-price .product__price { display: none; }
     bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
   }
 }
+
