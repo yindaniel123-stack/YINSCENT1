@@ -1299,6 +1299,8 @@
         if (!item[1]) return;
         var link = document.createElement("a");
         link.href = item[1];
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
         link.setAttribute("aria-label", item[0]);
         link.textContent = item[0];
         socialHost.appendChild(link);

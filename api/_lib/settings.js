@@ -96,7 +96,7 @@ function siteDefaults() {
     imageSize: "800×800px 或 1000×1000px",
     copyright: "© {year} YINSCENT. All rights reserved.",
     carriers: "",
-    social: { facebook: "", instagram: "", youtube: "", pinterest: "" },
+    social: { facebook: "", instagram: "https://www.instagram.com/yinscentofficial/", youtube: "", pinterest: "" },
   };
 }
 
