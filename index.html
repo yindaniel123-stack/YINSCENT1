@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=91" />
+    <link rel="stylesheet" href="css/styles.css?v=92" />
     <script>
       (function () {
         var page = new URLSearchParams(window.location.search).get("page");
@@ -334,14 +334,7 @@
           When requesting a quotation, please provide your required quantity, delivery address, and contact number
           so we can prepare an accurate quote for you.
         </p>
-        <p class="contact-mail">
-          <span data-i18n="contact.mail">询价邮箱</span>
-          <a href="mailto:yinscent.store@gmail.com">yinscent.store@gmail.com</a>
-        </p>
-        <figure class="contact-wechat">
-          <img src="assets/wechat-qr.jpg?v=1" alt="YINSCENT 伊馨微信，扫码添加好友" />
-        </figure>
-        <div class="contact-facts" id="contactFacts" hidden></div>
+        <div class="contact-split">
         <form
           class="contact-form"
           id="contactForm"
@@ -384,7 +377,7 @@
             <textarea
               id="contactMessage"
               name="message"
-              rows="5"
+              rows="4"
               required
               data-i18n-placeholder="contact.message_ph"
               placeholder="How can we help?"
@@ -398,6 +391,17 @@
             Sorry — we could not send your message. Please try again.
           </p>
         </form>
+        <aside class="contact-side">
+          <p class="contact-mail">
+            <span data-i18n="contact.mail">询价邮箱</span>
+            <a href="mailto:yinscent.store@gmail.com">yinscent.store@gmail.com</a>
+          </p>
+          <figure class="contact-wechat">
+            <img src="assets/wechat-qr.jpg?v=1" alt="YINSCENT 伊馨微信，扫码添加好友" />
+          </figure>
+          <div class="contact-facts" id="contactFacts" hidden></div>
+        </aside>
+        </div>
         <a href="index.html" class="story-content__back" data-i18n="contact.back">← Back to home</a>
       </div>
     </div>
